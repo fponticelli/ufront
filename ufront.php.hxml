@@ -1,0 +1,11 @@
+-cp src
+-cp test
+-lib hxculture
+-lib utest
+-lib uform
+-lib htemplate
+-lib udo
+-lib hxevents
+-php bin
+-main TestAll
+
