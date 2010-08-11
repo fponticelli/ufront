@@ -4,6 +4,9 @@
  */
 
 package ufront.web;
+import ufront.web.IHttpModule;
+import uform.util.Error;
+import ufront.web.routing.RoutesCollection;
 
 import haxe.io.BytesOutput;
 import hxevents.Dispatcher;
@@ -30,6 +33,11 @@ class HttpApplication
 	public var onLog(default, null) : Dispatcher<HttpApplication>;
 	public var onAfterLog(default, null) : Dispatcher<HttpApplication>;
 	
+	public var onError(default, null) : Dispatcher<{ application : HttpApplication, error : Error}>;
+	
+	
+	public var routes(default, null) : RoutesCollection;
+	
 	var _completed : Bool;
 	var _dispatching : Bool;
 	
@@ -48,17 +56,20 @@ class HttpApplication
 		onAfterUpdateCache = new Dispatcher();
 		onLog = new Dispatcher();
 		onAfterLog = new Dispatcher();
+		onError = new Dispatcher();
 		
 		modules = new List();
 		_completed = false;
 		_dispatching = false;
+		routes = new RoutesCollection();
+		
 	}
 	
 	public function init()
 	{
 		// wire modules
 		for (module in modules)
-			module.init(this);
+			_initModule(module);
 		
 		_dispatch(onBegin);
 		_dispatch(onResolveCache);
@@ -71,10 +82,40 @@ class HttpApplication
 		_dispatch(onAfterLog);
 		
 		// flush contents
-		response.flush();
+		_flush();
 		
 		// this event is always dispatched no matter what
-		onEnd.dispatch(this);
+		_dispatchEnd();
+	}
+	
+	function _flush()
+	{
+		try 
+		{
+			response.flush();
+		} catch(e : Dynamic) {
+			_dispatchError(e);
+		}
+	}
+		
+	function _initModule(module : IHttpModule)
+	{
+		try 
+		{
+			module.init(this);
+		} catch(e : Dynamic) {
+			_dispatchError(e);
+		}
+	}
+	
+	function _dispatchEnd()
+	{
+		try 
+		{
+			onEnd.dispatch(this);
+		} catch(e : Dynamic) {
+			_dispatchError(e);
+		}
 	}
 	
 	function _dispatch(dispatcher : Dispatcher<HttpApplication>)
@@ -82,9 +123,24 @@ class HttpApplication
 		if (_completed)
 			return;
 		_dispatching = true;
-		dispatcher.dispatch(this);
+		try 
+		{
+			dispatcher.dispatch(this);
+		} catch(e : Dynamic) {
+			_dispatchError(e);
+		}
 		_dispatching = false;
 	}
+	
+	function _dispatchError(e : Dynamic) 
+	{
+		var event = { 
+			application : this,
+			error : Std.is(e, Error) ? e : new Error(Std.string(e))
+		};
+		onError.dispatch(event);
+	}
+	
 	
 	public function dispose()
 	{

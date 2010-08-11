@@ -1,3 +1,5 @@
+package ufront.web.mvc;
+
 import utest.Runner;
 import utest.ui.Report;
 
@@ -5,7 +7,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		ufront.TestAll.addTests(runner);
+		TestDefaultControllerFactory.addTests(runner);
 	}
 	
 	public static function main()

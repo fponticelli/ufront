@@ -10,6 +10,8 @@ class TestAll
 		TestHttpApplication.addTests(runner);
 		TestHttpCookie.addTests(runner);
 		TestHttpResponse.addTests(runner);
+		ufront.web.mvc.TestAll.addTests(runner);
+		ufront.web.routing.TestAll.addTests(runner);
 	}
 	
 	public static function main()
