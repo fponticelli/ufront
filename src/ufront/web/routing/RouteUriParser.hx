@@ -6,7 +6,7 @@ import udo.error.NullArgument;
 class RouteUriParser 
 {      
 	static var constPattern = ~/^([^{]+)/;
-	static var paramPattern = ~/^\{(\?)?(\*)?([a-z0-9_]+)(\?)?\}/;
+	static var paramPattern = ~/^\{([?$])?([*])?([a-z0-9_]+)(\?)?\}/;
 	public function new();
 	
 	var restUsed : Bool;
@@ -23,10 +23,12 @@ class RouteUriParser
 			throw new Error("there can't be anything before the first slash");
 		
 		restUsed = false;
-		var capturedParams = new Set(), mandatory = [], result = [];  
-		for(segment in segments)
-			result.push(_parseSegment(segment, implicitOptionals, capturedParams));
-		return { segments : result, mandatory : mandatory };
+		var capturedParams = new Set(); 	
+		var result = [];  
+		var segment;
+		while(null != (segment = segments.shift()))
+			result.push(_parseSegment(segment, segments, implicitOptionals, capturedParams));
+		return result;
 	}                    
 	
 	function _assembleSegment(stack : Array<UriPart>)
@@ -110,11 +112,13 @@ class RouteUriParser
 								i++;
 							case UPOptLRest(name, _):
 								parts.push(UPOptLRest(name, value)); 
-								i++;
+								i++;         
+								rest = true; 
 							case UPOptBParam(name, _, _):
 								stack[i+1] = UPOptBParam(name, value, null);
 							case UPOptBRest(name, _, _):
 								stack[i+1] = UPOptBRest(name, value, null);
+								rest = true; 
 							case UPConst(_), UPParam(_), UPOptParam(_), UPOptRParam(_, _):
 							    parts.push(seg);
 								optional = false;
@@ -194,7 +198,7 @@ class RouteUriParser
 		return { optional : optional, rest : rest, parts : parts };
 	}
 	
-	function _parseSegment(segment : String, implicitOptionals : Set<String>, capturedParams : Set<String>) : UriSegment
+	function _parseSegment(segment : String, segments : Array<String>, implicitOptionals : Set<String>, capturedParams : Set<String>) : UriSegment
 	{                        
 		var stack = [];
 		var seg = segment;
@@ -205,7 +209,7 @@ class RouteUriParser
 				stack.push(UPConst(constPattern.matched(1))); 
 				seg = constPattern.matchedRight();
 			} else if (paramPattern.match(seg)) {               
-				var name       = paramPattern.matched(3);
+				var name = paramPattern.matched(3);
 		    	
 				if(capturedParams.exists(name))
 					throw new Error("param '{0}' already used in path", name);
@@ -215,7 +219,7 @@ class RouteUriParser
 				var isleftopt  = paramPattern.matched(1) == "?";
 				var isrest     = paramPattern.matched(2) == "*";
 			   	var isrightopt = paramPattern.matched(4) == "?";
-				var isopt      = (!isleftopt && !isrightopt && implicitOptionals.exists(name));
+				var isopt      = paramPattern.matched(1) == "$" || (!isleftopt && !isrightopt && implicitOptionals.exists(name));
 			    
 				if(restUsed)
 					throw new Error("there can be just one rest (*) parameter and it must be the last one");
@@ -233,30 +237,42 @@ class RouteUriParser
 					} else {
 						stack.push(UPRest(name));
 					}
-				} else if(isleftopt && isrightopt) {
-					stack.push(UPOptBParam(name, null, null));
-		  		} else if(isleftopt) {
-		  			stack.push(UPOptLParam(name, null));
-		  	  	} else if(isrightopt) {
-			  		stack.push(UPOptRParam(name, null));
-			  	} else if(isopt) {
-			  		stack.push(UPOptParam(name));
+					seg = paramPattern.matchedRight() + reduceRestSegments(segments); 
 				} else {
-					stack.push(UPParam(name));
-				} 
-			
-				seg = paramPattern.matchedRight();				
+					if(isleftopt && isrightopt) {
+						stack.push(UPOptBParam(name, null, null));
+		  			} else if(isleftopt) {
+		  				stack.push(UPOptLParam(name, null));
+		  	  		} else if(isrightopt) {
+			  			stack.push(UPOptRParam(name, null));
+			  		} else if(isopt) {
+			  			stack.push(UPOptParam(name));
+					} else {
+						stack.push(UPParam(name));
+					} 
+					seg = paramPattern.matchedRight();	
+				}			
 			} else {
 				throw new Error("invalid uri segment '{0}'", seg);
 			}
 		}
 			
 		return _assembleSegment(stack);
+	}  
+	
+	static function reduceRestSegments(segments : Array<String>)
+	{
+		if(segments.length == 0)
+			return "";
+		var segment = "/" + segments.join("/");
+		while(segments.length > 0)
+			segments.pop();     
+	   	return segment;
 	}
 	
 } 
                  
-typedef UriSegments = { mandatory : Array<String>, segments : Array<UriSegment> };    
+typedef UriSegments = Array<UriSegment>;    
 typedef UriSegment  = { optional : Bool, rest : Bool, parts : Array<UriPart>};
 
 enum UriPart

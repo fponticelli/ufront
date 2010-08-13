@@ -1,4 +1,5 @@
 package ufront.web.routing;
+import haxe.PosInfos;
 import udo.collections.Set;
 import ufront.web.routing.RouteUriParser;
 
@@ -34,70 +35,72 @@ class TestRouteUriParser
 	      
 	public function testNoParam() 
 	{   
- 		Assert.same(
- 			o(false, [UPConst("nothing")]),
- 			parser.parse("/nothing", set));  
-   		Assert.same({
-			mandatory : [],
-			segments : [
- 			c(false, [UPConst("nothing")]), 
- 			c(false, [UPConst("some_thing.html")])]}, parser.parse("/nothing/some_thing.html", set));  
+ 		assertOne(false, false, [UPConst("nothing")], "/nothing");  
+   		Assert.same([
+ 			{optional : false,  rest : false, parts : [UPConst("nothing")]}, 
+ 			{optional : false,  rest : false, parts : [UPConst("some_thing.html")]}],
+ 			parser.parse("/nothing/some_thing.html", set));  
 	}
    
 	public function testParam() 
 	{
-		Assert.same(o(false, [UPParam("p1")]), parser.parse("/{p1}", set));
-		Assert.same(o(false, [UPParam("p1"), UPParam("p2")]), parser.parse("/{p1}{p2}", set)); 
-  		Assert.same(o(false, [UPParam("p1"), UPConst("_"), UPParam("p2")]), parser.parse("/{p1}_{p2}", set)); 
-		Assert.same(o(false, [UPParam("p1"), UPConst(".html")]), parser.parse("/{p1}.html", set));   
-		Assert.same(o(false, [UPConst("a"), UPParam("p1"), UPConst("b")]), parser.parse("/a{p1}b", set));   
+		assertOne(false, false, [UPParam("p1")], "/{p1}");
+		assertOne(false, false, [UPParam("p1"), UPParam("p2")], "/{p1}{p2}"); 
+  		assertOne(false, false, [UPParam("p1"), UPConst("_"), UPParam("p2")], "/{p1}_{p2}"); 
+		assertOne(false, false, [UPParam("p1"), UPConst(".html")], "/{p1}.html");   
+		assertOne(false, false, [UPConst("a"), UPParam("p1"), UPConst("b")], "/a{p1}b");   
 	}                 
 	
 	public function testComplex()
-	{
-		Assert.same({
-			mandatory : [],
-			segments :[           
-			c(true,  [UPOptLParam("p1", "a"), UPOptLParam("p2", "b"), UPOptBParam("p3", "c", "d")]),
-			c(false, [UPOptRParam("p4", "e"), UPParam("p5")]),
-			c(true,  [UPOptParam("p6"), UPOptBRest("r", ".", "x")])
-			]},
-			parser.parse("/a{?p1}b{?p2}c{?p3?}d/{p4?}e{p5}/{?p6}.{?*r?}x", set));
+	{            
+		var parts = parser.parse("/a{?p1}b{?p2}c{?p3?}d/{p4?}e{p5}/{?p6}.{?*r?}x", set);
+		Assert.same([           
+			{optional : true,  rest : false, parts : [UPOptLParam("p1", "a"), UPOptLParam("p2", "b"), UPOptBParam("p3", "c", "d")]},
+			{optional : false, rest : false, parts : [UPOptRParam("p4", "e"), UPParam("p5")]},
+			{optional : true,  rest : true, parts : [UPOptParam("p6"), UPOptBRest("r", ".", "x")]}
+			],
+			parts);
 	}   
 	
 	public function testOptionalParam() 
 	{                                            
-		Assert.same(o(true,  [UPOptParam("a")]), parser.parse("/{?a}", set));  
-		Assert.same(o(true,  [UPOptParam("a")]), parser.parse("/{a?}", set));     
-		Assert.same(o(true,  [UPOptLParam("b", "a")]), parser.parse("/a{?b}", set)); 
-		Assert.same(o(false, [UPConst("a"), UPOptParam("b")]), parser.parse("/a{b?}", set));    
-		Assert.same(o(true,  [UPOptRParam("a", "b")]), parser.parse("/{a?}b", set));    
-		Assert.same(o(true,  [UPOptBParam("b", "a", "c")]), parser.parse("/a{?b?}c", set)); 
-		Assert.same(o(false, [UPConst("a"), UPParam("p1"), UPOptLParam("p2", "_")]), parser.parse("/a{p1}_{?p2}", set));   
-		Assert.same(o(true,  [UPOptBParam("p1", "a", "_"), UPOptParam("p2")]), parser.parse("/a{?p1?}_{?p2}", set));   
+		assertOne(true,  false, [UPOptParam("a")], "/{?a}");  
+		assertOne(true,  false, [UPOptParam("a")], "/{a?}");     
+		assertOne(true,  false, [UPOptLParam("b", "a")], "/a{?b}"); 
+		assertOne(false, false, [UPConst("a"), UPOptParam("b")], "/a{b?}");    
+		assertOne(true,  false, [UPOptRParam("a", "b")], "/{a?}b");    
+		assertOne(true,  false, [UPOptBParam("b", "a", "c")], "/a{?b?}c"); 
+		assertOne(false, false, [UPConst("a"), UPParam("p1"), UPOptLParam("p2", "_")], "/a{p1}_{?p2}");   
+		assertOne(true,  false, [UPOptBParam("p1", "a", "_"), UPOptParam("p2")], "/a{?p1?}_{?p2}");   
 	}                                            
 	                                             
 	public function testRestParam()              
 	{                                            
-		Assert.same(o(true,  [UPOptRest("a")]), parser.parse("/{?*a}", set));  
-		Assert.same(o(true,  [UPOptLRest("b", "a")]), parser.parse("/a{?*b}", set));  
-		Assert.same(o(false, [UPRest("a")]), parser.parse("/{*a}", set));
-		Assert.same({
-			mandatory : [],
-			segments :[
-			c(false, [UPConst("a"), UPRest("b"), UPConst("c")]),
-			c(false, [UPConst("d")])]},
-			parser.parse("/a{*b}c/d", set));
+		assertOne(true,  true, [UPOptRest("a")], "/{?*a}");  
+		assertOne(true,  true, [UPOptLRest("b", "a")], "/a{?*b}");  
+		assertOne(false, true, [UPRest("a")], "/{*a}");
+		assertOne(false, true, [UPConst("a"), UPRest("b"), UPConst("c/d")], "/a{*b}c/d");
+		assertOne(false, true, [UPConst("a"), UPOptRRest("b", "c/d")], "/a{*b?}c/d");  
+		assertOne(false, true, [UPConst("a"), UPOptRest("b"), UPConst("c/d")], "/a{$*b}c/d"); 
+		assertOne(true,  true, [UPOptBRest("b", "a", "c/d")], "/a{?*b?}c/d"); 
+		assertOne(false, true, [UPOptLRest("b", "a"), UPConst("c/d")], "/a{?*b}c/d");
    	}  
 
     public function testImplicitOptional()
  	{                   
 		set.add("a");
-    	Assert.same(o(true, [UPOptParam("a")]), parser.parse("/{a}", set));
-    	Assert.same(o(true, [UPOptRest("a")]), parser.parse("/{*a}", set));
-    }
-                                          
-	
+    	assertOne(true, false, [UPOptParam("a")], "/{a}");
+    	assertOne(true, true,  [UPOptRest("a")], "/{*a}");
+    } 
+
+	public function testOptionalRestLeftWithRightConst()
+	{
+	   Assert.same([
+	  	{optional : false, rest : false, parts : [UPConst("a")]},
+  		{optional : false, rest : true,  parts : [UPOptLRest("b", "x"), UPConst("y")]}],
+		parser.parse("/a/x{?*b}y", set));
+	}
+
 	public function testInvalidSequence()
 	{         
 		var p = parser;     
@@ -109,18 +112,46 @@ class TestRouteUriParser
 		}
 	} 
 	
-	function c(optional : Bool, parts : Array<UriPart>)
+	function assertOne(optional : Bool, rest : Bool, parts : Array<UriPart>, uri : String, ?pos : PosInfos)
+	{        
+		var m = [{optional : optional,  rest : rest, parts : parts}];    
+		var t = parser.parse(uri, set);
+		Assert.same(
+			m, t, true,
+			"expected \n" + dumpSegments(m) + "\n but is \n" + dumpSegments(t) + "\n for \n" + uri,
+			pos);
+	}   
+	
+	function dumpSegment(segment : UriSegment)
 	{
-		return {
-			optional : optional,
-			parts : parts
-		};
+		var s = "{";
+		s += "optional: " + Std.string(segment.optional) + ", rest: " + Std.string(segment.rest) + ", parts: ["; 
+		var f = true;
+		for(part in segment.parts)
+		{  
+			if(f)
+				f = false;
+			else
+				s += ", ";   
+	 		s += Std.string(part);     
+		}
+		s += "]}";
+		return s;
 	}
 	
-	function o(optional : Bool, parts : Array<UriPart>, ?mandatory : Array<String>)
-	{                                                                             
-		if(null == mandatory)
-			mandatory = [];
-		return { mandatory : mandatory, segments : [c(optional, parts)]};
-	}        
+	function dumpSegments(segments : UriSegments)
+	{     
+		var s = "[";
+		var f = true;
+		for(segment in segments)
+		{  
+			if(f)
+				f = false;
+			else
+				s += ", ";
+			s += dumpSegment(segment);      
+		}
+		s += "]";
+		return s;
+	}     
 }

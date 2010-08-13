@@ -12,19 +12,20 @@ using udo.collections.UHash;
 import uform.util.Error;
 import ufront.web.HttpContext;
 import udo.error.NullArgument;
+import ufront.web.routing.RouteUriParser;
 using StringTools;       
 
 class Route extends RouteBase
 {	
-	static var parser = new RouteUriParser();
+	static var parser = new RouteUriParser();  
 	
 	public var url(default, null) : String;
 	public var handler(default, null) : IRouteHandler;
-	public var params(default, null) : Hash<String>;  
 	public var defaults(default, null) : Hash<String>;  
-	public var constraints(default, null) : Array<IRouteConstraint>;
+	public var constraints(default, null) : Array<IRouteConstraint>;      
 	      
-	var extractor : RouteParamExtractor;
+	var extractor : RouteParamExtractor;    
+	var builder : RouteUriBuilder;
 	/**
 	 *
 	 * @todo add package prioritizing for controller matching
@@ -51,6 +52,14 @@ class Route extends RouteBase
 			this.constraints = constraints;
 	}
 	
+	var _ast : UriSegments;
+	function getAst()
+	{
+		if(null == _ast)
+			_ast = parser.parse(url, defaults.setOfKeys());
+		return _ast;
+	}
+	
 	override function getRouteData(httpContext : HttpContext) : RouteData 
 	{
 		var requesturi = httpContext.requestUri;
@@ -59,32 +68,44 @@ class Route extends RouteBase
 		
 		if(null == extractor)
 		{   
-			var ast = parser.parse(url, defaults.setOfKeys());
-			extractor = new RouteParamExtractor(ast);
-			
+			extractor = new RouteParamExtractor(getAst());
 		}
 		
-		params = extractor.extract(requesturi);
+		var params = extractor.extract(requesturi);
 		if(null == params)
 			return null;
 	    else {                                                                    
-			if(!processConstraints(httpContext, RouteDirection.IncomingRequest))
+			if(!processConstraints(httpContext, params, RouteDirection.IncomingRequest))
 				return null;
 			else
 				return new RouteData(this, handler, params.copyTo(defaults.clone()));
 		}  
+	}   
+	
+	override function getPath(httpContext : HttpContext, data : Hash<String>)
+	{                
+	    var params = null == data ? new Hash() : data;
+		if(!processConstraints(httpContext, data, RouteDirection.UrlGeneration))
+			return null;
+		else {
+			if(null == builder)
+			{   
+				builder = new RouteUriBuilder(getAst());
+			}
+			return builder.build(params);
+		}
 	}
   
-	public function processConstraints(httpContext : HttpContext, direction : RouteDirection)
+	function processConstraints(httpContext : HttpContext, params : Hash<String>, direction : RouteDirection)
 	{
 		for(constraint in constraints)
-			if(!constraint.match(httpContext, this, direction))
+			if(!constraint.match(httpContext, this, params, direction))
 				return false;
 		return true;
 	}
 	
 	public function toString()
 	{
-		return "{ url : " + url + ", handler : " + handler + ", params: " + params  + ", defaults: " + defaults + ", constraints : " + constraints + " }";
+		return "{ url : " + url + ", handler : " + handler + ", defaults: " + defaults + ", constraints : " + constraints + " }";
 	}
 }

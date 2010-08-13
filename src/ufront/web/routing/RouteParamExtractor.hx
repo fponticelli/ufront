@@ -31,11 +31,27 @@ class RouteParamExtractor
 		// discard first segment
 		segments.shift();
 		
-		var j = 0, segment = null;
+		var segment = null;
+		var patterns = ast.copy();   
 		while(true)
 		{        
-			var pattern = ast.segments[j++];
- 			if(segments.length == 0)
+			var pattern = patterns.shift();  
+			var isrest = null != pattern && pattern.rest;
+			
+			// set the next segment to analyze
+			if(null != segment)
+			{                  
+				if(isrest)
+			 		segment += "/" + segments.join("/"); 
+			} else if(isrest)
+			{
+				segment = segments.join("/");
+				segments = [];
+			} else {
+				segment = segments.shift();
+			}
+			
+			if(null == segment)
 			{   
 				if(null == pattern)
 		  		// no more segments and patterns
@@ -49,17 +65,16 @@ class RouteParamExtractor
 				// still segments but no more patterns
 				return null;
 			}
-			
-			// set the next segment to analyze
-  			if(pattern.rest)
-  			{
-  				segment = segments.join("/");
-  				segments = [];
-  			} else {
-  				segment = segments.shift();
-  			}
-  			if(!tryExtractParts(segment, pattern.parts) && !pattern.optional)
-  				return null;   
+			       
+    		if(tryExtractParts(segment, pattern.parts))
+			{
+				segment = null;
+				continue;
+  			} else if(pattern.optional) { 
+    			// try the same segment with the next pattern
+  				continue;
+   			} else
+				return null;
 		}
 		return data;
 	}       

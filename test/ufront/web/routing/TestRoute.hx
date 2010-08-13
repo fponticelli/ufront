@@ -8,7 +8,7 @@ import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;
 
-class TestRoute
+class TestRoute extends BaseTest
 {
 	public static function addTests(runner : Runner)
 	{
@@ -22,8 +22,6 @@ class TestRoute
 		Report.create(runner);
 		runner.run();
 	}
-	
-	public function new();
 
 	public function testRoot() 
 	{
@@ -359,18 +357,5 @@ class TestRoute
 		var data = route.getRouteData(createContext("/"));
 		Assert.isFalse(data.data.exists("a"));
 		Assert.isFalse(data.data.exists("b"));
-	}
-
-	public function createRoute(url : String)
-	{
-		return new Route(url, new MvcRouteHandler());
-	}
-	
-	public function createContext(url : String) : HttpContext 
-	{
-		var request = new HttpRequestMock();
-		request.setUri(url);
-		var context = new HttpContextMock(request);
-		return context;
 	}
 }

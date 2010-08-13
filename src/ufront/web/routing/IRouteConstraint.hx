@@ -8,5 +8,5 @@ import ufront.web.HttpContext;
 
 interface IRouteConstraint
 {
-	public function match(context : HttpContext, route : Route, direction : RouteDirection) : Bool;
+	public function match(context : HttpContext, route : Route, params : Hash<String>, direction : RouteDirection) : Bool;
 }

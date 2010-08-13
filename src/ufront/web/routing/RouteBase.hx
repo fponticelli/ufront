@@ -13,5 +13,10 @@ class RouteBase
 	public function getRouteData(context : HttpContext) : RouteData
 	{
 		return null;
+	} 
+	
+	public function getPath(context : HttpContext, data : Hash<String>) : String
+	{
+		return null;
 	}
 }

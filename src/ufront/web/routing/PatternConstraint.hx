@@ -2,24 +2,34 @@
  * ...
  * @author Franco Ponticelli
  */
+                            
+package ufront.web.routing; 
 
-package ufront.routing;
+import ufront.web.HttpContext;  
+import udo.error.NullArgument;
 
-class PatternConstraint extends ParameterConstraint
-{
-	var pattern(default, null) : EReg;
-	public function new(parametername : String, pattern : String, options = "")
+class PatternConstraint implements IRouteConstraint
+{         
+	var parameterName : String;
+	var pattern(default, null) : EReg; 
+	var validateDefault : Bool;
+	public function new(parametername : String, pattern : String, options = "", validatedefault = false)
 	{
-		super(parametername);
-		if (null == pattern)
-			throw "invalid null argument pattern";
-		if (null == options)
-			throw "invalid null argument options";
+		NullArgument.throwIfNull(parametername, "parametername");
+		NullArgument.throwIfNull(pattern, "pattern");
+		NullArgument.throwIfNull(options, "options");
+		this.parameterName = parametername;        
 		this.pattern = new EReg(pattern, options);
+		this.validateDefault = validatedefault;
 	}
 	
-	override public function match(context : HttpContext, route : Route) : Bool
+	public function match(context : HttpContext, route : Route, params : Hash<String>, direction : RouteDirection) : Bool
 	{
-		return throw "not implemented";
+		var value = params.get(parameterName);  
+		if(null == value && validateDefault)       
+			value = route.defaults.get(parameterName);
+		if(null == value)
+			return true;       
+		return pattern.match(value);
 	}
 }
