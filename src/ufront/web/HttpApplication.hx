@@ -4,6 +4,7 @@
  */
 
 package ufront.web;
+import ufront.web.routing.RequestContext;
 import ufront.web.IHttpModule;
 import uform.util.Error;
 import ufront.web.routing.RoutesCollection;
@@ -41,9 +42,10 @@ class HttpApplication
 	var _completed : Bool;
 	var _dispatching : Bool;
 	
-	public function new(context : HttpContext)
-	{
-		NullArgument.throwIfNull(context, "context");
+	public function new(?context : HttpContext)
+	{                    
+		if(null == context)
+			context = HttpContext.createWebContext();
 		this.context = context;
 		onBegin = new Dispatcher();
 		onEnd = new Dispatcher();
@@ -74,7 +76,10 @@ class HttpApplication
 		_dispatch(onBegin);
 		_dispatch(onResolveCache);
 		_dispatch(onAfterResolveCache);
-		_dispatch(onHandler);
+		_dispatch(onHandler);   
+		
+		_executeRoute();
+		
 		_dispatch(onAfterHandler);
 		_dispatch(onUpdateCache);
 		_dispatch(onAfterUpdateCache);
@@ -87,6 +92,28 @@ class HttpApplication
 		// this event is always dispatched no matter what
 		_dispatchEnd();
 	}
+	           
+	
+	function _executeRoute() 
+	{               
+		try
+		{
+			for(route in routes)
+			{
+				var data = route.getRouteData(context);            
+				if(null == data)
+					continue;    
+				var requestContext = new RequestContext(context, data);  
+				var handler = data.routeHandler.getHttpHandler(requestContext); 
+				handler.processRequest(context);
+				return;
+			} 
+			throw new Error("path not found {0}", context.request.uri);               
+		} catch(e : Dynamic) {
+			_dispatchError(e);
+		}
+	}
+	
 	
 	function _flush()
 	{
@@ -137,8 +164,12 @@ class HttpApplication
 		var event = { 
 			application : this,
 			error : Std.is(e, Error) ? e : new Error(Std.string(e))
-		};
-		onError.dispatch(event);
+		};  
+		if(!onError.has()) 
+		{
+			throw event.error;
+		} else
+			onError.dispatch(event);
 	}
 	
 	

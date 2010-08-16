@@ -7,7 +7,7 @@ class MvcRouteHandler implements IRouteHandler {
 	public function new();
 	
 	public function getHttpHandler(requestContext : RequestContext) : IHttpHandler 
-	{
+	{            
 		return new MvcHandler(requestContext);
 	}
 	

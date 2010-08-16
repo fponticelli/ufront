@@ -1,0 +1,4 @@
+ContentEncoding
+ContentType
+Data
+JsonRequestAllowGet

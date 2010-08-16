@@ -4,12 +4,15 @@
  */
 
 package ufront.web;
-
+import ufront.web.UrlDirection;
+import udo.error.NullArgument;
+import ufront.web.IUrlFilter;
 import udo.error.AbstractMethod;
 import ufront.web.session.FileSession;
 
 class HttpContext
 {	
+	var _urlFilters : Array<IUrlFilter>;
 	public static function createWebContext(?sessionpath : String)
 	{
 		var request = HttpRequestImpl.instance;
@@ -23,20 +26,36 @@ class HttpContext
 	public var request(getRequest, null) : HttpRequest;
 	public var response(getResponse, null) : HttpResponse;
 	public var session(getSession, null) : IHttpSessionState;
-	public var requestUri(getRequestUri, setRequestUri) : String;
+	
+	public function getRequestUri() : String
+	{
+		var filtered = request.uri;
+		for(filter in _urlFilters)
+			filtered = filter.filter(filtered, UrlDirection.IncomingUrlRequest);
+		return filtered;
+	}
+	
+	public function generateUri(uri : String) : String
+	{
+		for(filter in _urlFilters)
+			uri = filter.filter(uri, UrlDirection.UrlGeneration);
+		return uri;
+	}   
+	
+	public function addUrlFilter(filter : IUrlFilter)
+	{                            
+		NullArgument.throwIfNull(filter, "filter");
+		_urlFilters.push(filter);
+	}
 	
 	public function dispose() : Void;
 	
 	function getRequest() return throw new AbstractMethod()
 	function getResponse() return throw new AbstractMethod()
 	function getSession() return throw new AbstractMethod()
-	function getRequestUri()
+
+	function new()
 	{
-		return (null == requestUri) ?  request.uri : requestUri;
+		_urlFilters = [];
 	}
-	function setRequestUri(v : String)
-	{
-		return requestUri = v;
-	}
-	function new();
 }

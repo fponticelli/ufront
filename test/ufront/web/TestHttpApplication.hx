@@ -52,7 +52,9 @@ class TestHttpApplication extends HttpApplication
 		modules.add(mock);
 		init();
 		Assert.same(["begin", "resolvecache", "afterresolvecache", "handler", "end"], mock.triggeredEvents);
-	}
+	} 
+	
+	override function _executeRoute();
 }
 
 private class MockEventsModule implements IHttpModule

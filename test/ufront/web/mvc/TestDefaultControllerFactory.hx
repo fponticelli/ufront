@@ -2,7 +2,7 @@ package ufront.web.mvc;
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.Route;
 import ufront.web.routing.RouteData;
-import ufront.web.mock.HttpContextMock;
+import ufront.web.HttpContextMock;
 import uform.util.Error;
 import ufront.web.routing.RequestContext;
 
@@ -39,7 +39,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = factory.createController(getRequestContext(), "MockController");
+		var controller = factory.createController(TestAll.getRequestContext(), "MockController");
 		Assert.notNull(controller);
 		Assert.is(controller, ufront.web.mvc.MockController);
 	}
@@ -51,7 +51,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = factory.createController(getRequestContext(), "MockController");
+		var controller = factory.createController(TestAll.getRequestContext(), "MockController");
 		Assert.notNull(controller);
 		Assert.is(controller, ufront.web.mvc.test.MockController);
 	}
@@ -62,7 +62,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = cast(factory.createController(getRequestContext(), "MockController"), ufront.web.mvc.MockController);
+		var controller = cast(factory.createController(TestAll.getRequestContext(), "MockController"), ufront.web.mvc.MockController);
 		Assert.isFalse(controller.disposed);
 		factory.releaseController(controller);
 		Assert.isTrue(controller.disposed);		
@@ -77,7 +77,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = cast(factory.createController(getRequestContext(), "MockController"), ufront.web.mvc.test.MockController);
+		var controller = cast(factory.createController(TestAll.getRequestContext(), "MockController"), ufront.web.mvc.test.MockController);
 		Assert.isFalse(controller.disposed);
 		factory.releaseController(controller);
 		Assert.isFalse(controller.disposed);		
@@ -89,7 +89,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		Assert.raises(function() factory.createController(getRequestContext(), "TestDefaultControllerFactory"), Error);
+		Assert.raises(function() factory.createController(TestAll.getRequestContext(), "TestDefaultControllerFactory"), Error);
 	}
 	
 	public function testNotFound() 
@@ -98,16 +98,6 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		Assert.raises(function() factory.createController(getRequestContext(), "FakeController"), Error);
-	}
-	
-	
-	static function getRequestContext()
-	{
-		var routeHandler = new MvcRouteHandler();
-		var route = new Route("/", routeHandler);
-		var context = new HttpContextMock();
-		var routeData = new RouteData(route, routeHandler, new Hash());
-		return new RequestContext(context, routeData);
+		Assert.raises(function() factory.createController(TestAll.getRequestContext(), "FakeController"), Error);
 	}
 }

@@ -1,6 +1,6 @@
 package ufront.web;
 import ufront.web.HttpContext;
 
-class IHttpHandler {
+interface IHttpHandler {
 	public function processRequest(context : HttpContext) : Void;
 }

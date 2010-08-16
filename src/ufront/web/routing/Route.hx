@@ -4,10 +4,11 @@
  */
 
 package ufront.web.routing;
+import ufront.web.UrlDirection;
 import udo.collections.UHash;
 import ufront.web.routing.RouteParamExtractor;
 import ufront.web.routing.RouteData; 
-import ufront.web.routing.RouteDirection;
+import ufront.web.UrlDirection;
 using udo.collections.UHash;
 import uform.util.Error;
 import ufront.web.HttpContext;
@@ -62,7 +63,7 @@ class Route extends RouteBase
 	
 	override function getRouteData(httpContext : HttpContext) : RouteData 
 	{
-		var requesturi = httpContext.requestUri;
+		var requesturi = httpContext.getRequestUri();
 		if(!requesturi.startsWith("/"))
 			throw new Error("invalid requestUri '{0}'", requesturi);
 		
@@ -74,18 +75,20 @@ class Route extends RouteBase
 		var params = extractor.extract(requesturi);
 		if(null == params)
 			return null;
-	    else {                                                                    
-			if(!processConstraints(httpContext, params, RouteDirection.IncomingRequest))
+	    else {                                       
+			var r = httpContext.request;
+		    params = params.copyTo(r.query.copyTo(r.post.copyTo(defaults.clone())));
+			if(!processConstraints(httpContext, params, UrlDirection.IncomingUrlRequest))
 				return null;
 			else
-				return new RouteData(this, handler, params.copyTo(defaults.clone()));
+				return new RouteData(this, handler, params);
 		}  
 	}   
 	
 	override function getPath(httpContext : HttpContext, data : Hash<String>)
 	{                
 	    var params = null == data ? new Hash() : data;
-		if(!processConstraints(httpContext, data, RouteDirection.UrlGeneration))
+		if(!processConstraints(httpContext, data, UrlDirection.UrlGeneration))
 			return null;
 		else {
 			if(null == builder)
@@ -96,7 +99,7 @@ class Route extends RouteBase
 		}
 	}
   
-	function processConstraints(httpContext : HttpContext, params : Hash<String>, direction : RouteDirection)
+	function processConstraints(httpContext : HttpContext, params : Hash<String>, direction : UrlDirection)
 	{
 		for(constraint in constraints)
 			if(!constraint.match(httpContext, this, params, direction))

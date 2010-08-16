@@ -4,6 +4,7 @@
  */
                             
 package ufront.web.routing; 
+import ufront.web.UrlDirection;
 
 import ufront.web.HttpContext;  
 import udo.error.NullArgument;
@@ -23,7 +24,7 @@ class PatternConstraint implements IRouteConstraint
 		this.validateDefault = validatedefault;
 	}
 	
-	public function match(context : HttpContext, route : Route, params : Hash<String>, direction : RouteDirection) : Bool
+	public function match(context : HttpContext, route : Route, params : Hash<String>, direction : UrlDirection) : Bool
 	{
 		var value = params.get(parameterName);  
 		if(null == value && validateDefault)       

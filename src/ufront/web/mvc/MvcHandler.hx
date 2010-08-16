@@ -10,16 +10,14 @@ class MvcHandler implements IHttpHandler {
 	public var requestContext(default, null) : RequestContext;
 	public var controllerBuilder(getControllerBuilder, setControllerBuilder) : ControllerBuilder;
 	public function new(requestContext : RequestContext)
-	{
+	{                            
 		NullArgument.throwIfNull(requestContext, "requestContext");
-		this.requestContext = requestContext;
+    	this.requestContext = requestContext;
 	}
 	
 	public function processRequest(httpContext : HttpContext)
-	{
-		var controllerName = requestContext.routeData.data.get("controller");
-		if(null == controllerName)
-			throw new Error("unable to find the required key {0} into {1}", ["controller", "requestContext"]);
+	{                      
+		var controllerName = requestContext.routeData.getRequired("controller");  
 		var factory = controllerBuilder.getControllerFactory();
 		var controller = factory.createController(requestContext, controllerName);
 		if(null == controller)
@@ -37,10 +35,9 @@ class MvcHandler implements IHttpHandler {
 	function getControllerBuilder() : ControllerBuilder
 	{
 		if(null == controllerBuilder)
-		{
-			controllerBuilder = ControllerBuilder.current;
-		}
-		return controllerBuilder;
+			return ControllerBuilder.current;
+		else
+			return controllerBuilder;
 	}
 	
 	function setControllerBuilder(v : ControllerBuilder)

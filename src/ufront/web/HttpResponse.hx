@@ -63,8 +63,9 @@ class HttpResponse
 	}
 	
 	public function write(s : String)
-	{
-		_buff.add(s);
+	{   
+		if(null != s)
+			_buff.add(s);
 	}
 	
 	public function writeChar(c : Int)

@@ -1,11 +1,12 @@
 package ufront.web.mvc;
 import ufront.web.routing.RequestContext;
-import ufront.web.mvc.IController;
+import ufront.web.mvc.Controller;
 
-class MockController implements IController {
+class MockController extends Controller {
 	public var disposed : Bool;
 	public function new()
-	{
+	{        
+		super();
 		disposed = false;
 	}
 	
@@ -16,5 +17,5 @@ class MockController implements IController {
 		disposed = true;
 	}
 	
-	public function execute(requestContext : RequestContext) : Void;
+	override function execute(requestContext : RequestContext) : Void;
 }

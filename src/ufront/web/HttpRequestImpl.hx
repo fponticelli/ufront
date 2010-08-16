@@ -319,7 +319,7 @@ class HttpRequestImpl extends HttpRequest
 		if (null == scriptDirectory)
 		{
 #if php
-			scriptDirectory =  untyped __php__('dirname($_SERVER["SCRIPT_FILENAME"])') + "/";
+			scriptDirectory =  untyped __php__('dirname($_SERVER["SCRIPT_FILENAME"])') + "/";    
 #else
 			scriptDirectory = new String(_get_cwd());
 #end

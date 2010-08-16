@@ -5,7 +5,7 @@
 
 package ufront.web;
 
-import ufront.web.mock.HttpResponseMock;
+import ufront.web.HttpResponseMock;
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;

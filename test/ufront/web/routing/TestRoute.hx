@@ -1,6 +1,6 @@
 package ufront.web.routing;
-import ufront.web.mock.HttpRequestMock;
-import ufront.web.mock.HttpContextMock;
+import ufront.web.HttpRequestMock;
+import ufront.web.HttpContextMock;
 import ufront.web.HttpContext;
 import ufront.web.mvc.MvcRouteHandler;
 
