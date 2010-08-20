@@ -1,7 +1,7 @@
 # @tm-preview
 # @tm-html <iframe src="http://ufront/" style="width: 100%; height:500px"></iframe>
 -cp ../udo/src
--cp ../uform/src
+#-cp ../uform/src
 -cp ../hxculture/src
 -cp ../hxevents/src
 -cp ../utest/src   

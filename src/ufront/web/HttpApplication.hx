@@ -4,9 +4,11 @@
  */
 
 package ufront.web;
+import ufront.web.error.PageNotFoundError;
+import haxe.PosInfos;
 import ufront.web.routing.RequestContext;
 import ufront.web.IHttpModule;
-import uform.util.Error;
+import udo.error.Error;
 import ufront.web.routing.RoutesCollection;
 
 import haxe.io.BytesOutput;
@@ -17,7 +19,7 @@ import udo.error.NullArgument;
 
 class HttpApplication
 {
-	public var context(default, null) : HttpContext;
+	public var httpContext(default, null) : HttpContext;
 	public var request(getRequest, null) : HttpRequest;
 	public var response(getResponse, null) : HttpResponse;
 	public var session(getSession, null) : IHttpSessionState;
@@ -42,11 +44,11 @@ class HttpApplication
 	var _completed : Bool;
 	var _dispatching : Bool;
 	
-	public function new(?context : HttpContext)
+	public function new(?httpContext : HttpContext)
 	{                    
-		if(null == context)
-			context = HttpContext.createWebContext();
-		this.context = context;
+		if(null == httpContext)
+			httpContext = HttpContext.createWebContext();
+		this.httpContext = httpContext;
 		onBegin = new Dispatcher();
 		onEnd = new Dispatcher();
 		
@@ -100,15 +102,15 @@ class HttpApplication
 		{
 			for(route in routes)
 			{
-				var data = route.getRouteData(context);            
+				var data = route.getRouteData(httpContext);            
 				if(null == data)
 					continue;    
-				var requestContext = new RequestContext(context, data);  
+				var requestContext = new RequestContext(httpContext, data, routes);  
 				var handler = data.routeHandler.getHttpHandler(requestContext); 
-				handler.processRequest(context);
+				handler.processRequest(httpContext);
 				return;
 			} 
-			throw new Error("path not found {0}", context.request.uri);               
+			throw new PageNotFoundError();               
 		} catch(e : Dynamic) {
 			_dispatchError(e);
 		}
@@ -177,7 +179,7 @@ class HttpApplication
 	{
 		for (module in modules)
 			module.dispose();
-		context.dispose();
+		httpContext.dispose();
 	}
 	
 	public function completeRequest()
@@ -187,7 +189,7 @@ class HttpApplication
 			throw StopPropagation;
 	}
 
-	function getRequest() return context.request
-	function getResponse() return context.response
-	function getSession() return context.session
+	function getRequest() return httpContext.request
+	function getResponse() return httpContext.response
+	function getSession() return httpContext.session
 }

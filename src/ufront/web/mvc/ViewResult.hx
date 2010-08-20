@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import udo.error.NullArgument;
 import udo.error.Error;
 import ufront.web.mvc.ViewContext;
 import udo.error.NullArgument;
@@ -22,15 +23,15 @@ class ViewResult extends ActionResult
 		NullArgument.throwIfNull(context, "context");
 		                                   
 		if(null == viewName || "" == viewName)
-			viewName = context.routeData.get("action");   
-		               
+			viewName = context.routeData.getRequired("action");   		   
+		      
 		var result = null;
 		if(null == view) 
 		{
 			result = findView(context, viewName); 
             this.view = result.view;
 		}
-		var viewContext = new ViewContext(context, view, viewData);   
+		var viewContext = new ViewContext(context, view, result.viewEngine, viewData);   
 		
 		context.response.write(view.render(viewContext));
 		
@@ -44,13 +45,14 @@ class ViewResult extends ActionResult
 //	}                  
 	
 	function findView(context : ControllerContext, viewName : String) : ViewEngineResult
-	{
+	{         
+		NullArgument.throwIfNull(viewName, "viewName");
 		for(engine in ViewEngines.engines)
 		{
 			var result = engine.findView(context, viewName);
 			if(null != result)
 				return result;
-		}                    
+		}                  
 		throw new Error("unable to find a view/engine for {0}", viewName);
 	}
 }

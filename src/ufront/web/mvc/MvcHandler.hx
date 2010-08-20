@@ -1,6 +1,7 @@
 package ufront.web.mvc;
-import php.Lib;
-import uform.util.Error;
+import ufront.web.error.BadRequestError;
+import udo.neutral.Lib;
+import udo.error.Error;
 import ufront.web.HttpContext;
 import ufront.web.routing.RequestContext;
 import udo.error.NullArgument;
@@ -21,7 +22,7 @@ class MvcHandler implements IHttpHandler {
 		var factory = controllerBuilder.getControllerFactory();
 		var controller = factory.createController(requestContext, controllerName);
 		if(null == controller)
-			throw new Error("unable to load a controller for {0}", requestContext);
+			throw new BadRequestError();
 		try
 		{
 			controller.execute(requestContext);

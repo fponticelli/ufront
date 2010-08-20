@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import ufront.web.error.PageNotFoundError;
 import ufront.web.HttpContext;
 import udo.error.Error;
 import ufront.web.mvc.ControllerContext;
@@ -36,6 +37,6 @@ class Controller implements haxe.rtti.Infos
 	
 	function _handleUnknownAction(action : String)
 	{
-		throw new Error("action {0} can't be executed because {1}", [action, _invoker.error.toString()]);
+		throw new PageNotFoundError().setInner(new Error("action {0} can't be executed because {1}", [action, _invoker.error.toString()]));
 	}
 }

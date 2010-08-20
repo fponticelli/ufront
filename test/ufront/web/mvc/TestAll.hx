@@ -4,7 +4,7 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.Route;
 import ufront.web.routing.RouteData;
 import ufront.web.HttpContextMock;
-import uform.util.Error;
+import udo.error.Error;
 import ufront.web.routing.RequestContext;
 import utest.Runner;
 import utest.ui.Report;
@@ -32,6 +32,6 @@ class TestAll
 		var route = new Route("/", routeHandler);
 		var context = new HttpContextMock();
 		var routeData = new RouteData(route, routeHandler, new Hash());
-		return new RequestContext(context, routeData);
+		return new RequestContext(context, routeData, null);
 	}
 }

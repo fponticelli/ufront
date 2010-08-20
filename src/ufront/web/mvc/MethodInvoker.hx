@@ -130,12 +130,80 @@ class MethodInvoker
 		return _jugglers.get(type);   
 	}
 	
+	public function _ctypeCheck(value : Dynamic, t : CType)
+	{
+		switch(t)
+		{
+			case CUnknown, CFunction(_, _):	
+				return false;
+			case CEnum(name, params):    
+				var e = Type.resolveEnum(name);
+				if(null == e)
+					return false;
+				if(!Std.is(value, e))
+					return false;  
+				var values = Type.enumParameters(value);
+				if(values.length != params.length)
+					return false;        
+				var i = 0;
+				for(param in params)     
+					if(_ctypeCheck(values[i++], param))
+						return false;
+			case CClass(name, params): 
+				var c = Type.resolveClass(name);
+				if(null == c)
+					return false;
+				if(!Std.is(value, c))
+					return false;
+			case CTypedef(name, params):
+				if("Null" == name)
+					return _ctypeCheck(value, params.first());
+				else
+					return false;
+		   	case CAnonymous(fields):
+				var valueFields = Reflect.fields(value);
+				for(field in fields)
+				{
+					if(!valueFields.remove(field.name))
+						return false;
+					if(!_ctypeCheck(Reflect.field(value, field.name), field.t))
+						return false;
+				}   
+				if(valueFields.length > 0)
+					return false;
+			case CDynamic(t):
+				if(!Reflect.isObject(value))
+					return false;
+				if(null != t)
+				{
+					for(field in Reflect.fields(value))
+					{
+						if(!_ctypeCheck(Reflect.field(value, field), t))
+							return false;
+					}
+				}
+		} 
+		return true;
+	}
+	
 	public function juggle(value : String, t : CType) : Dynamic
 	{
 		var juggler = getTypeJuggler(t);
-		if(null == juggler)
-			return null;
-		else    
+		if(null == juggler) 
+		{                             
+			var v;
+			// try haxe deserialization
+			try
+			{
+				v = haxe.Unserializer.run(value);
+			} catch(e : Dynamic) {
+				return null;         
+			}
+			if(_ctypeCheck(v, t))
+				return v;
+			else
+				return null;
+		} else    
 		{
 			try {
 				return juggler(value);

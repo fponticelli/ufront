@@ -13,21 +13,26 @@ class RouteUriBuilder
 	}                  
 	
 	public function build(params : Hash<String>)
-	{                             
-		var buf = new StringBuf();
-		
-		for(segment in ast)
-		{
-			var s = buildSegment(segment, params);
-			if("" != s)
-				buf.add("/" + s);
+	{      
+		try
+		{                       
+			var buf = new StringBuf();
+
+			for(segment in ast)
+			{
+				var s = buildSegment(segment, params);
+				if("" != s)
+					buf.add("/" + s);
+			}
+
+			var result = buf.toString();
+			if("" == result)
+				return "/";
+			else
+				return result;
+		} catch(e : Dynamic) {
+        	return null;
 		}
-		
-		var result = buf.toString();
-		if("" == result)
-			return "/";
-		else
-			return result;
 	}    
 	
 	function buildSegment(segment : UriSegment, params : Hash<String>) 
@@ -39,9 +44,13 @@ class RouteUriBuilder
 			{
 				case UPConst(value):
 					result += value;
-				case UPParam(name):
+				case UPParam(name): 
+					if(!params.exists(name))
+						throw "invalid param";
 				    result += params.getEncoded(name);
-				case UPRest(name):
+				case UPRest(name):  
+					if(!params.exists(name))
+						throw "invalid rest";
 				    result += params.getRestEncoded(name);
 				case UPOptParam(name):
 				    if(params.exists(name))
@@ -74,7 +83,9 @@ class RouteUriBuilder
 	
 	static inline function getEncoded(p : Hash<String>, k : String)
 	{
-		return StringTools.urlEncode(p.get(k));
+		var r = StringTools.urlEncode(p.get(k));   
+		p.remove(k);
+		return r;
 	}  
 	
 	static function getRestEncoded(p : Hash<String>, k : String)
@@ -82,6 +93,8 @@ class RouteUriBuilder
 		var parts = p.get(k).split("/");
 		for(i in 0...parts.length)
 			parts[i] = StringTools.urlEncode(parts[i]);
-		return parts.join("/");
+		var r = parts.join("/");
+		p.remove(k);
+		return r;
 	}   
 }

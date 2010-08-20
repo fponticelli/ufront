@@ -25,8 +25,6 @@ class HTemplateViewEngine implements IViewEngine
 
 	public function findView(controllerContext : ControllerContext, viewName : String) : ViewEngineResult
 	{   
-		var directory = getTemplatesDirectory(controllerContext);
-	    
 		var parts = controllerContext.controller.fullName().split(".");
 		
 		parts
@@ -35,18 +33,32 @@ class HTemplateViewEngine implements IViewEngine
 		
 		parts[parts.length-1] = parts[parts.length-1].lcfirst();
 		
-		var controllerPath =  parts.join("/");
+		var controllerPath =  parts.join("/");                                          
 		
-	
-		var path = directory + controllerPath + "/" + viewName + DEFAULT_EXTENSION;
-  		
-		if(!FileSystem.exists(path))
-			return null;
-		                            
-		var content = File.getContent(path);
-		var template = new Template(content);
-		
+		var template = getTemplate(controllerContext, controllerPath + "/" + viewName);
+		if(null == template)   
+		{
+			template = getTemplate(controllerContext, viewName);
+			if(null == template)
+		    	return null;
+		}
 		return new ViewEngineResult(new HTemplateView(template), this);
+	}       
+	
+	function _templatePath(controllerContext : ControllerContext, path : String)
+	{
+		return getTemplatesDirectory(controllerContext) + path + DEFAULT_EXTENSION;
 	}
+	
+	public function getTemplate(controllerContext : ControllerContext, path : String) 
+	{            
+	   	var fullpath = _templatePath(controllerContext, path);
+		if(!FileSystem.exists(fullpath))
+			return null;   
+		else
+			return new Template(File.getContent(fullpath));
+	}   
+	
+	
 	public function releaseView(controllerContext : ControllerContext, view : IView) : Void;
 }

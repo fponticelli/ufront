@@ -27,25 +27,38 @@ class HttpContext
 	public var response(getResponse, null) : HttpResponse;
 	public var session(getSession, null) : IHttpSessionState;
 	
+	var _requestUri : String;
 	public function getRequestUri() : String
-	{
-		var filtered = request.uri;
-		for(filter in _urlFilters)
-			filtered = filter.filter(filtered, UrlDirection.IncomingUrlRequest);
-		return filtered;
+	{      
+		if(null == _requestUri)  
+		{
+			_requestUri = request.uri;
+			for(filter in _urlFilters)
+				_requestUri = filter.filter(_requestUri, request, UrlDirection.IncomingUrlRequest);
+		}
+		return _requestUri;
 	}
 	
 	public function generateUri(uri : String) : String
-	{
-		for(filter in _urlFilters)
-			uri = filter.filter(uri, UrlDirection.UrlGeneration);
+	{             
+		var i = _urlFilters.length - 1;
+		while(i >= 0)
+			uri = _urlFilters[i--].filter(uri, request, UrlDirection.UrlGeneration);
 		return uri;
 	}   
 	
 	public function addUrlFilter(filter : IUrlFilter)
 	{                            
 		NullArgument.throwIfNull(filter, "filter");
-		_urlFilters.push(filter);
+		_requestUri = null;
+		_urlFilters.push(filter);  
+		return this;
+	}      
+	
+	public function clearUrlFilters()
+	{           
+		_requestUri = null;
+		_urlFilters = [];
 	}
 	
 	public function dispose() : Void;

@@ -18,7 +18,7 @@ class TestViewResult
 	{
 		runner.addCase(new TestViewResult());
 	}
-	
+
 	public static function main()
 	{
 		var runner = new Runner();
@@ -29,15 +29,7 @@ class TestViewResult
 	
 	public function new();
 
-	
-	public function testControllerArguments1()
-	{                
-    	var result = new ViewResult();
-		var context = createControllerContext();
-		result.executeResult(context);          
-		trace(context.response.getBuffer());
-	}                                                   
-	
+
 	static public function createControllerContext()
 	{
 		return new ControllerContext(

@@ -10,7 +10,7 @@ import ufront.web.routing.RouteParamExtractor;
 import ufront.web.routing.RouteData; 
 import ufront.web.UrlDirection;
 using udo.collections.UHash;
-import uform.util.Error;
+import udo.error.Error;
 import ufront.web.HttpContext;
 import udo.error.NullArgument;
 import ufront.web.routing.RouteUriParser;
@@ -86,7 +86,7 @@ class Route extends RouteBase
 	}   
 	
 	override function getPath(httpContext : HttpContext, data : Hash<String>)
-	{                
+	{             
 	    var params = null == data ? new Hash() : data;
 		if(!processConstraints(httpContext, data, UrlDirection.UrlGeneration))
 			return null;
@@ -94,8 +94,29 @@ class Route extends RouteBase
 			if(null == builder)
 			{   
 				builder = new RouteUriBuilder(getAst());
-			}
-			return builder.build(params);
+			}    
+			// drops defaults from data     
+			for(key in defaults.keys())
+			{
+				if(data.get(key) == defaults.get(key))
+					data.remove(key);
+			}   
+
+			var url = builder.build(params); 
+			// if controller param is not consumed than this is the wrong route
+			if(null == url || params.exists("controller"))
+			    return null; 
+			
+			var qs = [];
+			for(key in params.keys())
+			{
+				qs.push(StringTools.urlEncode(key) + "=" + StringTools.urlEncode("" + params.get(key)));
+			}                                                                                           
+			if(qs.length > 0)
+			{
+				url += "?" + qs.join("&");
+			}                             
+			return httpContext.generateUri(url);
 		}
 	}
   
