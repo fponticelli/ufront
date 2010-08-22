@@ -21,7 +21,10 @@ class UrlHelper implements IViewHelper
 			uri = "/";
 		return requestContext.httpContext.generateUri(uri);
 	}
-	
+	                        
+	/**  
+	*  @todo ad support for extra params
+	*  */
 	public function current() 
 	{
 		return requestContext.httpContext.generateUri(requestContext.httpContext.getRequestUri());

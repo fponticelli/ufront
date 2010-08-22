@@ -13,33 +13,36 @@ class QueryStringUrlFilter implements IUrlFilter
 	{
 		if(null == frontScript)
 		{
-			frontScript = #if php "/index.php" #elseif neko "/index.n" #else throw new Error("target not implemented, always pass a value for frontScript") #end;
+			frontScript = #if php "index.php" #elseif neko "index.n" #else throw new Error("target not implemented, always pass a value for frontScript") #end;
 		}                                                                                                                                                      
 		this.frontScript = frontScript; 
 		this.paramName = paramName;       
 		this.useCleanRoot = useCleanRoot;
 	} 
 	
-	public function filter(url : String, request : HttpRequest, direction : UrlDirection)
-	{        
-		switch(direction)
+	public function filterIn(url : PartialUrl, request : HttpRequest)
+	{     
+		if(url.segments[0] == frontScript)
 		{
-			case IncomingUrlRequest:  
-				if(url == frontScript)
-				{                       
-					var params = request.query;       
-					url = params.get(paramName);
-					if(null == url)
-						url = "/";
-				   	else
-						params.remove(paramName);
-				}       
-				return url;
-			case UrlGeneration:  
-				if(url.startsWith('~') || ("/" == url && useCleanRoot))
-					return url;    
-				else 
-					return frontScript + (url.indexOf("?") >= 0 ? "&" : "?") + paramName + "=" + url;                            
-		}
-	}
+		 	var params = request.query;     
+		 	var u = params.get(paramName);
+		 	if(null == u)
+		 		url.segments = [];
+		    else {
+				url.segments = PartialUrl.parse(u).segments;
+		 		params.remove(paramName);
+	   		}
+		}   
+	} 
+	
+	public function filterOut(url : VirtualUrl, request : HttpRequest)
+	{                       
+		if(url.isPhysical || (url.segments.length == 0 && useCleanRoot)) {
+		    //
+		} else {   
+			var path = "/" + url.segments.join("/");
+			url.segments = [frontScript];
+			url.query.set(paramName, { value : path, encoded : true }); 
+   		}                                                              
+	} 
 }

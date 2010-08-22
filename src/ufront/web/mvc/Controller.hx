@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import ufront.web.mvc.view.IViewHelper;
 import ufront.web.error.PageNotFoundError;
 import ufront.web.HttpContext;
 import udo.error.Error;
@@ -11,7 +12,7 @@ class Controller implements haxe.rtti.Infos
 	static inline var DEFAULT_ACTION = "index";
 	var _invoker : MethodInvoker;
 	var _defaultAction : String;
-	function new()
+	public function new()
 	{
 		_invoker = new MethodInvoker(); 
 		_defaultAction = DEFAULT_ACTION;
@@ -25,18 +26,24 @@ class Controller implements haxe.rtti.Infos
 		
 		var context = new ControllerContext(this, requestContext);
 		
-		var action = requestContext.routeData.get("action");
+		var action = requestContext.routeData.get("action");   
+		
 		if(null == action)
 		{
 			requestContext.routeData.data.set("action", action = _defaultAction);
 		}
- 
+
 		if(!_invoker.invoke(this, action, context))
 			_handleUnknownAction(action);
+	} 
+	
+	public function getViewHelpers() : Array<{ name : Null<String>, helper : IViewHelper }>
+	{
+		return [];
 	}
 	
 	function _handleUnknownAction(action : String)
 	{
-		throw new PageNotFoundError().setInner(new Error("action {0} can't be executed because {1}", [action, _invoker.error.toString()]));
+		throw new PageNotFoundError().setInner(new Error("action can't be executed because {0}", [_invoker.error.toString()]));
 	}
 }

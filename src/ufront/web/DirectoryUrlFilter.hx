@@ -16,17 +16,14 @@ class DirectoryUrlFilter implements IUrlFilter
 		this.directory = directory;
 	} 
 	
-	public function filter(url : String, request : HttpRequest, direction : UrlDirection)
+	public function filterIn(url : PartialUrl, request : HttpRequest)
 	{        
-		switch(direction)
-		{
-			case IncomingUrlRequest:
-				if(url.startsWith(directory))
-					return url.substr(directory.length)
-				else
-					return url;
-			case UrlGeneration:
-				return url.startsWith('~') ? "~" + directory + url.substr(1) : directory + url;
-		}
+		if(url.segments[0] == directory)
+			url.segments.shift();
+	}
+	
+	public function filterOut(url : VirtualUrl, request : HttpRequest)
+	{       
+		url.segments.unshift(directory);
 	}
 }

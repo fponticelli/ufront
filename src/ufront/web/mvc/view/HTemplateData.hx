@@ -27,7 +27,20 @@ class HTemplateData
 	{
 		return Reflect.hasField(value, key);
 	} 
-	   
+	        
+	public function notempty(key : String)
+	{
+		var v = data.get(key);  
+		if(v == null || v == "")
+			return false;
+		else if(Std.is(v, Array))
+			return v.length > 0;
+		else if(Std.is(v, Bool))
+			return v;
+		else
+			return true;
+	}
+	
 	public function push(varname : String, element : Dynamic)
 	{
 		var arr = data.get(varname);
@@ -81,28 +94,32 @@ class HTemplateData
 	public function register()
 	{           
 		var h = template.templateVars;
-		h.set("get",     get);
-		h.set("set",     data.set);
-		h.set("exists",  data.exists); 
-		h.set("has",     has); 
-		h.set("include", include);
-		h.set("push",    push); 
-		h.set("unshift", unshift); 
-		h.set("wrap",    wrap);
+		h.set("get",      get);
+		h.set("set",      data.set);
+		h.set("exists",   data.exists); 
+		h.set("has",      has); 
+		h.set("include",  include);
+		h.set("notempty", notempty);
+		h.set("push",     push); 
+		h.set("unshift",  unshift); 
+		h.set("wrap",     wrap);
 	}   
 	
 	public function registerHelper(name : String, helperInstance : IViewHelper)
 	{           
 		var h = template.templateVars;
-		if(h.exists(name))
-			return;
-		var carrier : Dynamic = {};
-		
-		for(field in helperInstance.getHelperFieldNames())
-		{
-			Reflect.setField(carrier, field, Reflect.field(helperInstance, field));
+		var carrier : Dynamic;
+		if(null == name || "" == name) 
+		{ 
+		    for(field in helperInstance.getHelperFieldNames()) 
+				h.set(field, Reflect.field(helperInstance, field));
+		} else {  
+			if(h.exists(name))
+				return;
+			var carrier = {};
+			h.set(name, carrier); 
+			for(field in helperInstance.getHelperFieldNames())   
+				Reflect.setField(carrier, field, Reflect.field(helperInstance, field));
 		}
-		
-		h.set(name, carrier);
 	}
 }

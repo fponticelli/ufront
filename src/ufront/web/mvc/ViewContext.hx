@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import ufront.web.mvc.view.IViewHelper;
 import ufront.web.mvc.IViewEngine;
 import ufront.web.mvc.ControllerContext;
 import ufront.web.mvc.IView;             
@@ -22,9 +23,10 @@ class ViewContext
 	public var request(default, null) : HttpRequest;
 	public var response(default, null) : HttpResponse;
 	public var session(default, null) : IHttpSessionState; 
-	public var viewEngine(default, null) : IViewEngine;
+	public var viewEngine(default, null) : IViewEngine;  
+	public var viewHelpers(default, null) : Array<{ name : String, helper : IViewHelper }>;
 
-	public function new(controllerContext:ControllerContext, view:IView, viewEngine : IViewEngine, viewData:Hash<Dynamic>)
+	public function new(controllerContext:ControllerContext, view:IView, viewEngine : IViewEngine, viewData:Hash<Dynamic>, viewHelpers : Array<{ name : String, helper : IViewHelper }>)
 	{       
 		this.controllerContext = controllerContext;                                  
 		this.controller = controllerContext.controller;
@@ -37,5 +39,6 @@ class ViewContext
 		this.request = httpContext.request;
 		this.response = httpContext.response;        
 		this.session = httpContext.session;
+		this.viewHelpers = viewHelpers;
 	}
 }

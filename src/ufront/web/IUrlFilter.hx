@@ -4,5 +4,6 @@ import ufront.web.UrlDirection;
 
 interface IUrlFilter 
 {
-   public function filter(url : String, request : HttpRequest, direction : UrlDirection) : String;
+  	public function filterIn(url : PartialUrl, request : HttpRequest) : Void;
+	public function filterOut(url : VirtualUrl, request : HttpRequest) : Void;
 }

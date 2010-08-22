@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>build.hxml</string>
+	<string>src/ufront/web/mvc/view/UrlHelper.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -18,9 +18,7 @@
 			<key>filename</key>
 			<string>build.hxml</string>
 			<key>lastUsed</key>
-			<date>2010-08-20T08:42:16Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-08-21T14:33:25Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -77,54 +75,54 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>src/ufront/web/DirectoryUrlFilter.hx</key>
+		<key>src/ufront/web/DefaultHttpHandler.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>70</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>14</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>src/ufront/web/HttpApplication.hx</key>
+		<key>src/ufront/web/DirectoryUrlFilter.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>23</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>160</integer>
+				<integer>21</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>54</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/ufront/web/HttpContext.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>34</integer>
+				<integer>37</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>9</integer>
 		</dict>
 		<key>src/ufront/web/IUrlFilter.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>72</integer>
+				<integer>75</integer>
 				<key>line</key>
 				<integer>6</integer>
 			</dict>
@@ -133,28 +131,44 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/ufront/web/PartialUrl.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>42</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>18</integer>
+				<key>line</key>
+				<integer>43</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>42</integer>
+			</dict>
+		</dict>
 		<key>src/ufront/web/PathInfoUrlFilter.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>49</integer>
 				<key>line</key>
-				<integer>36</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>src/ufront/web/PhysicalUrlFilter.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>70</integer>
-				<key>line</key>
-				<integer>13</integer>
+				<integer>23</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -166,9 +180,51 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>25</integer>
+				<integer>12</integer>
 				<key>line</key>
 				<integer>27</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/SegmentToParamUrlFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>42</integer>
+				<key>line</key>
+				<integer>51</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/UrlDirection.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>16</integer>
+				<key>line</key>
+				<integer>10</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/VirtualUrl.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>26</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -222,14 +278,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>17</integer>
+				<integer>52</integer>
 				<key>line</key>
-				<integer>33</integer>
+				<integer>39</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>51</integer>
+				<key>line</key>
+				<integer>39</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>55</integer>
+				<key>line</key>
+				<integer>39</integer>
+			</dict>
 		</dict>
 		<key>src/ufront/web/mvc/MvcHandler.hx</key>
 		<dict>
@@ -250,9 +322,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>45</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>28</integer>
+				<integer>43</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -264,9 +336,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>80</integer>
 				<key>line</key>
-				<integer>34</integer>
+				<integer>33</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/view/DataHelper.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>28</integer>
+				<key>line</key>
+				<integer>12</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -278,23 +364,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>26</integer>
+				<integer>35</integer>
 				<key>line</key>
-				<integer>27</integer>
+				<integer>86</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>7</integer>
+			<integer>58</integer>
 		</dict>
 		<key>src/ufront/web/mvc/view/HTemplateView.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>35</integer>
+				<integer>23</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -334,28 +420,74 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>31</integer>
+				<integer>1</integer>
 				<key>line</key>
 				<integer>4</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>55</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+		</dict>
+		<key>src/ufront/web/mvc/view/TranslationHelper.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>19</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>19</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
 		</dict>
 		<key>src/ufront/web/mvc/view/UrlHelper.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>91</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>26</integer>
+				<integer>25</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 		<key>src/ufront/web/mvc/view/XHtmlHelper.hx</key>
 		<dict>
@@ -385,19 +517,33 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/ufront/web/routing/LocalizedRoute.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>51</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/ufront/web/routing/Route.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>47</integer>
 				<key>line</key>
-				<integer>101</integer>
+				<integer>80</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>59</integer>
+			<integer>60</integer>
 		</dict>
 		<key>src/ufront/web/routing/RouteData.hx</key>
 		<dict>
@@ -429,6 +575,36 @@
 				<integer>7</integer>
 			</dict>
 		</dict>
+		<key>src/ufront/web/routing/RoutesCollection.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>18</integer>
+				<key>line</key>
+				<integer>31</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+		</dict>
 		<key>test/ufront/web/mvc/TestAll.hx</key>
 		<dict>
 			<key>caret</key>
@@ -447,10 +623,15 @@
 	<key>openDocuments</key>
 	<array>
 		<string>src/ufront/web/mvc/view/HTemplateView.hx</string>
+		<string>src/ufront/web/mvc/ViewContext.hx</string>
 		<string>src/ufront/web/mvc/view/IViewHelper.hx</string>
 		<string>src/ufront/web/routing/Route.hx</string>
+		<string>src/ufront/web/routing/LocalizedRoute.hx</string>
+		<string>src/ufront/web/SegmentToParamUrlFilter.hx</string>
+		<string>src/ufront/web/mvc/view/DataHelper.hx</string>
+		<string>src/ufront/web/routing/RoutesCollection.hx</string>
 		<string>src/ufront/web/HttpContext.hx</string>
-		<string>src/ufront/web/PhysicalUrlFilter.hx</string>
+		<string>src/ufront/web/DirectoryUrlFilter.hx</string>
 		<string>src/ufront/web/mvc/MvcHandler.hx</string>
 		<string>src/ufront/web/mvc/Controller.hx</string>
 		<string>src/ufront/web/error/InternalServerError.hx</string>
@@ -462,20 +643,22 @@
 		<string>src/ufront/web/mvc/view/HtmlHelper.hx</string>
 		<string>src/ufront/web/mvc/view/XHtmlHelper.hx</string>
 		<string>src/ufront/web/mvc/view/HTemplateData.hx</string>
+		<string>src/ufront/web/mvc/view/TranslationHelper.hx</string>
 		<string>src/ufront/web/PathInfoUrlFilter.hx</string>
+		<string>src/ufront/web/DefaultHttpHandler.hx</string>
+		<string>src/ufront/web/VirtualUrl.hx</string>
+		<string>src/ufront/web/UrlDirection.hx</string>
 		<string>build.hxml</string>
 		<string>src/ufront/web/QueryStringUrlFilter.hx</string>
-		<string>src/ufront/web/mvc/view/UrlHelper.hx</string>
+		<string>src/ufront/web/PartialUrl.hx</string>
 		<string>src/ufront/web/IUrlFilter.hx</string>
-		<string>src/ufront/web/HttpApplication.hx</string>
-		<string>src/ufront/web/DirectoryUrlFilter.hx</string>
+		<string>src/ufront/web/mvc/view/UrlHelper.hx</string>
 		<string>src/ufront/web/mvc/view/HTemplateViewEngine.hx</string>
 		<string>src/ufront/web/mvc/ViewResult.hx</string>
-		<string>src/ufront/web/mvc/ViewContext.hx</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{1173, 146}, {975, 1212}}</string>
+	<string>{{362, 98}, {975, 1212}}</string>
 </dict>
 </plist>

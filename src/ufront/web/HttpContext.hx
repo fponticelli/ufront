@@ -31,20 +31,22 @@ class HttpContext
 	public function getRequestUri() : String
 	{      
 		if(null == _requestUri)  
-		{
-			_requestUri = request.uri;
+		{         
+			var url = PartialUrl.parse(request.uri);
 			for(filter in _urlFilters)
-				_requestUri = filter.filter(_requestUri, request, UrlDirection.IncomingUrlRequest);
+				filter.filterIn(url, request); 
+			_requestUri = url.toString();       
 		}
 		return _requestUri;
 	}
 	
 	public function generateUri(uri : String) : String
-	{             
+	{                            
+		var uriOut = VirtualUrl.parse(uri);         
 		var i = _urlFilters.length - 1;
 		while(i >= 0)
-			uri = _urlFilters[i--].filter(uri, request, UrlDirection.UrlGeneration);
-		return uri;
+			_urlFilters[i--].filterOut(uriOut, request);
+		return uriOut.toString();
 	}   
 	
 	public function addUrlFilter(filter : IUrlFilter)

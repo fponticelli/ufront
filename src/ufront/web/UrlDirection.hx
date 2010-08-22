@@ -6,7 +6,7 @@
 package ufront.web;
 
 enum UrlDirection
-{
+{                   
 	IncomingUrlRequest;
-	UrlGeneration;
+	UrlGeneration; 
 }
