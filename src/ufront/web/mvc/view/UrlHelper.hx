@@ -25,9 +25,20 @@ class UrlHelper implements IViewHelper
 	/**  
 	*  @todo ad support for extra params
 	*  */
-	public function current() 
-	{
-		return requestContext.httpContext.generateUri(requestContext.httpContext.getRequestUri());
+	public function current(?params : Dynamic) 
+	{                                        
+		var url = requestContext.httpContext.getRequestUri();
+		if(null != params)
+		{       
+			var qs = [];
+			for(field in Reflect.fields(params))
+			{
+				qs.push(field + "=" + StringTools.urlEncode(Reflect.field(params, field)));
+			}                                                                              
+			if(qs.length > 0)
+				url += (url.indexOf("?") >= 0 ? "&" : "?") + qs.join("&");
+		}
+		return requestContext.httpContext.generateUri(url);
 	}
 	
 	public function encode(s : String)

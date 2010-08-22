@@ -64,11 +64,13 @@ class HtmlHelper implements IViewHelper
 		return link(text, urlHelper.controller(controllerName, action, data), attrs);
 	} 
 	
-	public function linkornot(text : String, url : String, ?attrs : Dynamic)
+	public function linkornot(text : String, url : String, ?test : String, ?attrs : Dynamic)
 	{
 		if(null == attrs)
-			attrs = {};
-		if(url == urlHelper.current())
+			attrs = {}; 
+		if(null == test)
+		    test = urlHelper.current();
+		if(url == test)
 		{
 			return open("span", attrs) + text + close("span");
 		} else {
@@ -77,14 +79,14 @@ class HtmlHelper implements IViewHelper
    		}
 	}   
 	
-	public function actionornot(text : String, name : String, ?data : Dynamic, ?attrs : Dynamic)
+	public function actionornot(text : String, name : String, ?test : String, ?data : Dynamic, ?attrs : Dynamic)
 	{           
-		return linkornot(text, urlHelper.action(name, data), attrs);
+		return linkornot(text, urlHelper.action(name, data), test, attrs);
 	}
 	
-	public function controllerornot(text : String, controllerName : String, ?action : String, ?data : Dynamic, ?attrs : Dynamic)
+	public function controllerornot(text : String, controllerName : String, ?action : String, ?test : String, ?data : Dynamic, ?attrs : Dynamic)
 	{           
-		return linkornot(text, urlHelper.controller(controllerName, action, data), attrs);
+		return linkornot(text, urlHelper.controller(controllerName, action, data), test, attrs);
 	}
 	
 	public function open(name : String, attrs : Dynamic)

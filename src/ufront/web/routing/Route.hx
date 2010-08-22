@@ -18,9 +18,9 @@ using StringTools;
 
 class Route extends RouteBase
 {	
-	static var parser = new RouteUriParser();  
+	public static var parser = new RouteUriParser();  
 	
-	public var url(default, null) : String;
+	public var url(getUrl, null) : String;
 	public var handler(default, null) : IRouteHandler;
 	public var defaults(default, null) : Hash<String>;  
 	public var constraints(default, null) : Array<IRouteConstraint>;      
@@ -103,9 +103,9 @@ class Route extends RouteBase
 			}   
 
 			var url = builder.build(params); 
-			// if controller param is not consumed than this is the wrong route
-			if(null == url || params.exists("controller"))
-			    return null; 
+			// if controller/action param is not consumed than this is the wrong route
+			if(null == url || params.exists("controller") || params.exists("action"))
+			    return null;        
 			
 			var qs = [];
 			for(key in params.keys())
@@ -118,6 +118,11 @@ class Route extends RouteBase
 			}                             
 			return httpContext.generateUri(url);
 		}
+	} 
+	
+	function getUrl()
+	{
+		return url;
 	}
   
 	function processConstraints(httpContext : HttpContext, params : Hash<String>, direction : UrlDirection)

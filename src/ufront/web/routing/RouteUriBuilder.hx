@@ -13,26 +13,23 @@ class RouteUriBuilder
 	}                  
 	
 	public function build(params : Hash<String>)
-	{      
-		try
-		{                       
-			var buf = new StringBuf();
+	{                          
+		var buf = new StringBuf();
 
-			for(segment in ast)
-			{
-				var s = buildSegment(segment, params);
-				if("" != s)
-					buf.add("/" + s);
-			}
-
-			var result = buf.toString();
-			if("" == result)
-				return "/";
-			else
-				return result;
-		} catch(e : Dynamic) {
-        	return null;
+		for(segment in ast)
+		{
+			var s = buildSegment(segment, params); 
+			if(null == s)
+				return null;
+			else if("" != s)
+				buf.add("/" + s);
 		}
+
+		var result = buf.toString();
+		if("" == result)
+			return "/";
+		else
+			return result;
 	}    
 	
 	function buildSegment(segment : UriSegment, params : Hash<String>) 
@@ -46,11 +43,11 @@ class RouteUriBuilder
 					result += value;
 				case UPParam(name): 
 					if(!params.exists(name))
-						throw "invalid param";
+						return null;
 				    result += params.getEncoded(name);
 				case UPRest(name):  
 					if(!params.exists(name))
-						throw "invalid rest";
+						return null;
 				    result += params.getRestEncoded(name);
 				case UPOptParam(name):
 				    if(params.exists(name))

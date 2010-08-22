@@ -99,7 +99,9 @@ class HttpApplication
 	function _executeRoute() 
 	{               
 		try
-		{
+		{                               
+			// triggers any associated action
+			httpContext.getRequestUri();
 			for(route in routes)
 			{
 				var data = route.getRouteData(httpContext);            

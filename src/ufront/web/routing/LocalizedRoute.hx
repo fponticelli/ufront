@@ -1,20 +1,134 @@
 package ufront.web.routing;
+import ufront.web.HttpContext;
 import udo.collections.UHash;
 import ufront.web.mvc.MvcRouteHandler;
 import hxculture.ITranslation;
 import ufront.web.routing.RoutesCollection;
 import udo.error.NullArgument;
-import ufront.web.routing.IRouteHandler;
+import ufront.web.routing.IRouteHandler;       
+import ufront.web.routing.RouteUriParser;   
+using udo.collections.UHash;
 
 class LocalizedRoute extends Route
 {       
-	public var translator(default, null) : ITranslation;
+	public var translator(default, null) : ITranslation; 
+	public var currentLanguage : String;           
+	public var paramName : String;
 	public function new(translator : ITranslation, url : String, handler : IRouteHandler, ?defaults : Hash<String>, ?constraints : Array<IRouteConstraint>)
 	{          
-		super(url, handler, defaults, constraints);
+		super(url, handler, defaults, constraints);                 
+		_asts = new Hash();
 		NullArgument.throwIfNull(translator, "translator");
 		this.translator = translator;
-	} 
+		currentLanguage = null;    
+		paramName = "lang";
+	}                 
+	
+	override function getUrl()
+	{                                                                                    
+		if(null == currentLanguage)
+			return super.getUrl();
+		else
+			return translator._(super.getUrl(), currentLanguage);
+	}       
+	
+	var _asts : Hash<UriSegments>;
+	override function getAst()
+	{          
+		var key = currentLanguage;
+		if(null == key)
+			key = "";
+		var ast = _asts.get(key);
+		if(null == ast)
+		{
+			ast = Route.parser.parse(url, defaults.setOfKeys()); 
+			_asts.set(key, ast);
+		}
+		return ast;
+	}
+	
+	override function getRouteData(httpContext : HttpContext) : RouteData 
+	{
+  //  	trace("rule url: " + url + ", request: " + httpContext.request.uri + ", context: " + httpContext.getRequestUri() + ", query params: " + httpContext.request.query);
+ //   	trace(httpContext.request.query);
+		currentLanguage = httpContext.request.query.get(paramName);  
+		return super.getRouteData(httpContext);
+		/*
+		var requesturi = httpContext.getRequestUri();
+		if(!requesturi.startsWith("/"))
+			throw new Error("invalid requestUri '{0}'", requesturi);
+		
+		if(null == extractor)
+		{   
+			extractor = new RouteParamExtractor(getAst());
+		}
+		
+		var params = extractor.extract(requesturi);
+		if(null == params)
+			return null;
+	    else {                                       
+			var r = httpContext.request;
+		    params = params.copyTo(r.query.copyTo(r.post.copyTo(defaults.clone())));
+			if(!processConstraints(httpContext, params, UrlDirection.IncomingUrlRequest))
+				return null;
+			else
+				return new RouteData(this, handler, params);
+		}  
+		*/
+	}   
+	
+	override function getPath(httpContext : HttpContext, data : Hash<String>)
+	{                                
+		if(!data.exists(paramName)) 
+		{
+			var value = httpContext.request.query.get(paramName);
+			if(null != value)
+				data.set(paramName, value);
+		}   
+		if(data.exists(paramName))
+			currentLanguage = data.get(paramName);   
+		else
+			currentLanguage = null;
+//		trace(data);
+			
+//		currentLanguage = data.get(paramName);
+ //   	if(null == currentLanguage)
+  //  		currentLanguage = httpContext.request.query.get(paramName);  
+		return super.getPath(httpContext, data);
+		/*            
+	    var params = null == data ? new Hash() : data;
+		if(!processConstraints(httpContext, data, UrlDirection.UrlGeneration))
+			return null;
+		else {
+			if(null == builder)
+			{   
+				builder = new RouteUriBuilder(getAst());
+			}    
+			// drops defaults from data     
+			for(key in defaults.keys())
+			{
+				if(data.get(key) == defaults.get(key))
+					data.remove(key);
+			}   
+
+			var url = builder.build(params); 
+			// if controller param is not consumed than this is the wrong route
+			if(null == url || params.exists("controller"))
+			    return null; 
+			
+			var qs = [];
+			for(key in params.keys())
+			{
+				qs.push(StringTools.urlEncode(key) + "=" + StringTools.urlEncode("" + params.get(key)));
+			}                                                                                           
+			if(qs.length > 0)
+			{
+				url += "?" + qs.join("&");
+			}                             
+			return httpContext.generateUri(url);
+		}  
+		*/
+	}
 	
 	
 	public static function addLocalizedRoute(collection : RoutesCollection, translator : ITranslation, uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
