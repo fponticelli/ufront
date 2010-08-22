@@ -10,6 +10,7 @@ import ufront.web.mvc.Controller;
 class Controller implements haxe.rtti.Infos
 {                               
 	static inline var DEFAULT_ACTION = "index";
+   
 	var _invoker : MethodInvoker;
 	var _defaultAction : String;
 	public function new()
@@ -31,7 +32,7 @@ class Controller implements haxe.rtti.Infos
 		if(null == action)
 		{
 			requestContext.routeData.data.set("action", action = _defaultAction);
-		}
+		}  
 
 		if(!_invoker.invoke(this, action, context))
 			_handleUnknownAction(action);
@@ -45,5 +46,5 @@ class Controller implements haxe.rtti.Infos
 	function _handleUnknownAction(action : String)
 	{
 		throw new PageNotFoundError().setInner(new Error("action can't be executed because {0}", [_invoker.error.toString()]));
-	}
+	} 
 }

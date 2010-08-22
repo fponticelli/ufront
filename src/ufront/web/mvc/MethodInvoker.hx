@@ -4,7 +4,8 @@ import udo.type.UType;
 import udo.error.Error;
 import udo.type.URtti;
 import ufront.web.mvc.ControllerContext;
-import haxe.rtti.CType;
+import haxe.rtti.CType;         
+import udo.collections.Set;  
 
 class MethodInvoker
 {                               
@@ -106,7 +107,10 @@ class MethodInvoker
 				arguments.push(argvalue);
 			}
 		}
-		
+#if php
+    	if(_mapper.exists(action))
+			action = "h" + action;
+#end
 		var returnValue = Reflect.callMethod(controller, Reflect.field(controller, action), arguments);  
 		
 		if(null != returnValue && Std.is(returnValue, ActionResult))
@@ -211,5 +215,52 @@ class MethodInvoker
 				return null;
 			}
 		}
+	}   
+	
+#if php
+	static var _mapper : Set<String>; 
+    static function __init__()
+	{
+		_mapper = new Set();
+		_mapper.add("and");
+		_mapper.add("or");
+		_mapper.add("xor");
+		_mapper.add("exception");
+		_mapper.add("array");
+		_mapper.add("as");
+		_mapper.add("const");
+		_mapper.add("declare");
+		_mapper.add("die");
+		_mapper.add("echo");
+		_mapper.add("elseif");
+		_mapper.add("empty");
+		_mapper.add("enddeclare");
+		_mapper.add("endfor");
+		_mapper.add("endforeach");
+		_mapper.add("endif");
+		_mapper.add("endswitch");
+		_mapper.add("endwhile");
+		_mapper.add("eval");
+		_mapper.add("exit");
+		_mapper.add("foreach");
+		_mapper.add("global");
+		_mapper.add("include");
+		_mapper.add("include_once");
+		_mapper.add("isset");
+		_mapper.add("list");
+		_mapper.add("print");
+		_mapper.add("require");
+		_mapper.add("require_once");
+		_mapper.add("unset");
+		_mapper.add("use");
+		_mapper.add("final");
+		_mapper.add("php_user_filter");
+		_mapper.add("protected");
+		_mapper.add("abstract");
+		_mapper.add("__set");
+		_mapper.add("__get");
+		_mapper.add("__call");
+		_mapper.add("clone"); 
 	}
+#end
 }
