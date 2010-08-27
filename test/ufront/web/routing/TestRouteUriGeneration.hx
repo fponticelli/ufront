@@ -1,7 +1,7 @@
 package ufront.web.routing;
 import haxe.PosInfos;
-import udo.collections.UHash;
-using udo.collections.UHash;
+import thx.collections.UHash;
+using thx.collections.UHash;
 import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;

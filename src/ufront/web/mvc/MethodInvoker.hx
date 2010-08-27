@@ -1,11 +1,11 @@
 package ufront.web.mvc;
 import ufront.web.mvc.ActionResult;
-import udo.type.UType;
-import udo.error.Error;
-import udo.type.URtti;
+import thx.type.UType;
+import thx.error.Error;
+import thx.type.URtti;
 import ufront.web.mvc.ControllerContext;
 import haxe.rtti.CType;         
-import udo.collections.Set;  
+import thx.collections.Set;  
 
 class MethodInvoker
 {                               

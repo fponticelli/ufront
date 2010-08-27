@@ -1,5 +1,5 @@
 package ufront.web.routing;
-import udo.error.Error;
+import thx.error.Error;
 
 class RouteData {
 	public var route(default, null) : RouteBase;

@@ -1,5 +1,5 @@
 package ufront.web.module;            
-import udo.error.Error;
+import thx.error.Error;
 import ufront.web.error.InternalServerError;
 import ufront.web.error.HttpError;
 import ufront.web.routing.EmptyRoute;
@@ -9,9 +9,9 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.mvc.Controller;
 import ufront.web.HttpApplication;
 import ufront.web.IHttpModule;   
-using udo.collections.UHash;    
-using udo.text.UString;         
-using udo.type.UType;
+using thx.collections.UHash;    
+using thx.text.UString;         
+using thx.type.UType;
 
 class ErrorModule implements IHttpModule 
 {

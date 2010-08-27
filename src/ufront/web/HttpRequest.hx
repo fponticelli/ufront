@@ -4,8 +4,8 @@
  */
 
 package ufront.web;
-import udo.collections.CascadeHash;
-import udo.error.AbstractMethod;
+import thx.collections.CascadeHash;
+import thx.error.AbstractMethod;
 import haxe.io.Bytes;
 
 class HttpRequest

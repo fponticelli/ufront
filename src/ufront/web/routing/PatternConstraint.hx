@@ -7,7 +7,7 @@ package ufront.web.routing;
 import ufront.web.UrlDirection;
 
 import ufront.web.HttpContext;  
-import udo.error.NullArgument;
+import thx.error.NullArgument;
 
 class PatternConstraint implements IRouteConstraint
 {         

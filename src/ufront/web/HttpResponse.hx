@@ -6,8 +6,8 @@
 package ufront.web;
 import haxe.io.BytesOutput;
 import haxe.io.Output;
-import udo.collections.HashList;
-import udo.error.NullArgument;
+import thx.collections.HashList;
+import thx.error.NullArgument;
 
 class HttpResponse
 {

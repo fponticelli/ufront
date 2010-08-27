@@ -1,6 +1,6 @@
 package ufront.web.error;
 import haxe.PosInfos;
-import udo.error.Error;
+import thx.error.Error;
 
 class HttpError extends Error
 {

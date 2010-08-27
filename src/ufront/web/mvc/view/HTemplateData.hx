@@ -1,5 +1,5 @@
 package ufront.web.mvc.view;
-import udo.error.Error;
+import thx.error.Error;
 import ufront.web.mvc.view.HTemplateViewEngine;
 import ufront.web.mvc.ViewContext;
 import htemplate.Template;                            

@@ -1,7 +1,7 @@
 package ufront.web.mvc.view;     
 import ufront.web.mvc.view.HtmlHelper;
 import ufront.web.mvc.view.XHtmlHelper;
-import udo.collections.HashList;
+import thx.collections.HashList;
 
 import ufront.web.mvc.ViewContext;
 import ufront.web.mvc.IView;                     

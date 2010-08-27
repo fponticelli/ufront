@@ -1,6 +1,6 @@
 package ufront.web;
 import ufront.web.HttpRequest;
-import udo.error.Error;     
+import thx.error.Error;     
 
 using StringTools;
 

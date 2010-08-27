@@ -1,6 +1,6 @@
 package ufront.web.routing;
 import haxe.PosInfos;
-import udo.collections.Set;
+import thx.collections.Set;
 import ufront.web.routing.RouteUriParser;
 
 import utest.Runner;

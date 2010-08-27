@@ -6,7 +6,7 @@
 package ufront.web.session;
 import ufront.web.IHttpSessionState;
 
-import udo.neutral.Lib;
+import thx.sys.Lib;
 using StringTools;
 #if php
 typedef InternalSession = php.Session;

@@ -1,5 +1,5 @@
 package ufront.web;
-import udo.collections.HashList;
+import thx.collections.HashList;
        
 // @needs to be completed needs
 class PartialUrl 

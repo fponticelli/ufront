@@ -4,7 +4,7 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.Route;
 import ufront.web.routing.RouteData;
 import ufront.web.HttpContextMock;
-import udo.error.Error;
+import thx.error.Error;
 import ufront.web.routing.RequestContext;
 import utest.Runner;
 import utest.ui.Report;

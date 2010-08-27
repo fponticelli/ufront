@@ -2,7 +2,7 @@ package ufront.web.mvc;
 import ufront.web.mvc.view.IViewHelper;
 import ufront.web.error.PageNotFoundError;
 import ufront.web.HttpContext;
-import udo.error.Error;
+import thx.error.Error;
 import ufront.web.mvc.ControllerContext;
 import ufront.web.routing.RequestContext;
 import ufront.web.mvc.Controller;

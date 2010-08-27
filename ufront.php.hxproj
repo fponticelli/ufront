@@ -15,23 +15,24 @@
   <classpaths>
     <class path="src" />
     <class path="test" />
+    <class path="..\core\src" />
+    <class path="..\htemplate\src" />
+    <class path="..\hxculture\src" />
+    <class path="..\hxevents\src" />
+    <class path="..\uform\src" />
+    <class path="..\utest\src" />
   </classpaths>
   <!-- Build options -->
   <build>
     <option directives="" />
     <option flashStrict="False" />
     <option mainClass="TestAll" />
-    <option enabledebug="False" />
+    <option forcetraces="False" />
     <option additional="" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
-    <library name="hxculture" />
-    <library name="utest" />
-    <library name="uform" />
-    <library name="htemplate" />
-    <library name="udo" />
-    <library name="hxevents" />
+    <!-- example: <library name="..." /> -->
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>

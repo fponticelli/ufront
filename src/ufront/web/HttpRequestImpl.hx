@@ -6,9 +6,9 @@
 package ufront.web;
 
 import haxe.io.Bytes;
-import udo.error.Error;
-import udo.neutral.Lib;
-using udo.text.UString;
+import thx.error.Error;
+import thx.sys.Lib;
+using thx.text.UString;
 using StringTools;
 
 class HttpRequestImpl extends HttpRequest

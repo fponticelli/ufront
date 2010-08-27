@@ -1,7 +1,7 @@
 package ufront.web.mvc.view;
-import udo.error.Error;
-import udo.error.NullArgument; 
-import udo.type.UType;
+import thx.error.Error;
+import thx.error.NullArgument; 
+import thx.type.UType;
 
 class DataHelper implements IViewHelper, implements Dynamic
 {     

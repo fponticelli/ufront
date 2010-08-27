@@ -5,9 +5,9 @@
 
 package ufront.web;
 import haxe.io.Bytes;
-import udo.collections.HashList;
-import udo.neutral.io.FileOutput;
-import udo.neutral.io.File;
+import thx.collections.HashList;
+import thx.neutral.io.FileOutput;
+import thx.neutral.io.File;
 
 using StringTools;
 

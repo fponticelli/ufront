@@ -3,7 +3,7 @@ import ufront.web.error.HttpError;
 import ufront.web.mvc.ViewResult;      
 import ufront.web.routing.RequestContext; 
 import ufront.web.mvc.Controller;
-import udo.error.Error;  
+import thx.error.Error;  
 import haxe.Stack; 
 
 class ErrorController extends Controller
