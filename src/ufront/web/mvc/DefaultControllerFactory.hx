@@ -33,7 +33,8 @@ class DefaultControllerFactory implements IControllerFactory {
 	
 	public function releaseController(controller : Controller)
 	{
-		if(Reflect.hasField(controller, "dispose"))
-			Reflect.callMethod(controller, Reflect.field(controller, "dispose"), []);
+		var f = Reflect.field(controller, "dispose")
+		if(null != f)
+			Reflect.callMethod(controller, f, []);
 	}
 }
