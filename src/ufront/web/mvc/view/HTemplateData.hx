@@ -117,9 +117,9 @@ class HTemplateData
 			if(h.exists(name))
 				return;
 			var carrier = {};
-			h.set(name, carrier); 
+			h.set(name, carrier);                     
 			for(field in helperInstance.getHelperFieldNames())   
-				Reflect.setField(carrier, field, Reflect.field(helperInstance, field));
+				Reflect.setField(carrier, field, Reflect.makeVarArgs(function(args) return Reflect.callMethod(helperInstance, Reflect.field(helperInstance, field), args)));
 		}
 	}
 }

@@ -13,14 +13,17 @@ import ufront.web.session.FileSession;
 class HttpContext
 {	
 	var _urlFilters : Array<IUrlFilter>;
-	public static function createWebContext(?sessionpath : String)
-	{
-		var request = HttpRequestImpl.instance;
+	public static function createWebContext(?sessionpath : String, ?request : HttpRequest, ?response : HttpResponse)
+	{    
+		if(null == request)
+			request = HttpRequest.instance;
+		if(null == response)
+			response = HttpResponse.instance;
 		if (null == sessionpath)
 		{
 			sessionpath = request.scriptDirectory + "../_sessions";
 		}
-		return new HttpContextImpl(request, HttpResponseImpl.instance, new FileSession(sessionpath));
+		return new HttpContextImpl(request, response, FileSession.create(sessionpath));
 	}
 	
 	public var request(getRequest, null) : HttpRequest;

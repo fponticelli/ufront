@@ -9,10 +9,14 @@ class TestAll
 	}
 	
 	public static function main()
-	{
-		var runner = new Runner();
-		addTests(runner);
-		Report.create(runner);
-		runner.run();
+	{     
+		try {
+			var runner = new Runner();
+			addTests(runner);
+			Report.create(runner);
+			runner.run();   
+		} catch(e : Dynamic) {
+			trace(e);
+		}
 	}
 }

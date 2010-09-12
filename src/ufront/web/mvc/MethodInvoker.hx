@@ -80,7 +80,8 @@ class MethodInvoker
 			return false;
 		}	             
 		
-		var arguments = [];                                                                 
+		var arguments = [];    
+                                                            
 		for(info in argsinfo)
 		{                                                  
 			var value = controllerContext.requestContext.routeData.get(info.name);
@@ -110,12 +111,11 @@ class MethodInvoker
 #if php
     	if(_mapper.exists(action))
 			action = "h" + action;
-#end
+#end    
 		var returnValue = Reflect.callMethod(controller, Reflect.field(controller, action), arguments);  
-		
 		if(null != returnValue && Std.is(returnValue, ActionResult))
 		{
-			var result : ActionResult = cast returnValue;
+			var result : ActionResult = cast returnValue;    
 			result.executeResult(controllerContext);
 		}
 		              

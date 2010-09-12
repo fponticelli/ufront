@@ -8,9 +8,28 @@ import haxe.io.BytesOutput;
 import haxe.io.Output;
 import thx.collections.HashList;
 import thx.error.NullArgument;
-
+  
+/**
+* @todo remove the singleton 
+*/
 class HttpResponse
 {
+	public static var instance(getInstance, null) : HttpResponse;
+	static function getInstance() : HttpResponse 
+	{
+		if(null == instance)
+#if php
+        	instance = new php.ufront.web.HttpResponse();
+#elseif neko
+            instance = new neko.ufront.web.HttpResponse(); 
+#elseif nodejs                                             
+			instance = null;
+#else
+    	NOT IMPLEMENTED PLATFORM
+#end
+		return instance;
+	}
+
 	static inline var CONTENT_TYPE = "Content-type";
 	static inline var LOCATION = "Location";
 	static inline var DEFAULT_CONTENT_TYPE = "text/html";

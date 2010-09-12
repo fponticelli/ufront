@@ -20,21 +20,18 @@ class HTemplateView implements IView
 	}                           
 
 	public function render(viewContext : ViewContext)
-	{           
+	{          
 		var data = new HTemplateData(viewContext, this);
-		data.register();                    
-		
-		_registerAutomaticHelpers(viewContext, data);  
-		
+		data.register();                     	
+		_registerAutomaticHelpers(viewContext, data);   	
 		for(info in viewContext.viewHelpers)     
-			data.registerHelper(info.name, info.helper);
-		 	
-		var result = template.execute(templateVars);
+			data.registerHelper(info.name, info.helper); 	 	
+		var result = template.execute(templateVars);   
 		for(key in wrappers.keys())
-		{            
+		{           
 			viewContext.viewData.set(key, result);
 			result =  wrappers.get(key).execute(templateVars);
-		}   
+		}      
 		return result;
 	}  
 	

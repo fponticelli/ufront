@@ -32,7 +32,7 @@ class ViewEngines
 		if(null == engines) 
 		{
 			engines = new ViewEngines();
-#if htemplate
+#if htemplate   
     		engines.add(new ufront.web.mvc.view.HTemplateViewEngine());
 #end
 		}

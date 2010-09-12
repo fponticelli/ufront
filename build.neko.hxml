@@ -1,5 +1,5 @@
-# @tm-preview
-# @tm-html <iframe src="http://ufront/index.n" style="width: 100%; height:500px"></iframe>
+# @tm-preview   
+# @tm-html <iframe src="http://ufront/index.n" style="width: 100%; height:500px"></iframe>  
 -cp ../core/src
 #-cp ../uform/src
 -cp ../hxculture/src
@@ -11,4 +11,4 @@
 -lib hscript
 -neko bin/index.n
 -main TestAll  
--D htemplate                  
+-D htemplate                       

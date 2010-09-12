@@ -18,7 +18,7 @@ import thx.sys.Lib;
 import thx.error.NullArgument;
 
 class HttpApplication
-{
+{   
 	public var httpContext(default, null) : HttpContext;
 	public var request(getRequest, null) : HttpRequest;
 	public var response(getResponse, null) : HttpResponse;

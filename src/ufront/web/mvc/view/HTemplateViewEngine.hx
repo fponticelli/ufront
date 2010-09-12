@@ -1,4 +1,5 @@
 package ufront.web.mvc.view;
+import thx.error.NotImplemented;
 import thx.sys.io.File;
 import htemplate.Template;
 using thx.collections.UArray;
@@ -50,13 +51,26 @@ class HTemplateViewEngine implements IViewEngine
 		return getTemplatesDirectory(controllerContext) + path + DEFAULT_EXTENSION;
 	}
 	
+	/**
+	 *  @todo find a sync function in node.js for file exists
+	 */
 	public function getTemplate(controllerContext : ControllerContext, path : String) 
 	{            
-	   	var fullpath = _templatePath(controllerContext, path);
+	   	var fullpath = _templatePath(controllerContext, path);   
+#if (neko || php)
 		if(!FileSystem.exists(fullpath))
 			return null;   
 		else
-			return new Template(File.getContent(fullpath));
+			return new Template(File.getContent(fullpath));     
+#elseif nodejs      
+		try {
+			return new Template(js.Node.fs.readFileSync(fullpath)); 
+		} catch(e : Dynamic) {
+			return null;
+		}
+#else
+    	return throw new NotImplemented();
+#end
 	}   
 	
 	

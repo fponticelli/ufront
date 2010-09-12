@@ -28,7 +28,11 @@ class MvcHandler implements IHttpHandler {
 			controller.execute(requestContext);
 		} catch(e : Dynamic) {
 			factory.releaseController(controller);
+#if (php || neko)
 			Lib.rethrow(e);
+#else
+			throw e;
+#end
 		}
 		factory.releaseController(controller);
 	}

@@ -24,7 +24,6 @@ class ViewResult extends ActionResult
 		                                   
 		if(null == viewName || "" == viewName)
 			viewName = context.routeData.getRequired("action");   		   
-		      
 		var result = null;
 		if(null == view) 
 		{
@@ -32,16 +31,15 @@ class ViewResult extends ActionResult
             this.view = result.view;
 		}
 		var viewContext = new ViewContext(context, view, result.viewEngine, viewData, context.controller.getViewHelpers());   
-		
-		context.response.write(view.render(viewContext));
-		
+
+		context.response.write(view.render(viewContext)); 
 		if(null != result)
 			result.viewEngine.releaseView(context, view);
 	}
 	
 //	function findEngine() : ViewEngine
 //	{
-//		return throw "not implemented";
+//		return throw new NotImplemented();
 //	}                  
 	
 	function findView(context : ControllerContext, viewName : String) : ViewEngineResult
