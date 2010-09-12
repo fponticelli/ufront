@@ -26,14 +26,15 @@ class UrlHelper implements IViewHelper
 	*  @todo ad support for extra params
 	*  */
 	public function current(?params : Dynamic) 
-	{                                        
-		var url = requestContext.httpContext.getRequestUri();
+	{                                    
+		var url = requestContext.httpContext.getRequestUri();  
 		if(null != params)
 		{       
 			var qs = [];
 			for(field in Reflect.fields(params))
-			{
-				qs.push(field + "=" + StringTools.urlEncode(Reflect.field(params, field)));
+			{   
+				var value = Reflect.field(params, field);
+				qs.push(field + "=" + StringTools.urlEncode(value));
 			}                                                                              
 			if(qs.length > 0)
 				url += (url.indexOf("?") >= 0 ? "&" : "?") + qs.join("&");

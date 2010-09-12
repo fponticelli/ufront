@@ -118,8 +118,13 @@ class HTemplateData
 				return;
 			var carrier = {};
 			h.set(name, carrier);                     
-			for(field in helperInstance.getHelperFieldNames())   
-				Reflect.setField(carrier, field, Reflect.makeVarArgs(function(args) return Reflect.callMethod(helperInstance, Reflect.field(helperInstance, field), args)));
+			for(field in helperInstance.getHelperFieldNames()) {  
+				var value = Reflect.field(helperInstance, field);
+				if(Reflect.isFunction(value))
+					Reflect.setField(carrier, field, Reflect.makeVarArgs(function(args) return Reflect.callMethod(helperInstance, value, args)));
+				else
+					Reflect.setField(carrier, field, value);
+			}
 		}
 	}
 }
