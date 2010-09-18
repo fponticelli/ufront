@@ -24,15 +24,22 @@ class ViewResult extends ActionResult
 		                                   
 		if(null == viewName || "" == viewName)
 			viewName = context.routeData.getRequired("action");   		   
-		var result = null;
+		var result = null;      
 		if(null == view) 
-		{
-			result = findView(context, viewName); 
+		{          
+			result = findView(context, viewName);   
             this.view = result.view;
-		}
+		}   
 		var viewContext = new ViewContext(context, view, result.viewEngine, viewData, context.controller.getViewHelpers());   
-
-		context.response.write(view.render(viewContext)); 
+		
+		var r = null;
+		try {
+			r = view.render(viewContext);
+		} catch(e : Dynamic) {
+			throw new Error("error in the template processing: {0}", Std.string(e));
+		}
+		
+		context.response.write(r); 
 		if(null != result)
 			result.viewEngine.releaseView(context, view);
 	}

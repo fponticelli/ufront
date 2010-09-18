@@ -76,8 +76,8 @@ private class MockEventsModule implements IHttpModule
 		application.onBegin.add(function (_) events.push("begin"));
 		application.onEnd.add(function (_) events.push("end"));
 		
-		application.onResolveCache.add(function (_) events.push("resolvecache"));
-		application.onAfterResolveCache.add(function (_) events.push("afterresolvecache"));
+//		application.onResolveCache.add(function (_) events.push("resolvecache"));
+//		application.onAfterResolveCache.add(function (_) events.push("afterresolvecache"));
 		application.onHandler.add(function (_)
 		{
 			events.push("handler");
@@ -85,10 +85,10 @@ private class MockEventsModule implements IHttpModule
 				application.completeRequest();
 		});
 		application.onAfterHandler.add(function (_) events.push("afterhandler"));
-		application.onUpdateCache.add(function (_) events.push("updatecache"));
-		application.onAfterUpdateCache.add(function (_) events.push("afterupdatecache"));
-		application.onLog.add(function (_) events.push("log"));
-		application.onAfterLog.add(function (_) events.push("afterlog"));
+//		application.onUpdateCache.add(function (_) events.push("updatecache"));
+//		application.onAfterUpdateCache.add(function (_) events.push("afterupdatecache"));
+//		application.onLog.add(function (_) events.push("log"));
+//		application.onAfterLog.add(function (_) events.push("afterlog"));
 	}
 	
 	public function dispose()

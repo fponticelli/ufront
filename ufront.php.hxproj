@@ -27,8 +27,8 @@
     <option directives="" />
     <option flashStrict="False" />
     <option mainClass="TestAll" />
-    <option forcetraces="False" />
-    <option additional="" />
+    <option enabledebug="False" />
+    <option additional="htemplate" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

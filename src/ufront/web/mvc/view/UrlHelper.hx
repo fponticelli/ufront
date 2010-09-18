@@ -4,7 +4,7 @@ import thx.error.NullArgument;
 import thx.collections.UHash;
 import ufront.web.routing.RequestContext;
 
-class UrlHelper implements IViewHelper
+class UrlHelper
 {       
 	public var requestContext(default, null) : RequestContext; 
 	public function new(requestContext : RequestContext)
@@ -75,10 +75,5 @@ class UrlHelper implements IViewHelper
 				return url;
 		}
 		throw new Error("unable to find a suitable route for {0}", Std.string(data));
-	} 
-	
-	public function getHelperFieldNames()
-	{
-		return ["action", "base", "controller", "current", "encode"];
 	}
 }

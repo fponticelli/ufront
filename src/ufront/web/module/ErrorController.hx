@@ -50,7 +50,9 @@ class ErrorController extends Controller
 	function _errorStack() : Array<String>
 	{
 		var arr = [];
-		var stack = haxe.Stack.exceptionStack();
+		var stack = haxe.Stack.callStack();
+		stack.pop();
+		stack = stack.slice(2);
 		for(item in stack)      
 		{
 			arr.push(_stackItemToString(item));

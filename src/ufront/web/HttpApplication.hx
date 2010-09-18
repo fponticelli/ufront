@@ -27,14 +27,16 @@ class HttpApplication
 	
 	public var onBegin(default, null) : Dispatcher<HttpApplication>;
 	public var onEnd(default, null) : Dispatcher<HttpApplication>;
-	public var onResolveCache(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterResolveCache(default, null) : Dispatcher<HttpApplication>;
-	public var onUpdateCache(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterUpdateCache(default, null) : Dispatcher<HttpApplication>;
+	public var onSendContent(default, null) : Dispatcher<HttpApplication>;
+	public var onAfterSendContent(default, null) : Dispatcher<HttpApplication>;
+//	public var onResolveCache(default, null) : Dispatcher<HttpApplication>;
+//	public var onAfterResolveCache(default, null) : Dispatcher<HttpApplication>;
+//	public var onUpdateCache(default, null) : Dispatcher<HttpApplication>;
+//	public var onAfterUpdateCache(default, null) : Dispatcher<HttpApplication>;
 	public var onHandler(default, null) : Dispatcher<HttpApplication>;
 	public var onAfterHandler(default, null) : Dispatcher<HttpApplication>;
-	public var onLog(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterLog(default, null) : Dispatcher<HttpApplication>;
+//	public var onLog(default, null) : Dispatcher<HttpApplication>;
+//	public var onAfterLog(default, null) : Dispatcher<HttpApplication>;
 	
 	public var onError(default, null) : Dispatcher<{ application : HttpApplication, error : Error}>;
 	
@@ -50,16 +52,18 @@ class HttpApplication
 			httpContext = HttpContext.createWebContext();
 		this.httpContext = httpContext;
 		onBegin = new Dispatcher();
-		onEnd = new Dispatcher();
+		onEnd = new Dispatcher(); 
+		onSendContent = new Dispatcher();
+		onAfterSendContent = new Dispatcher();
 		
-		onResolveCache = new Dispatcher();
-		onAfterResolveCache = new Dispatcher();
+//		onResolveCache = new Dispatcher();
+//		onAfterResolveCache = new Dispatcher();
 		onHandler = new Dispatcher();
 		onAfterHandler = new Dispatcher();
-		onUpdateCache = new Dispatcher();
-		onAfterUpdateCache = new Dispatcher();
-		onLog = new Dispatcher();
-		onAfterLog = new Dispatcher();
+//		onUpdateCache = new Dispatcher();
+//		onAfterUpdateCache = new Dispatcher();
+//		onLog = new Dispatcher();
+//		onAfterLog = new Dispatcher();
 		onError = new Dispatcher();
 		
 		modules = new List();
@@ -75,21 +79,28 @@ class HttpApplication
 		for (module in modules)
 			_initModule(module);
 		
-		_dispatch(onBegin);
+		_dispatch(onBegin);   
+/*
 		_dispatch(onResolveCache);
-		_dispatch(onAfterResolveCache);
+		_dispatch(onAfterResolveCache);  
+*/
 		_dispatch(onHandler);   
 		
 		_executeRoute();
 		
-		_dispatch(onAfterHandler);
+		_dispatch(onAfterHandler);  
+		
+/*
 		_dispatch(onUpdateCache);
 		_dispatch(onAfterUpdateCache);
 		_dispatch(onLog);
 		_dispatch(onAfterLog);
-		
+*/
+
+		_dispatch(onSendContent);
 		// flush contents
 		_flush();
+		_dispatch(onAfterSendContent);
 		
 		// this event is always dispatched no matter what
 		_dispatchEnd();
@@ -101,17 +112,16 @@ class HttpApplication
 		try
 		{                               
 			// triggers any associated action
-			httpContext.getRequestUri();
 			for(route in routes)
 			{
-				var data = route.getRouteData(httpContext);            
+				var data = route.getRouteData(httpContext);          
 				if(null == data)
 					continue;    
 				var requestContext = new RequestContext(httpContext, data, routes);  
 				var handler = data.routeHandler.getHttpHandler(requestContext); 
 				handler.processRequest(httpContext);
 				return;
-			} 
+			}
 			throw new PageNotFoundError();               
 		} catch(e : Dynamic) {
 			_dispatchError(e);

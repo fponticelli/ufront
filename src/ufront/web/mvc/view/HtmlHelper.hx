@@ -3,7 +3,7 @@ import ufront.web.mvc.view.HTemplateData;
 import ufront.web.mvc.ViewContext;    
 using StringTools;
 
-class HtmlHelper implements IViewHelper
+class HtmlHelper
 {       
 	public var viewContext(default, null) : ViewContext;
 	public var templateData(default, null) : HTemplateData;  
@@ -83,10 +83,13 @@ class HtmlHelper implements IViewHelper
 	{           
 		return linkornot(text, urlHelper.action(name, data), test, attrs);
 	}
-	
-	public function controllerornot(text : String, controllerName : String, ?action : String, ?test : String, ?data : Dynamic, ?attrs : Dynamic)
+	                                                                                   
+	/**
+	 *  @todo fix issues with more than 5 argumetns (couple controllerName with action)
+	 */
+	public function controllerornot(text : String, controllerName : String, ?action : String, ?test : String, ?data : Dynamic/*, ?attrs : Dynamic*/)
 	{           
-		return linkornot(text, urlHelper.controller(controllerName, action, data), test, attrs);
+		return linkornot(text, urlHelper.controller(controllerName, action, data), test, null /*attrs*/);
 	}
 	
 	public function open(name : String, attrs : Dynamic)
@@ -131,10 +134,5 @@ class HtmlHelper implements IViewHelper
 			return '"' + attributeEncode(value) + '"';
 		else
 			return attributeEncode(value);
-	}
-	
-	public function getHelperFieldNames()
-	{
-		return ["link", "linkornot", "action", "actionornot", "controller", "controllerornot", "encode", "attributeEncode", "tag", "open", "close"];
 	}
 }
