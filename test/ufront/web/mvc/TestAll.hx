@@ -32,6 +32,6 @@ class TestAll
 		var route = new Route("/", routeHandler);
 		var context = new HttpContextMock();
 		var routeData = new RouteData(route, routeHandler, new Hash());
-		return new RequestContext(context, routeData, null);
+		return new RequestContext(context, routeData);
 	}
 }

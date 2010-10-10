@@ -3,12 +3,12 @@
 -cp ../core/src
 #-cp ../uform/src
 -cp ../hxculture/src
--cp ../hxevents/src
--cp ../utest/src   
 -cp ../htemplate/src    
 -cp src
 -cp test
 -lib hscript
+-lib hxevents
+-lib utest
 -neko bin/index.n
 -main TestAll  
 -D htemplate                       

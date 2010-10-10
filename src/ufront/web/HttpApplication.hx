@@ -4,18 +4,19 @@
  */
 
 package ufront.web;
-import ufront.web.error.PageNotFoundError;
-import haxe.PosInfos;
-import ufront.web.routing.RequestContext;
-import ufront.web.IHttpModule;
-import thx.error.Error;
-import ufront.web.routing.RoutesCollection;
 
-import haxe.io.BytesOutput;
+import haxe.PosInfos;
+import ufront.web.IHttpModule;
+import ufront.web.error.PageNotFoundError;
+import ufront.web.routing.RequestContext;
+import ufront.web.routing.RouteCollection;
+import ufront.web.routing.UrlRoutingModule;
+import ufront.web.routing.RouteTable;
+
+import thx.error.Error;
+
 import hxevents.Dispatcher;
 import hxevents.EventException;
-import thx.sys.Lib;
-import thx.error.NullArgument;
 
 class HttpApplication
 {   
@@ -25,99 +26,206 @@ class HttpApplication
 	public var session(getSession, null) : IHttpSessionState;
 	public var modules(default, null) : List<IHttpModule>;
 	
-	public var onBegin(default, null) : Dispatcher<HttpApplication>;
-	public var onEnd(default, null) : Dispatcher<HttpApplication>;
-	public var onResolveCache(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterResolveCache(default, null) : Dispatcher<HttpApplication>;
-	public var onUpdateCache(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterUpdateCache(default, null) : Dispatcher<HttpApplication>;
-	public var onHandler(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterHandler(default, null) : Dispatcher<HttpApplication>;
-	public var onLog(default, null) : Dispatcher<HttpApplication>;
-	public var onAfterLog(default, null) : Dispatcher<HttpApplication>;
-	
-	public var onError(default, null) : Dispatcher<{ application : HttpApplication, error : Error}>;
-	
-	
-	public var routes(default, null) : RoutesCollection;
-	
+	var _handler : IHttpHandler;	
 	var _completed : Bool;
 	var _dispatching : Bool;
+
+	///// Events /////
 	
+	/**
+	 * The BeginRequest event signals the creation of any given new request. 
+	 * This event is always raised and is always the first event to occur during the processing of a request.
+	 */
+	public var beginRequest(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * The AuthenticateRequest event signals that the configured authentication mechanism has authenticated 
+	 * the current request. Subscribing to the AuthenticateRequest event ensures that the request will be 
+	 * authenticated before processing the attached module or event handler.
+	 */
+	//public var authenticateRequest(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * The PostAuthenticateRequest event is raised after the AuthenticateRequest event has occurred. 
+	 * Functionality that subscribes to the PostAuthenticateRequest event can access any data that is 
+	 * processed by the PostAuthenticateRequest.
+	 */
+	//public var postAuthenticateRequest(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when a security module has verified user authorization
+	 */
+	//public var authorizeRequest(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * Occurs when the user for the current request has been authorized.
+	 */
+	//public var postAuthorizeRequest(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * Occurs to let the caching modules serve requests from the cache, bypassing execution of the event 
+	 * handler (for example, a page or an XML Web service).
+	 */
+	public var resolveRequestCache(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when execution of the current event handler is bypassed and allows a caching module to 
+	 * serve a request from the cache.
+	 */
+	public var postResolveRequestCache(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when a request handler is selected to respond to the request.
+	 */
+	public var mapRequestHandler(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when the current request is mapped to the appropriate event handler.
+	 */
+	public var postMapRequestHandler(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when the current state (for example, session state) that is associated with the current 
+	 * request is acquired.
+	 */
+	public var acquireRequestState(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when the request state (for example, session state) that is associated with the current 
+	 * request has been obtained.
+	 */
+	public var postAcquireRequestState(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * Occurs just before executing an event handler (for example, a page or an XML Web service).
+	 */
+	public var preRequestHandlerExecute(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when the event handler (for example, a page or an XML Web service) finishes execution.
+	 */
+	public var postRequestHandlerExecute(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs after ASP.NET finishes executing all request event handlers. This event causes state 
+	 * modules to save the current state data.
+	 */
+	public var releaseRequestState(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when all request event handlers have completed executing and the request state data has been stored.
+	 */
+	public var postReleaseRequestState(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * Occurs when an event handler finishes execution in order to let caching modules store responses that will 
+	 * be used to serve subsequent requests from the cache.
+	 */
+	public var updateRequestCache(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when caching modules are finished updating and storing responses that are used to serve subsequent 
+	 * requests from the cache.
+	 */
+	public var postUpdateRequestCache(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs just before any logging is performed for the current request.
+	 */
+	public var logRequest(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs when all the event handlers for the LogRequest event has completed processing.
+	 */
+	public var postLogRequest(default, null) : Dispatcher<HttpApplication>;
+
+	/**
+	 * Occurs as the last event in the HTTP pipeline chain of execution when responding to a request.
+	 */
+	public var endRequest(default, null) : Dispatcher<HttpApplication>;
+	
+	/**
+	 * Occurs when an unhandled exception is thrown.
+	 */
+	public var applicationError(default, null) : Dispatcher<{ application : HttpApplication, error : Error}>;
+	
+	///// End Events /////
+		
 	public function new(?httpContext : HttpContext)
 	{                    
-		if(null == httpContext)
-			httpContext = HttpContext.createWebContext();
-		this.httpContext = httpContext;
-		onBegin = new Dispatcher();
-		onEnd = new Dispatcher();
+		this.httpContext = (httpContext == null) ? HttpContext.createWebContext() : httpContext;
 		
-		onResolveCache = new Dispatcher();
-		onAfterResolveCache = new Dispatcher();
-		onHandler = new Dispatcher();
-		onAfterHandler = new Dispatcher();
-		onUpdateCache = new Dispatcher();
-		onAfterUpdateCache = new Dispatcher();
-		onLog = new Dispatcher();
-		onAfterLog = new Dispatcher();
-		onError = new Dispatcher();
+		beginRequest = new Dispatcher();
+		
+		resolveRequestCache = new Dispatcher();		
+		postResolveRequestCache = new Dispatcher();
+
+		mapRequestHandler = new Dispatcher();
+		postMapRequestHandler = new Dispatcher();
+		
+		acquireRequestState = new Dispatcher();
+		postAcquireRequestState = new Dispatcher();
+		
+		preRequestHandlerExecute = new Dispatcher();
+		postRequestHandlerExecute = new Dispatcher();
+		
+		releaseRequestState = new Dispatcher();
+		postReleaseRequestState = new Dispatcher();
+		
+		updateRequestCache = new Dispatcher();
+		postUpdateRequestCache = new Dispatcher();
+		
+		logRequest = new Dispatcher();
+		postLogRequest = new Dispatcher();
+		
+		endRequest = new Dispatcher();
+		
+		applicationError = new Dispatcher();
 		
 		modules = new List();
+	
 		_completed = false;
-		_dispatching = false;
-		routes = new RoutesCollection();
-		
+		_dispatching = false;		
 	}
 	
 	public function init()
-	{
+	{		
+		// Set default modules to the routing module if it doesn't exist.
+		if (modules.length == 0)
+			modules.add(new UrlRoutingModule(RouteTable.routes));
+		
 		// wire modules
 		for (module in modules)
 			_initModule(module);
 		
-		_dispatch(onBegin);
-		_dispatch(onResolveCache);
-		_dispatch(onAfterResolveCache);
-		_dispatch(onHandler);   
+		_dispatch(beginRequest);		
+		_dispatch(resolveRequestCache);
+		_dispatch(postResolveRequestCache);
 		
-		_executeRoute();
+		_dispatch(mapRequestHandler);
+		_dispatch(postMapRequestHandler);
 		
-		_dispatch(onAfterHandler);
-		_dispatch(onUpdateCache);
-		_dispatch(onAfterUpdateCache);
-		_dispatch(onLog);
-		_dispatch(onAfterLog);
+		_dispatch(acquireRequestState);
+		_dispatch(postAcquireRequestState);
 		
+		_dispatch(preRequestHandlerExecute);
+		_dispatch(postRequestHandlerExecute);
+		
+		_dispatch(releaseRequestState);
+		_dispatch(postReleaseRequestState);
+		
+		_dispatch(updateRequestCache);
+		_dispatch(postUpdateRequestCache);
+
+		_dispatch(logRequest);
+		_dispatch(postLogRequest);
+
 		// flush contents
 		_flush();
 		
 		// this event is always dispatched no matter what
 		_dispatchEnd();
 	}
-	           
-	
-	function _executeRoute() 
-	{               
-		try
-		{                               
-			// triggers any associated action
-			httpContext.getRequestUri();
-			for(route in routes)
-			{
-				var data = route.getRouteData(httpContext);            
-				if(null == data)
-					continue;    
-				var requestContext = new RequestContext(httpContext, data, routes);  
-				var handler = data.routeHandler.getHttpHandler(requestContext); 
-				handler.processRequest(httpContext);
-				return;
-			} 
-			throw new PageNotFoundError();               
-		} catch(e : Dynamic) {
-			_dispatchError(e);
-		}
-	}
-	
 	
 	function _flush()
 	{
@@ -143,8 +251,10 @@ class HttpApplication
 	{
 		try 
 		{
-			onEnd.dispatch(this);
-		} catch(e : Dynamic) {
+			endRequest.dispatch(this);
+		} 
+		catch (e : Dynamic)
+		{
 			_dispatchError(e);
 		}
 	}
@@ -153,11 +263,19 @@ class HttpApplication
 	{
 		if (_completed)
 			return;
+		
 		_dispatching = true;
 		try 
 		{
 			dispatcher.dispatch(this);
-		} catch(e : Dynamic) {
+		}
+		catch (e : EventException)
+		{
+			// EventException is only thrown by completeRequest() 
+			// to leave the event chain immediately. Do nothing here.
+		}
+		catch (e : Dynamic)
+		{
 			_dispatchError(e);
 		}
 		_dispatching = false;
@@ -168,12 +286,16 @@ class HttpApplication
 		var event = { 
 			application : this,
 			error : Std.is(e, Error) ? e : new Error(Std.string(e))
-		};  
-		if(!onError.has()) 
+		}; 
+		
+		if(!applicationError.has())
 		{
 			throw event.error;
-		} else
-			onError.dispatch(event);
+		}
+		else
+		{
+			applicationError.dispatch(event);
+		}
 	}
 	
 	
@@ -188,7 +310,7 @@ class HttpApplication
 	{
 		_completed = true;
 		if(_dispatching)
-			throw StopPropagation;
+			throw EventException.StopPropagation;
 	}
 
 	function getRequest() return httpContext.request

@@ -9,7 +9,7 @@ import ufront.web.routing.IRouteConstraint;
 import thx.collections.HashList;     
 import thx.collections.UHash; 
 
-class RoutesCollection
+class RouteCollection
 {
 	var _routes : Array<RouteBase>;
 	public function new()

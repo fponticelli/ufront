@@ -39,7 +39,24 @@ class TestHttpApplication extends HttpApplication
 		
 		init();
 		
-		Assert.same(["begin", "resolvecache", "afterresolvecache", "handler", "afterhandler", "updatecache", "afterupdatecache", "log", "afterlog", "end"], mock.triggeredEvents);
+		var eventChain = ["begin",
+						"resolvecache",
+						"afterresolvecache",
+						"handler",
+						"afterhandler",
+						"acquireRequestState",
+						"postAcquireRequestState",
+						"preRequestHandlerExecute",
+						"postRequestHandlerExecute",
+						"releaseRequestState",
+						"postReleaseRequestState",
+						"updatecache",
+						"afterupdatecache",
+						"log",
+						"afterlog",
+						"end"];
+		
+		Assert.same(eventChain, mock.triggeredEvents);
 		Assert.isFalse(mock.disposed);
 		
 		dispose();
@@ -52,9 +69,7 @@ class TestHttpApplication extends HttpApplication
 		modules.add(mock);
 		init();
 		Assert.same(["begin", "resolvecache", "afterresolvecache", "handler", "end"], mock.triggeredEvents);
-	} 
-	
-	override function _executeRoute();
+	}	
 }
 
 private class MockEventsModule implements IHttpModule
@@ -73,22 +88,30 @@ private class MockEventsModule implements IHttpModule
 	{
 		var events = triggeredEvents;
 		var crashonhandler = crashOnHandler;
-		application.onBegin.add(function (_) events.push("begin"));
-		application.onEnd.add(function (_) events.push("end"));
 		
-		application.onResolveCache.add(function (_) events.push("resolvecache"));
-		application.onAfterResolveCache.add(function (_) events.push("afterresolvecache"));
-		application.onHandler.add(function (_)
+		application.beginRequest.add(function (_) events.push("begin"));
+		
+		application.resolveRequestCache.add(function (_) events.push("resolvecache"));
+		application.postResolveRequestCache.add(function (_) events.push("afterresolvecache"));
+		application.mapRequestHandler.add(function (_)
 		{
 			events.push("handler");
 			if(crashonhandler)
 				application.completeRequest();
 		});
-		application.onAfterHandler.add(function (_) events.push("afterhandler"));
-		application.onUpdateCache.add(function (_) events.push("updatecache"));
-		application.onAfterUpdateCache.add(function (_) events.push("afterupdatecache"));
-		application.onLog.add(function (_) events.push("log"));
-		application.onAfterLog.add(function (_) events.push("afterlog"));
+		application.postMapRequestHandler.add(function (_) events.push("afterhandler"));
+		application.acquireRequestState.add(function (_) events.push("acquireRequestState"));
+		application.postAcquireRequestState.add(function (_) events.push("postAcquireRequestState"));
+		application.preRequestHandlerExecute.add(function (_) events.push("preRequestHandlerExecute"));
+		application.postRequestHandlerExecute.add(function (_) events.push("postRequestHandlerExecute"));
+		application.releaseRequestState.add(function (_) events.push("releaseRequestState"));
+		application.postReleaseRequestState.add(function (_) events.push("postReleaseRequestState"));
+		application.updateRequestCache.add(function (_) events.push("updatecache"));
+		application.postUpdateRequestCache.add(function (_) events.push("afterupdatecache"));
+		application.logRequest.add(function (_) events.push("log"));
+		application.postLogRequest.add(function (_) events.push("afterlog"));
+		
+		application.endRequest.add(function (_) events.push("end"));
 	}
 	
 	public function dispose()
