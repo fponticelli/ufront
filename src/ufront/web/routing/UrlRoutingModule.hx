@@ -16,13 +16,13 @@ class UrlRoutingModule implements IHttpModule
 	
 	public function new(?routeCollection : RouteCollection)
 	{
-		this.routeCollection = routeCollection != null ? routeCollection : new RouteCollection();
+		this.routeCollection = (routeCollection != null) ? routeCollection : new RouteCollection();
 	}
 	
 	public function init(application : HttpApplication) : Void
 	{
-		application.postMapRequestHandler.add(setHttpHandler);
-		application.postResolveRequestCache.add(executeHttpHandler);
+		application.postResolveRequestCache.add(setHttpHandler);
+		application.postMapRequestHandler.add(executeHttpHandler);
 	}
 	
 	function setHttpHandler(application : HttpApplication)
@@ -34,12 +34,12 @@ class UrlRoutingModule implements IHttpModule
 			var data = route.getRouteData(httpContext);
 			if (data == null) continue;
 			
-			var requestContext = new RequestContext(httpContext, data);
+			var requestContext = new RequestContext(httpContext, data);					
 			httpHandler = data.routeHandler.getHttpHandler(requestContext);
-			
+						
 			return;
 		}
-		
+
 		throw new PageNotFoundError();
 	}
 	
