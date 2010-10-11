@@ -15,16 +15,16 @@ class DefaultControllerFactory implements IControllerFactory {
 	}
 	
 	public function createController(requestContext : RequestContext, controllerName : String) : IController
-	{      
-	    var cls = UString.ucfirst(controllerName);
+	{
+	    var cls = UString.ucfirst(controllerName) + "Controller";
 		for (pack in _controllerBuilder.packages())
 		{
-			var fullname = pack + "." + cls;
+			var fullname = pack + "." + cls;			
 			var type = Type.resolveClass(fullname);
 			
 			if (type != null)
 			{
-				var controller = Type.createInstance(type, []); // TODO: Dependency injection support
+				var controller = Type.createInstance(type, []); // TODO: Dependency injection support				
 				if (Std.is(controller, IController)) return controller;
 			}
 		}

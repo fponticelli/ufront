@@ -39,7 +39,8 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = factory.createController(TestAll.getRequestContext(), "MockController");
+		// Note that "Controller" is auto-appended.
+		var controller = factory.createController(TestAll.getRequestContext(), "Mock");
 		Assert.notNull(controller);
 		Assert.is(controller, ufront.web.mvc.MockController);
 	}
@@ -51,7 +52,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = factory.createController(TestAll.getRequestContext(), "MockController");
+		var controller = factory.createController(TestAll.getRequestContext(), "Mock");
 		Assert.notNull(controller);
 		Assert.is(controller, ufront.web.mvc.test.MockController);
 	}
@@ -62,7 +63,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = cast(factory.createController(TestAll.getRequestContext(), "MockController"), ufront.web.mvc.MockController);
+		var controller = cast(factory.createController(TestAll.getRequestContext(), "Mock"), ufront.web.mvc.MockController);
 		Assert.isFalse(controller.disposed);
 		factory.releaseController(controller);
 		Assert.isTrue(controller.disposed);		
@@ -77,7 +78,7 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder);
 		
-		var controller = cast(factory.createController(TestAll.getRequestContext(), "MockController"), ufront.web.mvc.test.MockController);
+		var controller = cast(factory.createController(TestAll.getRequestContext(), "Mock"), ufront.web.mvc.test.MockController);
 		Assert.isFalse(controller.disposed);
 		factory.releaseController(controller);
 		Assert.isFalse(controller.disposed);		
@@ -98,6 +99,6 @@ class TestDefaultControllerFactory
 		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
-		Assert.raises(function() factory.createController(TestAll.getRequestContext(), "FakeController"), Error);
+		Assert.raises(function() factory.createController(TestAll.getRequestContext(), "Fake"), Error);
 	}
 }
