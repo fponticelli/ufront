@@ -118,7 +118,12 @@ class MethodInvoker
 			var result : ActionResult = cast returnValue;    
 			result.executeResult(controllerContext);
 		}
-		              
+		else if(returnValue != null && controllerContext != null && controllerContext.response != null)
+		{
+			// Write the returnValue to response.
+			controllerContext.response.write(Std.string(returnValue));
+		}
+				              
 		return true;
 	} 
 	
