@@ -3,6 +3,6 @@ import ufront.web.routing.RequestContext;
 
 interface IControllerFactory 
 {
-	public function createController(requestContext : RequestContext, controllerName : String) : Controller; 
-	public function releaseController(controller : Controller) : Void;
+	public function createController(requestContext : RequestContext, controllerName : String) : IController;
+	public function releaseController(controller : IController) : Void;
 }

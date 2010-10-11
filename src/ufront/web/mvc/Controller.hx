@@ -7,7 +7,7 @@ import ufront.web.mvc.ControllerContext;
 import ufront.web.routing.RequestContext;
 import ufront.web.mvc.Controller;
 
-class Controller implements haxe.rtti.Infos
+class Controller implements haxe.rtti.Infos, implements IController
 {                               
 	static inline var DEFAULT_ACTION = "index";
    

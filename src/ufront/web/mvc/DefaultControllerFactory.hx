@@ -14,24 +14,24 @@ class DefaultControllerFactory implements IControllerFactory {
 		_controllerBuilder = controllerBuilder;
 	}
 	
-	/**
-	 *  @todo check on IController should be made before instantiating
-	 */
-	public function createController(requestContext : RequestContext, controllerName : String) : Controller
+	public function createController(requestContext : RequestContext, controllerName : String) : IController
 	{      
 	    var cls = UString.ucfirst(controllerName);
 		for (pack in _controllerBuilder.packages())
 		{
 			var fullname = pack + "." + cls;
 			var type = Type.resolveClass(fullname);
-			if(null == type || !UType.hasSuperClass(type, Controller))
-				continue; 
-			return Type.createInstance(type, []);
+			
+			if (type != null)
+			{
+				var controller = Type.createInstance(type, []); // TODO: Dependency injection support
+				if (Std.is(controller, IController)) return controller;
+			}
 		}
 		return throw new Error("unable to find a class for the controller {0}", controllerName);
 	}
 	
-	public function releaseController(controller : Controller)
+	public function releaseController(controller : IController)
 	{
 		var f = Reflect.field(controller, "dispose");
 		if(null != f)
