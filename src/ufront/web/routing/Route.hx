@@ -64,6 +64,13 @@ class Route extends RouteBase
 	override function getRouteData(httpContext : HttpContext) : RouteData 
 	{
 		var requesturi = httpContext.getRequestUri();
+
+		#if php
+		// Strip the php file from the beginning of the url.
+		if (requesturi.toLowerCase().startsWith("/index.php/"))
+			requesturi = requesturi.substr(10);
+		#end
+		
 		if(!requesturi.startsWith("/"))
 			throw new Error("invalid requestUri '{0}'", requesturi);
 		
@@ -73,9 +80,11 @@ class Route extends RouteBase
 		}
 		
 		var params = extractor.extract(requesturi);
+				
 		if(null == params)
 			return null;
-	    else {                                       
+	    else
+		{
 			var r = httpContext.request;
 		    params = params.copyTo(r.query.copyTo(r.post.copyTo(defaults.clone())));
 			if(!processConstraints(httpContext, params, UrlDirection.IncomingUrlRequest))

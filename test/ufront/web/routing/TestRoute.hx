@@ -358,4 +358,24 @@ class TestRoute extends BaseTest
 		Assert.isFalse(data.data.exists("a"));
 		Assert.isFalse(data.data.exists("b"));
 	}
+	
+	#if php
+	public function testStripPhpIndexFile()
+	{
+		var route = createRoute("/{a}/{b}");
+		var data = route.getRouteData(createContext("/index.php/nr1/nr2"));
+		
+		Assert.equals("nr1", data.data.get("a"));
+		Assert.equals("nr2", data.data.get("b"));
+	}
+	
+	public function testStripPhpIndexFileUppercase()
+	{
+		var route = createRoute("/{a}/{b}");
+		var data = route.getRouteData(createContext("/INDEX.PHP/nr1/nr2"));
+		
+		Assert.equals("nr1", data.data.get("a"));
+		Assert.equals("nr2", data.data.get("b"));
+	}
+	#end
 }
