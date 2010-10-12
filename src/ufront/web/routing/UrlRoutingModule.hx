@@ -6,7 +6,7 @@ import ufront.web.IHttpHandler;
 import ufront.web.IHttpModule;
 
 /**
- * ...
+ * Gets an IHttpHandler from the routing and executes it in the HttpApplication context.
  * @author Andreas Soderlund
  */
 class UrlRoutingModule implements IHttpModule

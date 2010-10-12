@@ -11,7 +11,8 @@ class TestAll
     	TestRoute.addTests(runner);              
 		TestRouteParamExtractor.addTests(runner);  
     	TestRouteUriParser.addTests(runner);  
-    	TestRouteUriGeneration.addTests(runner);  
+    	TestRouteUriGeneration.addTests(runner);
+		TestUrlRoutingModule.addTests(runner);
 	}
 	
 	public static function main()

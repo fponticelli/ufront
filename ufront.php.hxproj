@@ -18,6 +18,7 @@
     <class path="..\core\src" />
     <class path="..\htemplate\src" />
     <class path="..\utest\src" />
+    <class path="..\umock\src" />
   </classpaths>
   <!-- Build options -->
   <build>
