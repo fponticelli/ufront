@@ -1,4 +1,5 @@
 package ufront.web.mvc.view;
+import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.view.HTemplateViewEngine;
 import ufront.web.mvc.ViewContext;
@@ -21,7 +22,18 @@ class HTemplateData
 		if(null == alt)
 			alt = "";
 		return data.exists(key) ? data.get(key) : alt;
-	}  
+	}
+	
+	public function exists(key : String) 
+	{
+		return data.exists(key);
+	}                           
+	
+	public function set(key : String, value : Dynamic) 
+	{
+		data.set(key, value);
+	}
+	
 	
 	public function has(value : Dynamic, key : String)
 	{
@@ -95,8 +107,8 @@ class HTemplateData
 	{           
 		var h = template.templateVars;
 		h.set("get",      get);
-		h.set("set",      data.set);
-		h.set("exists",   data.exists); 
+		h.set("set",      set);
+		h.set("exists",   exists); 
 		h.set("has",      has); 
 		h.set("include",  include);
 		h.set("notempty", notempty);
@@ -105,26 +117,9 @@ class HTemplateData
 		h.set("wrap",     wrap);
 	}   
 	
-	public function registerHelper(name : String, helperInstance : IViewHelper)
+	public function registerHelper(name : String, helperInstance : Dynamic)
 	{           
-		var h = template.templateVars;
-		var carrier : Dynamic;
-		if(null == name || "" == name) 
-		{ 
-		    for(field in helperInstance.getHelperFieldNames()) 
-				h.set(field, Reflect.field(helperInstance, field));
-		} else {  
-			if(h.exists(name))
-				return;
-			var carrier = {};
-			h.set(name, carrier);                     
-			for(field in helperInstance.getHelperFieldNames()) {  
-				var value = Reflect.field(helperInstance, field);
-				if(Reflect.isFunction(value))
-					Reflect.setField(carrier, field, Reflect.makeVarArgs(function(args) return Reflect.callMethod(helperInstance, value, args)));
-				else
-					Reflect.setField(carrier, field, value);
-			}
-		}
+	    NullArgument.throwIfNull(name, "name");
+		template.templateVars.set(name, helperInstance);
 	}
 }

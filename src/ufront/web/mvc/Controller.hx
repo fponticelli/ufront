@@ -1,5 +1,4 @@
-package ufront.web.mvc;
-import ufront.web.mvc.view.IViewHelper;
+package ufront.web.mvc;              
 import ufront.web.error.PageNotFoundError;
 import ufront.web.HttpContext;
 import thx.error.Error;
@@ -38,7 +37,7 @@ class Controller implements haxe.rtti.Infos, implements IController
 			_handleUnknownAction(action);
 	} 
 	
-	public function getViewHelpers() : Array<{ name : Null<String>, helper : IViewHelper }>
+	public function getViewHelpers() : Array<{ name : Null<String>, helper : Dynamic }>
 	{
 		return [];
 	}

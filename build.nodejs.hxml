@@ -12,5 +12,6 @@
 -js bin/nodejs.js
 -main TestAll  
 -D htemplate                  
--D nodejs
+-D nodejs           
+-D hxculture
 -cmd time node bin/nodejs.js

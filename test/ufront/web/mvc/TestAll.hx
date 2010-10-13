@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import ufront.web.mvc.view.TestHTemplateData;
                        
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.Route;
@@ -15,7 +16,8 @@ class TestAll
 	{                                                  
 		TestController.addTests(runner);
 		TestDefaultControllerFactory.addTests(runner); 
-		TestViewResult.addTests(runner);
+		TestViewResult.addTests(runner); 
+		TestHTemplateData.addTests(runner);
 	}
 	
 	public static function main()

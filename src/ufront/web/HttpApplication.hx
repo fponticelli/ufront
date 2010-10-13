@@ -222,6 +222,7 @@ class HttpApplication
 
 		// flush contents
 		_flush();
+		_dispatch(onAfterSendContent);
 		
 		// this event is always dispatched no matter what
 		_dispatchEnd();

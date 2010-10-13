@@ -172,10 +172,19 @@ class HttpRequest extends ufront.web.HttpRequest
 		return clientIP;
 	}
 	
+	/**
+	 *  @todo the page processor removal is quite hackish
+	 */
 	override function getUri()
 	{
-		if (null == uri)
-			uri = new String(_get_uri());
+		if (null == uri) {
+			uri = new String(_get_uri()); 
+			if(uri.endsWith(".n")) {
+				var p = uri.split("/");
+				p.pop();
+				uri = p.join("/") + "/";
+			}
+		}
 		return uri;
 	}
 	
