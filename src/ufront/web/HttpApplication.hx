@@ -11,7 +11,6 @@ import ufront.web.error.PageNotFoundError;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.RouteCollection;
 import ufront.web.routing.UrlRoutingModule;
-import ufront.web.routing.RouteTable;
 
 import thx.error.Error;
 
@@ -190,10 +189,6 @@ class HttpApplication
 	
 	public function init()
 	{		
-		// Set default modules to the routing module if it doesn't exist.
-		if (modules.length == 0)
-			modules.add(new UrlRoutingModule(RouteTable.routes));
-		
 		// wire modules
 		for (module in modules)
 			_initModule(module);
@@ -221,8 +216,7 @@ class HttpApplication
 		_dispatch(postLogRequest);
 
 		// flush contents
-		_flush();
-		_dispatch(onAfterSendContent);
+		_flush();                                 
 		
 		// this event is always dispatched no matter what
 		_dispatchEnd();

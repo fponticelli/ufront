@@ -1,4 +1,6 @@
 package ufront.web.module;            
+import ufront.web.routing.UrlRoutingModule;
+import ufront.web.routing.RouteCollection;
 import thx.error.Error;
 import ufront.web.error.InternalServerError;
 import ufront.web.error.HttpError;
@@ -20,7 +22,7 @@ class ErrorModule implements IHttpModule
 	}
 	public function init(application : HttpApplication)
 	{
-		application.onError.add(_onError);
+		application.applicationError.add(_onError);
 	}                                     
 	/**
 	* TODO: add discrimination about the kind of error  
@@ -47,7 +49,20 @@ class ErrorModule implements IHttpModule
 				action : action,
 				error : haxe.Serializer.run(httpError) 
 			}.createHash());
-		var requestContext = new RequestContext(e.application.httpContext, routeData, e.application.routes);
+		
+		var requestContext : RequestContext = null;
+		
+		for(module in e.application.modules)
+		{
+			if(Std.is(module, UrlRoutingModule))
+			{
+				var umodule : UrlRoutingModule = cast module;
+				requestContext = new RequestContext(e.application.httpContext, routeData, umodule.routeCollection);
+				break;
+			}
+		} 
+		if(null == requestContext)
+			requestContext = new RequestContext(e.application.httpContext, routeData, new RouteCollection());
 		
 		controller.execute(requestContext);
 	}

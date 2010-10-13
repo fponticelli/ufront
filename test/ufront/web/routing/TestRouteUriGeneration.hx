@@ -60,7 +60,7 @@ class TestRouteUriGeneration extends BaseTest
 							 			        { path : "/a/x/s/n.y", pos : here()}]}, 
 			{ uri : "/a/x{?*b?}y",      test : [{ path : "/a/x/y/y",   pos : here()},
 							 		            { path : "/a",         pos : here()}]},  
-		   	{ uri : "/a/x{?*b}y",       test : [{ path : "/a/xy/ay",    pos : here()},
+		   	{ uri : "/a/x{?*b}y",       test : [{ path : "/a/xy/ay",   pos : here()},
 							 		 	        { path : "/a/y",       pos : here()}]}, 
 			{ uri : "/a/x{*b?}y",       test : [{ path : "/a/x/y/y",   pos : here()},
 							 		 	        { path : "/a/x",       pos : here()}]},

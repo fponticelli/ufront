@@ -66,7 +66,7 @@ class UrlHelper
 			data.action = action;      
         
 //		trace(data);
-		for(route in requestContext.routes.iterator())
+		for(route in requestContext.routeData.route.routes.iterator())
 		{                  
 //			trace(route);
 			var url = route.getPath(requestContext.httpContext, UHash.createHash(data));       

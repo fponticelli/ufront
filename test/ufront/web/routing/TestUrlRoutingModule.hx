@@ -6,7 +6,9 @@ import ufront.web.HttpContext;
 import ufront.web.HttpContextMock;
 import ufront.web.HttpRequestMock;
 import ufront.web.IHttpHandler;
+#if umock
 import umock.Mock;
+#end
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
@@ -35,7 +37,7 @@ class TestUrlRoutingModule extends HttpApplication
 	{ 
 		super(httpContext != null ? httpContext : new HttpContextMock());
 	}
-	
+#if umock	
 	public function testEventWiring()
 	{
 		var httpHandler = new Mock<IHttpHandler>(IHttpHandler);
@@ -82,5 +84,6 @@ class TestUrlRoutingModule extends HttpApplication
 		app.modules.add(new UrlRoutingModule(routes));
 		
 		return app;
-	}
+	}    
+#end
 }

@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import ufront.web.routing.RouteCollection;
 import ufront.web.mvc.view.TestHTemplateData;
                        
 import ufront.web.mvc.MvcRouteHandler;
@@ -31,9 +32,11 @@ class TestAll
 	public static function getRequestContext()
 	{
 		var routeHandler = new MvcRouteHandler();
-		var route = new Route("/", routeHandler);
+		var route = new Route("/", routeHandler);  
+		var routes = new RouteCollection();
+		routes.add(route);
 		var context = new HttpContextMock();
 		var routeData = new RouteData(route, routeHandler, new Hash());
-		return new RequestContext(context, routeData);
+		return new RequestContext(context, routeData, routes);
 	}
 }
