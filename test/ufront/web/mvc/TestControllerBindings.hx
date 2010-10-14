@@ -74,7 +74,7 @@ class TestController extends Controller
 		Assert.same(expectedEnum, test);
 	}
 	
-	public function bindDate(date : Date)
+	public function bindDate(?date : Date)
 	{
 		Assert.same(expectedDate, date);
 	}
@@ -203,6 +203,21 @@ class TestControllerBindings
 		context.routeData.data.set("date", "Millenium");
 		
 		controller.expectedDate = Date.fromString("2000-01-01");
+		
+		controller.execute(context);
+	}
+	
+	public function testCustomBinderFailedBind()
+	{
+		var binders = new ModelBinderDictionary();
+		binders.add(Date, new SpecialDateBinder());
+		
+		controller.invoker = new ControllerActionInvoker(binders);
+		
+		context.routeData.data.set("action", "bindDate");
+		context.routeData.data.set("date", "Some other value");
+		
+		controller.expectedDate = null;
 		
 		controller.execute(context);
 	}
