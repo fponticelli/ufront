@@ -14,6 +14,19 @@ import ufront.web.mvc.test.MockController;
 import ufront.web.mvc.MockController; 
 import ufront.web.mvc.Controller;
 
+class SpecialDateBinder implements IModelBinder
+{
+	public function new();
+	
+	public function bindModel(controllerContext : ControllerContext, bindingContext : ModelBindingContext) : Dynamic
+	{
+		var value = bindingContext.valueProvider.getValue(bindingContext.modelName);
+		
+		if (value.attemptedValue == "Millenium") return Date.fromString("2000-01-01");
+		else return null;
+	}
+}
+
 class DataModel implements Infos
 {
 	public function new();
@@ -36,6 +49,7 @@ class TestController extends Controller
 	public var expected : { id : Int, number : Null<Float>, optional : Null<Bool>, arr : Null<Array<Int>> };
 	public var expectedModel : DataModel;
 	public var expectedEnum : TestEnum;
+	public var expectedDate : Date;
 	
 	public function new()
 	{
@@ -58,6 +72,11 @@ class TestController extends Controller
 	public function bindEnum(?test : TestEnum)
 	{
 		Assert.same(expectedEnum, test);
+	}
+	
+	public function bindDate(date : Date)
+	{
+		Assert.same(expectedDate, date);
 	}
 }
 
@@ -170,6 +189,21 @@ class TestControllerBindings
 		context.routeData.data.set("test", "InvalidValue");
 		
 		controller.expectedEnum = null;
+		controller.execute(context);
+	}
+	
+	public function testCustomBinder()
+	{
+		var binders = new ModelBinderDictionary();
+		binders.add(Date, new SpecialDateBinder());
+		
+		controller.invoker = new ControllerActionInvoker(binders);
+		
+		context.routeData.data.set("action", "bindDate");
+		context.routeData.data.set("date", "Millenium");
+		
+		controller.expectedDate = Date.fromString("2000-01-01");
+		
 		controller.execute(context);
 	}
 }

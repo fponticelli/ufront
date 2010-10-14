@@ -31,14 +31,14 @@ class ModelBinderDictionary
 	public var values(getValues, null) : Iterator<IModelBinder>;
 	private function getValues() { return _innerDictionary.iterator(); }
 	
-	public function add(key : String, value : IModelBinder)
+	public function add(key : Dynamic, value : IModelBinder)
 	{
-		_innerDictionary.set(key, value);
+		_innerDictionary.set(typeString(key), value);
 	}
 	
-	public function remove(key : String)
+	public function remove(key : Dynamic)
 	{
-		_innerDictionary.remove(key);
+		_innerDictionary.remove(typeString(key));
 	}
 	
 	public function clear()
@@ -53,21 +53,29 @@ class ModelBinderDictionary
 		return Lambda.exists(_innerDictionary, function(binder : IModelBinder) { return binder == item; } );
 	}
 	
-	public function containsKey(type : String)
+	public function containsKey(key : Dynamic)
 	{
-		return _innerDictionary.exists(type);
+		return _innerDictionary.exists(typeString(key));
 	}
 
-	public function getBinder(type : String, ?fallbackBinder : IModelBinder, ?fallbackToDefault = true) : IModelBinder
+	public function getBinder(type : Dynamic, ?fallbackBinder : IModelBinder, ?fallbackToDefault = true) : IModelBinder
 	{
 		// Try to look up a binder for this type. We use this order of precedence:
 		// 1. Binder registered in the global table
 		// TODO: 2. Binder attribute defined on the type
 		// 3. Supplied fallback binder
 		
-		if (containsKey(type)) return _innerDictionary.get(type);
+		if (containsKey(type)) return _innerDictionary.get(typeString(type));
 		
 		return fallbackBinder != null ? fallbackBinder : (fallbackToDefault ? defaultBinder : null);
+	}
+	
+	function typeString(type : Dynamic) : String
+	{
+		if (Std.is(type, String)) return cast type;
+		if (Std.is(type, Class)) return Type.getClassName(cast type);
+		
+		throw "Couldn't find a binder class for " + type;
 	}
 	
 	public function iterator()
