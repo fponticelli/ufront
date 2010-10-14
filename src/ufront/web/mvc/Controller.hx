@@ -5,25 +5,42 @@ import thx.error.Error;
 import ufront.web.routing.RequestContext;
 import ufront.web.mvc.Controller;
 
+/**
+ * The invoker property (IActionInvoker) must be set to use execute().
+ */
 class Controller extends ControllerBase
 {
-	public var _invoker : IActionInvoker;
+	private var _invoker : IActionInvoker;
+	public var invoker(getInvoker, setInvoker) : IActionInvoker;
+	private function getInvoker()
+	{
+		if (_invoker == null)
+			_invoker = new ControllerActionInvoker(ModelBinders.binders);
+			
+		return _invoker;
+	}
+	private function setInvoker(i : IActionInvoker)
+	{
+		_invoker = i;
+		return _invoker;
+	}
 	
-	public function new(?invoker : IActionInvoker)
+	public function new()
 	{
 		super();
-		
-		_invoker = (invoker != null) ? invoker : new ControllerActionInvoker();
 	}
 	
 	override function executeCore()
 	{
+		if(invoker == null)
+			throw new Error("No IActionInvoker set on controller '" + Type.getClassName(Type.getClass(this)) + "'");
+		
 		var action = controllerContext.routeData.get("action");
 		
 		if(null == action)
 			throw new Error("No 'action' data found on route.");
 
-		if(!_invoker.invokeAction(controllerContext, action))
+		if(!invoker.invokeAction(controllerContext, action))
 			_handleUnknownAction(action);
 	}
 		
@@ -31,9 +48,9 @@ class Controller extends ControllerBase
 	{
 		var error = "<unknown reason>";
 		
-		if (Std.is(_invoker, ControllerActionInvoker))
+		if (Std.is(invoker, ControllerActionInvoker))
 		{
-			var i = cast(_invoker, ControllerActionInvoker);
+			var i = cast(invoker, ControllerActionInvoker);
 			error = i.error.toString();
 		}			
 		

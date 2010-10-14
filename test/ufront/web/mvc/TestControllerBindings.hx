@@ -53,8 +53,11 @@ class TestControllerBindings
 	
 	public function setup()
 	{
-		controller = new TestController();
 		context = TestAll.getRequestContext();
+		controller = new TestController();
+
+		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
 	}
 	
 	public function testControllerArguments1()
@@ -64,6 +67,7 @@ class TestControllerBindings
 		context.routeData.data.set("id", "1");
 		context.routeData.data.set("number", "0.1");
 		context.routeData.data.set("optional", "YES");
+		
 		controller.execute(context);
 	}
 	
@@ -72,6 +76,7 @@ class TestControllerBindings
 		controller.expected = { id : -1, number : null, optional : null, arr : null };
 		
 		context.routeData.data.set("id", "-1");
+		
 		controller.execute(context);
 	}
 	
@@ -81,17 +86,19 @@ class TestControllerBindings
 		
 		context.routeData.data.set("id", "-1");
 		context.routeData.data.set("arr", "2,1,0");
+		
 		controller.execute(context);
 	}
 	
 	public function testInvalidArgument()
 	{
 		// The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'Int' for method 
-		// 'System.Web.Mvc.ActionResult Edit(Int)' in 'name.space.ControllerName'.
+		// 'Edit(Int)' in 'name.space.ControllerName'.
 		// An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
 		try
 		{
 			controller.execute(context);
+			
 			Assert.fail("No invalid arguments found.");
 		}
 		catch (e : Error)

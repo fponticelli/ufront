@@ -17,7 +17,6 @@
     <class path="test" />
     <class path="..\core\src" />
     <class path="..\htemplate\src" />
-    <class path="..\uform\src" />
     <class path="..\utest\src" />
     <class path="..\umock\src" />
   </classpaths>

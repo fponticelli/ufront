@@ -16,13 +16,13 @@ typedef ParameterDescriptor = {
 
 class ControllerActionInvoker implements IActionInvoker
 {                               
-	public function new()
+	public function new(binders : ModelBinderDictionary)
 	{
-		// TODO: Remove singleton
-		binders = ModelBinders.binders;
+		this.binders = binders;
 	} 
 	
 	public var binders : ModelBinderDictionary;
+	public var valueProvider : IValueProvider;
 	
 	public var error(default, null) : Error;   
 	
@@ -38,6 +38,12 @@ class ControllerActionInvoker implements IActionInvoker
 		);
 		
 		return binder.bindModel(controllerContext, bindingContext);
+	}
+	
+	function getModelBinder(parameter : ParameterDescriptor)
+	{
+		// TODO: Look on the parameter itself, then look in binders.
+		return binders.getBinder(parameter.type);
 	}
 	
 	function getParameters(controllerContext : ControllerContext, argsinfo : List<{t: CType, opt: Bool, name: String}>)
@@ -125,13 +131,7 @@ class ControllerActionInvoker implements IActionInvoker
 				              
 		return true;
 	}
-	
-	function getModelBinder(parameter : ParameterDescriptor)
-	{
-		// TODO: Look on the parameter itself, then look in the global table.
-		return binders.getBinder(parameter.type);
-	}
-	
+		
 #if php
 	static var _mapper : Set<String>; 
     static function __init__()

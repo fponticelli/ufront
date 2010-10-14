@@ -1,8 +1,9 @@
 package ufront.web.mvc;
 
+import thx.error.Error;
+import thx.error.NullArgument;
 import ufront.web.routing.RequestContext;
 import ufront.web.mvc.ControllerContext;
-//import ufront.web.mvc.view.IViewHelper;
 
 /**
  * ...
@@ -10,41 +11,38 @@ import ufront.web.mvc.ControllerContext;
  */
 
 class ControllerBase implements IController, implements haxe.rtti.Infos
-{
+{	
+	/**
+	 * If null, this value is automatically created in execute().
+	 */
 	public var controllerContext : ControllerContext;
-	
+
 	var _valueProvider : IValueProvider;
 	public var valueProvider(getValueProvider, setValueProvider) : IValueProvider;
 	private function getValueProvider()
 	{
 		if (_valueProvider == null)
-		{
-			// TODO: Move away from singleton
-			_valueProvider = ValueProviders.providers(controllerContext);
-		}
-		
-		return _valueProvider;
-	}	
-	private function setValueProvider(v : IValueProvider)
+			_valueProvider = ValueProviderFactories.factories.getValueProvider(controllerContext);
+			
+		return _valueProvider;			
+	}
+	private function setValueProvider(valueProvider : IValueProvider)
 	{
-		_valueProvider = v;
+		_valueProvider = valueProvider;
 		return _valueProvider;
 	}
-	
-	public function new() { }
+			
+	public function new() {}
 
-	private function executeCore() { throw "Must be overridden in subclass."; }
+	private function executeCore() { throw "executeCore() must be overridden in subclass."; }
 	
 	public function execute(requestContext : RequestContext) : Void
 	{
-		controllerContext = new ControllerContext(this, requestContext);
+		NullArgument.throwIfNull(requestContext, "requestContext");
+		
+		if(controllerContext == null)
+			controllerContext = new ControllerContext(this, requestContext);
+
 		executeCore();
 	}
-	
-	/*
-	public function getViewHelpers() : Array<{ name : Null<String>, helper : IViewHelper }>
-	{
-		return [];
-	}
-	*/
 }
