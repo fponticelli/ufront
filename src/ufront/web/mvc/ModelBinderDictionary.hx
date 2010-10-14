@@ -31,14 +31,14 @@ class ModelBinderDictionary
 	public var values(getValues, null) : Iterator<IModelBinder>;
 	private function getValues() { return _innerDictionary.iterator(); }
 	
-	public function add(key : Class<Dynamic>, value : IModelBinder)
+	public function add(key : String, value : IModelBinder)
 	{
-		_innerDictionary.set(Type.getClassName(key), value);
+		_innerDictionary.set(key, value);
 	}
 	
-	public function remove(key : Class<Dynamic>)
+	public function remove(key : String)
 	{
-		_innerDictionary.remove(Type.getClassName(key));
+		_innerDictionary.remove(key);
 	}
 	
 	public function clear()
@@ -53,19 +53,20 @@ class ModelBinderDictionary
 		return Lambda.exists(_innerDictionary, function(binder : IModelBinder) { return binder == item; } );
 	}
 	
-	public function containsKey(type : Class<Dynamic>)
+	public function containsKey(type : String)
 	{
-		return _innerDictionary.exists(Type.getClassName(type));
+		return _innerDictionary.exists(type);
 	}
 
-	public function getBinder(type : Class<Dynamic>, ?fallbackBinder : IModelBinder, ?fallbackToDefault = true) : IModelBinder
+	public function getBinder(type : String, ?fallbackBinder : IModelBinder, ?fallbackToDefault = true) : IModelBinder
 	{
 		// Try to look up a binder for this type. We use this order of precedence:
 		// 1. Binder registered in the global table
 		// TODO: 2. Binder attribute defined on the type
 		// 3. Supplied fallback binder
 		
-		if (containsKey(type)) return _innerDictionary.get(Type.getClassName(type));
+		if (containsKey(type)) return _innerDictionary.get(type);
+		
 		return fallbackBinder != null ? fallbackBinder : (fallbackToDefault ? defaultBinder : null);
 	}
 	

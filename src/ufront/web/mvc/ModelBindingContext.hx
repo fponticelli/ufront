@@ -8,15 +8,15 @@ import haxe.rtti.CType;
 class ModelBindingContext 
 {
 	public var modelName : String;
-	public var modelType : Class<Dynamic>;
-	public var modelTypeInfo : CType;
+	public var modelType : String;
 	public var valueProvider : IValueProvider;
+	public var ctype : CType;
 
-	public function new(modelName : String, modelType : Class<Dynamic>, modelTypeInfo : CType, valueProvider : IValueProvider)
+	public function new(modelName : String, modelType : String, valueProvider : IValueProvider, ?ctype : CType)
 	{
 		this.modelName = modelName;
 		this.modelType = modelType;
-		this.modelTypeInfo = modelTypeInfo;
 		this.valueProvider = valueProvider;
+		this.ctype = ctype;
 	}	
 }

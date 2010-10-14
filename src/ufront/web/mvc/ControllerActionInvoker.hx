@@ -8,12 +8,6 @@ import ufront.web.mvc.ControllerContext;
 import haxe.rtti.CType;         
 import thx.collections.Set;  
 
-typedef ParameterDescriptor = {
-	var name : String;
-	var type : Class<Dynamic>;
-	var info : CType;
-}
-
 class ControllerActionInvoker implements IActionInvoker
 {                               
 	public function new(binders : ModelBinderDictionary)
@@ -32,9 +26,9 @@ class ControllerActionInvoker implements IActionInvoker
 				
 		var bindingContext = new ModelBindingContext(
 			parameter.name, 
-			parameter.type, 
-			parameter.info,
-			controllerContext.controller.valueProvider
+			parameter.type,
+			controllerContext.controller.valueProvider,
+			parameter.ctype
 		);
 		
 		return binder.bindModel(controllerContext, bindingContext);
@@ -55,9 +49,9 @@ class ControllerActionInvoker implements IActionInvoker
 		
 		for(info in argsinfo)
 		{
-			// TODO: Avoid resolving for speed?
-			var type = Type.resolveClass(URtti.typeName(info.t, info.opt));
-			var value = getParameterValue(controllerContext, { name: info.name, type: type, info: info.t } );
+			// URtti.typeName is always called with false since the ValueProviderResult doesn't care about nullable.
+			var parameter = new ParameterDescriptor(info.name, URtti.typeName(info.t, false), info.t);
+			var value = getParameterValue(controllerContext, parameter);
 			
 			if(null == value)
 			{
@@ -72,12 +66,7 @@ class ControllerActionInvoker implements IActionInvoker
 			}
 			else
 			{
-				var argvalue = ValueProviderResult.convertSimpleType(value, info.t);
-				if(null == argvalue)
-				{
-					throw new Error("the string '{0}' can't be converted into a value of type {1}", [value, URtti.typeName(info.t, false)]);
-				}
-				arguments.push(argvalue);
+				arguments.push(value);
 			}
 		}
 		

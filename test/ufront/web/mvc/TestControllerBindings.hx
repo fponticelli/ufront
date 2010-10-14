@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import haxe.rtti.Infos;
 import thx.error.Error;
 import ufront.web.mvc.TestDefaultControllerFactory;
 import ufront.web.routing.RequestContext;
@@ -12,9 +13,20 @@ import ufront.web.mvc.test.MockController;
 import ufront.web.mvc.MockController; 
 import ufront.web.mvc.Controller;
 
+class DataModel implements Infos
+{
+	public function new();
+	
+	public var id : Int;
+	public var name : String;
+	public var active : Bool;
+	public var email : Null<String>;
+}
+
 class TestController extends Controller
 {
 	public var expected : { id : Int, number : Null<Float>, optional : Null<Bool>, arr : Null<Array<Int>> };
+	public var expectedModel : DataModel;
 	
 	public function new()
 	{
@@ -27,6 +39,11 @@ class TestController extends Controller
 		Assert.equals(expected.number, number);
 		Assert.equals(expected.optional, optional);
 		Assert.same(expected.arr, arr);
+	}
+	
+	public function bind(model : DataModel)
+	{
+		Assert.same(expectedModel, model);
 	}
 }
 
@@ -105,5 +122,22 @@ class TestControllerBindings
 		{
 			Assert.equals("argument id cannot be null", e.inner.params[0]);
 		}		
+	}
+	
+	public function testComplexModelBinding()
+	{
+		var model = new DataModel();
+		model.active = true;
+		model.id = 100;
+		model.name = "Mocked";
+		
+		context.routeData.data.set("action", "bind");
+		
+		context.routeData.data.set("id", "100");
+		context.routeData.data.set("active", "true");
+		context.routeData.data.set("name", "Mocked");
+		
+		controller.expectedModel = model;
+		controller.execute(context);
 	}
 }

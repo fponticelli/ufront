@@ -6,12 +6,41 @@ import thx.type.URtti;
 
 /**
  * ...
- * @author Andreas Soderlund
+ * @author Franco Ponticelli
  */
 
 class ValueProviderResult 
 {
-	static var _jugglers : Hash<String -> Dynamic>;
+	static function __init__()
+	{
+		jugglers = new Hash();
+		    
+		registerTypeJuggler("String", function(s : String) return s);
+		registerTypeJuggler("Int",   Std.parseInt);
+		registerTypeJuggler("Float", Std.parseFloat);
+		registerTypeJuggler("Date", Date.fromString); 
+		registerTypeJuggler("Bool",  function(s : String) {
+			switch(s.toLowerCase())
+			{
+				case "true", "1", "yes", "y", "ok", "on":
+					return true;
+				case "false", "0", "no", "n", "off":     
+					return false;
+				default:
+					return null;					
+			}
+		});
+
+		// Arrays
+		registerTypeJuggler("Array", callback(arraySplitter, "String"));
+		registerTypeJuggler("Array<String>", callback(arraySplitter, "String"));
+		registerTypeJuggler("Array<Int>", callback(arraySplitter, "Int"));
+		registerTypeJuggler("Array<Float>", callback(arraySplitter, "Float"));
+		registerTypeJuggler("Array<Bool>", callback(arraySplitter, "Bool"));
+		registerTypeJuggler("Array<Date>", callback(arraySplitter, "Date"));		
+	}
+	
+	public static var jugglers : Hash<String -> Dynamic>;
 
 	public var rawValue(default, null) : Dynamic;
 	public var attemptedValue(default, null) : String;
@@ -28,7 +57,7 @@ class ValueProviderResult
 		var parts = s.split(",");
 		for(part in parts)
 		{
-			var juggler = _jugglers.get(type); 
+			var juggler = jugglers.get(type); 
 			if(null == juggler)
 				return null;
 			var value = juggler(part);
@@ -41,13 +70,12 @@ class ValueProviderResult
 	
 	public static function registerTypeJuggler(typeName : String, method : String -> Dynamic)
 	{
-		_jugglers.set(typeName, method);
+		jugglers.set(typeName, method);
 	}                                   
 	       
-	public static function getTypeJuggler(t : CType)
+	public static function getTypeJuggler(t : String)
 	{                               
-		var type = URtti.typeName(t, false);
-		return _jugglers.get(type);   
+		return jugglers.get(t);
 	}
 	
 	static function _ctypeCheck(value : Dynamic, t : CType)
@@ -106,42 +134,28 @@ class ValueProviderResult
 		return true;
 	}
 	
-	static function initJugglers()
+	public static function convertSimpleType(value : String, t : String) : Dynamic
 	{
-		_jugglers = new Hash();
-		    
-		registerTypeJuggler("String", function(s : String) return s);
-		registerTypeJuggler("Int",   Std.parseInt);
-		registerTypeJuggler("Float", Std.parseFloat);
-		registerTypeJuggler("Bool",  function(s : String) {
-			switch(s.toLowerCase())
-			{
-				case "true", "1", "yes", "y", "ok", "on":
-					return true;
-				case "false", "0", "no", "n", "off":     
-					return false;
-				default:
-					return null;
-					
-			}
-		});    
-		registerTypeJuggler("Date", Date.fromString); 
-
-		// Arrays
-		registerTypeJuggler("Array<String>", callback(arraySplitter, "String"));
-		registerTypeJuggler("Array<Int>", callback(arraySplitter, "Int"));
-		registerTypeJuggler("Array<Float>", callback(arraySplitter, "Float"));
-		registerTypeJuggler("Array<Bool>", callback(arraySplitter, "Bool"));
-		registerTypeJuggler("Array<Date>", callback(arraySplitter, "Date"));		
+		var juggler = getTypeJuggler(t);
+		if (juggler == null) return null;
+		
+		try {
+			return juggler(value);
+		} catch(e : Dynamic) {
+			return null;
+		}
 	}
 	
-	public static function convertSimpleType(value : String, t : CType) : Dynamic
+	public static function convertSimpleTypeRtti(value : String, t : CType, ?unserialize = false) : Dynamic
 	{
-		if (_jugglers == null) initJugglers();
+		//trace("SimpleTypeRtti converting " + value + " to " + URtti.typeName(t, false));
 		
-		var juggler = getTypeJuggler(t);
-		if(null == juggler) 
-		{                             
+		var juggler = getTypeJuggler(URtti.typeName(t, false));
+		
+		if(juggler == null)
+		{
+			if (!unserialize) return null;
+			
 			var v;
 			// try haxe deserialization
 			try
@@ -154,7 +168,8 @@ class ValueProviderResult
 				return v;
 			else
 				return null;
-		} else    
+		}
+		else
 		{
 			try {
 				return juggler(value);
