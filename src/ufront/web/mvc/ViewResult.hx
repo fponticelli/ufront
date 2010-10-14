@@ -30,7 +30,7 @@ class ViewResult extends ActionResult
 			result = findView(context, viewName);   
             this.view = result.view;
 		}   
-		var viewContext = new ViewContext(context, view, result.viewEngine, viewData, context.controller.getViewHelpers());   
+		var viewContext = new ViewContext(context, view, result.viewEngine, viewData, []);// context.controller.getViewHelpers());   
 		
 		var r = null;
 		try {

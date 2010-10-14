@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin" />
+    <movie path="d:\Projects\Haxe\Sandbox\www" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
@@ -17,10 +17,9 @@
     <class path="test" />
     <class path="..\core\src" />
     <class path="..\htemplate\src" />
-    <class path="..\hxculture\src" />
-    <class path="..\hxevents\src" />
     <class path="..\uform\src" />
     <class path="..\utest\src" />
+    <class path="..\umock\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -28,11 +27,13 @@
     <option flashStrict="False" />
     <option mainClass="TestAll" />
     <option enabledebug="False" />
-    <option additional="htemplate" />
+    <option additional="" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
-    <!-- example: <library name="..." /> -->
+    <library name="hxevents" />
+    <library name="hxculture" />
+    <library name="hscript" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>

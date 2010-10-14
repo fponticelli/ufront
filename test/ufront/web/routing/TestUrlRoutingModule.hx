@@ -40,7 +40,7 @@ class TestUrlRoutingModule extends HttpApplication
 #if umock	
 	public function testEventWiring()
 	{
-		var httpHandler = new Mock<IHttpHandler>(IHttpHandler);
+		var httpHandler = new Mock<IHttpHandler>(IHttpHandler);		
 		var app = setupRequest("/", ["/"], httpHandler);
 		
 		// Run the app
