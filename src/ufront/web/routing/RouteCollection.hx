@@ -12,9 +12,10 @@ import thx.collections.UHash;
 class RouteCollection
 {
 	var _routes : Array<RouteBase>;
-	public function new()
+	
+	public function new(?routes : Array<RouteBase>)
 	{
-		_routes = [];
+		_routes = (routes == null) ? [] : routes;
 	}
 
 	public function add(route : RouteBase)

@@ -65,12 +65,6 @@ class Route extends RouteBase
 	{
 		var requesturi = httpContext.getRequestUri();
 
-		#if php
-		// Strip the php file from the beginning of the url.
-		if (requesturi.toLowerCase().startsWith("/index.php/"))
-			requesturi = requesturi.substr(10);
-		#end
-		
 		if(!requesturi.startsWith("/"))
 			throw new Error("invalid requestUri '{0}'", requesturi);
 		
