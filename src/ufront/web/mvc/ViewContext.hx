@@ -13,7 +13,7 @@ import ufront.web.mvc.Controller;
 
 class ViewContext 
 {    
-	public var controller(default, null) : Controller; 
+	public var controller(default, null) : ControllerBase; 
 	public var controllerContext(default, null) : ControllerContext; 
 	public var httpContext(default, null) : HttpContext;
 	public var requestContext(default, null) : RequestContext;

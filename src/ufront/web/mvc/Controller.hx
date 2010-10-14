@@ -1,50 +1,42 @@
 package ufront.web.mvc;
-import ufront.web.mvc.view.IViewHelper;
 import ufront.web.error.PageNotFoundError;
 import ufront.web.HttpContext;
 import thx.error.Error;
-import ufront.web.mvc.ControllerContext;
 import ufront.web.routing.RequestContext;
 import ufront.web.mvc.Controller;
 
-class Controller implements haxe.rtti.Infos, implements IController
-{                               
-	static inline var DEFAULT_ACTION = "index";
-   
-	var _invoker : MethodInvoker;
-	var _defaultAction : String;
-	public function new()
+class Controller extends ControllerBase
+{
+	public var _invoker : IActionInvoker;
+	
+	public function new(?invoker : IActionInvoker)
 	{
-		_invoker = new MethodInvoker(); 
-		_defaultAction = DEFAULT_ACTION;
+		super();
+		
+		_invoker = (invoker != null) ? invoker : new ControllerActionInvoker();
 	}
 	
-	public var httpContext(default, null) : HttpContext;
-	
-	public function execute(requestContext : RequestContext)
-	{          
-		httpContext = requestContext.httpContext;
-		
-		var context = new ControllerContext(this, requestContext);
-		
-		var action = requestContext.routeData.get("action");   
+	override function executeCore()
+	{
+		var action = controllerContext.routeData.get("action");
 		
 		if(null == action)
-		{
-			requestContext.routeData.data.set("action", action = _defaultAction);
-		}  
+			throw new Error("No 'action' data found on route.");
 
-		if(!_invoker.invoke(this, action, context))
+		if(!_invoker.invokeAction(controllerContext, action))
 			_handleUnknownAction(action);
-	} 
-	
-	public function getViewHelpers() : Array<{ name : Null<String>, helper : IViewHelper }>
-	{
-		return [];
 	}
-	
+		
 	function _handleUnknownAction(action : String)
 	{
-		throw new PageNotFoundError().setInner(new Error("action can't be executed because {0}", [_invoker.error.toString()]));
+		var error = "<unknown reason>";
+		
+		if (Std.is(_invoker, ControllerActionInvoker))
+		{
+			var i = cast(_invoker, ControllerActionInvoker);
+			error = i.error.toString();
+		}			
+		
+		throw new PageNotFoundError().setInner(new Error("action can't be executed because {0}", [error]));
 	} 
 }

@@ -13,9 +13,10 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{                                                  
-		TestController.addTests(runner);
+		TestControllerBindings.addTests(runner);
 		TestDefaultControllerFactory.addTests(runner); 
 		TestViewResult.addTests(runner);
+		TestValueProviders.addTests(runner);
 	}
 	
 	public static function main()
@@ -28,10 +29,13 @@ class TestAll
 	
 	public static function getRequestContext()
 	{
+		var data = new Hash<String>();
+		data.set("action", "index");
+		
 		var routeHandler = new MvcRouteHandler();
 		var route = new Route("/", routeHandler);
 		var context = new HttpContextMock();
-		var routeData = new RouteData(route, routeHandler, new Hash());
+		var routeData = new RouteData(route, routeHandler, data);
 		return new RequestContext(context, routeData);
 	}
 }

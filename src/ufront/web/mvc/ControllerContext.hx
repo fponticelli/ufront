@@ -9,7 +9,7 @@ import ufront.web.routing.RequestContext;
 
 class ControllerContext
 {
-	public var controller : Controller;
+	public var controller : ControllerBase;
 	public var requestContext : RequestContext;
 	public var httpContext : HttpContext;
 	public var routeData : RouteData; 
@@ -17,7 +17,7 @@ class ControllerContext
 	public var response : HttpResponse;
 	public var session : IHttpSessionState;
 
-	public function new(controller : Controller, requestContext : RequestContext)
+	public function new(controller : ControllerBase, requestContext : RequestContext)
 	{
 		this.controller = controller;
 		this.requestContext = requestContext;                                   

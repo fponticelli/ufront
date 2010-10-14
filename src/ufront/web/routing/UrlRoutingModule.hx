@@ -34,9 +34,9 @@ class UrlRoutingModule implements IHttpModule
 			var data = route.getRouteData(httpContext);
 			if (data == null) continue;
 			
-			var requestContext = new RequestContext(httpContext, data);					
+			var requestContext = new RequestContext(httpContext, data);
 			httpHandler = data.routeHandler.getHttpHandler(requestContext);
-						
+			
 			return;
 		}
 
@@ -44,7 +44,7 @@ class UrlRoutingModule implements IHttpModule
 	}
 	
 	function executeHttpHandler(application : HttpApplication)
-	{
+	{		
 		httpHandler.processRequest(application.httpContext);
 	}
 	

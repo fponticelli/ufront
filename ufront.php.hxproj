@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin" />
+    <movie path="d:\Projects\Haxe\Sandbox\www" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
