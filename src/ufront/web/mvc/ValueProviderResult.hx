@@ -134,6 +134,15 @@ class ValueProviderResult
 		return true;
 	}
 	
+	public static function convertEnum<T>(value : String, e : Enum<T>) : T
+	{
+		try {
+			return Type.createEnum(e, value);
+		} catch (e : Dynamic) {
+			return null;
+		}
+	}
+	
 	public static function convertSimpleType(value : String, t : String) : Dynamic
 	{
 		var juggler = getTypeJuggler(t);

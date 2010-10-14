@@ -3,6 +3,7 @@ import haxe.rtti.Infos;
 import thx.error.Error;
 import ufront.web.mvc.TestDefaultControllerFactory;
 import ufront.web.routing.RequestContext;
+import ufront.web.routing.TestUrlRoutingModule;
 
 import utest.Assert;
 import utest.Runner;
@@ -23,10 +24,18 @@ class DataModel implements Infos
 	public var email : Null<String>;
 }
 
+enum TestEnum
+{
+	First;
+	Second;
+	Third;
+}
+
 class TestController extends Controller
 {
 	public var expected : { id : Int, number : Null<Float>, optional : Null<Bool>, arr : Null<Array<Int>> };
 	public var expectedModel : DataModel;
+	public var expectedEnum : TestEnum;
 	
 	public function new()
 	{
@@ -44,6 +53,11 @@ class TestController extends Controller
 	public function bind(model : DataModel)
 	{
 		Assert.same(expectedModel, model);
+	}
+	
+	public function bindEnum(?test : TestEnum)
+	{
+		Assert.same(expectedEnum, test);
 	}
 }
 
@@ -138,6 +152,24 @@ class TestControllerBindings
 		context.routeData.data.set("name", "Mocked");
 		
 		controller.expectedModel = model;
+		controller.execute(context);
+	}
+	
+	public function testEnumBinding()
+	{
+		context.routeData.data.set("action", "bindEnum");		
+		context.routeData.data.set("test", "First");
+		
+		controller.expectedEnum = TestEnum.First;
+		controller.execute(context);
+	}
+		
+	public function testFailedEnumBinding()
+	{
+		context.routeData.data.set("action", "bindEnum");
+		context.routeData.data.set("test", "InvalidValue");
+		
+		controller.expectedEnum = null;
 		controller.execute(context);
 	}
 }

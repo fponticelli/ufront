@@ -35,13 +35,19 @@ class DefaultModelBinder implements IModelBinder
 			else
 				return ValueProviderResult.convertSimpleType(value.attemptedValue, typeName);
 		}
+		
+		var enumType = Type.resolveEnum(typeName);
+		if (enumType != null)
+		{
+			return ValueProviderResult.convertEnum(value.attemptedValue, enumType);
+		}
 
 		//trace("Complex bind: Key '" + bindingContext.modelName + "' (" + typeName + ")");
 		
 		// TODO: Binding for Enums
 		var classType = Type.resolveClass(typeName);
 		
-		if (classType == null) throw new Error("Could not bind to class " + typeName);		
+		if (classType == null) throw new Error("Could not bind to class " + typeName);
 		if (!URtti.hasInfo(classType)) return null;
 		
 		var model = Type.createInstance(classType, []);
