@@ -39,21 +39,22 @@ class Controller extends ControllerBase
 		
 		if(null == action)
 			throw new Error("No 'action' data found on route.");
-
 		if(!invoker.invokeAction(controllerContext, action))
 			_handleUnknownAction(action);
 	}
 		
 	function _handleUnknownAction(action : String)
-	{
-		var error = "<unknown reason>";
+	{    
+		var error = new PageNotFoundError();
 		
 		if (Std.is(invoker, ControllerActionInvoker))
 		{
 			var i = cast(invoker, ControllerActionInvoker);
-			error = i.error.toString();
-		}			
+			error.setInner(i.error);
+		} else {
+			error.setInner(new Error("action can't be executed because {0}", "<unknown reason>"));
+		}   		
 		
-		throw new PageNotFoundError().setInner(new Error("action can't be executed because {0}", [error]));
+		throw error;
 	} 
 }

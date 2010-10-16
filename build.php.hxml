@@ -9,6 +9,7 @@
 -cp src
 -cp test
 -lib hscript
+-lib umock
 -php bin
 -main TestAll  
 -D htemplate                                     

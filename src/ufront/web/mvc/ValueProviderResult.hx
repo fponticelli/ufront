@@ -187,4 +187,9 @@ class ValueProviderResult
 			}
 		}
 	}
+	
+	public function toString()
+	{
+		return "ValueProviderResult { rawValue : " + Std.string(rawValue) + ", attemptedValue : " + Std.string(attemptedValue) + "}";
+	}
 }

@@ -8,7 +8,8 @@
 -cp test
 -lib hscript
 -lib hxevents
--lib utest
+-lib utest     
+-lib umock
 -neko bin/index.n
 -main TestAll  
 -D htemplate        

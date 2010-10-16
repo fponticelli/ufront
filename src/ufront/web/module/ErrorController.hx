@@ -15,7 +15,7 @@ class ErrorController extends Controller
 	    
 	function _errorView(error : HttpError)
 	{                               
-		httpContext.response.status = error.code;
+		controllerContext.httpContext.response.status = error.code;
 		var view = new ViewResult();
 		view.viewName = "error";
 		view.viewData.set("title", error.toString());   
@@ -50,7 +50,7 @@ class ErrorController extends Controller
 	function _errorStack() : Array<String>
 	{
 		var arr = [];
-		var stack = haxe.Stack.callStack();
+		var stack = haxe.Stack.exceptionStack();
 		stack.pop();
 		stack = stack.slice(2);
 		for(item in stack)      

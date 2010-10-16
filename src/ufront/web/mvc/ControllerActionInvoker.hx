@@ -74,7 +74,7 @@ class ControllerActionInvoker implements IActionInvoker
 	}
 	
 	public function invokeAction(controllerContext : ControllerContext, actionName : String) : Bool
-	{        
+	{      
 		error = null; 
 		
 		var controller = controllerContext.controller;
@@ -89,15 +89,15 @@ class ControllerActionInvoker implements IActionInvoker
 
 			if(!method.isPublic)
 				throw new Error("action {0} must be a public method", actionName);
-				
+			   
 			var argsinfo = URtti.methodArguments(method);
 			if(null == argsinfo)
-				throw new Error("action {0} is not a method", actionName);
-			
+				throw new Error("action {0} is not a method", actionName); 
+
 			arguments = getParameters(controllerContext, argsinfo);
 		}
 		catch (e : Error)
-		{
+		{   
 			error = e;
 			return false;
 		}

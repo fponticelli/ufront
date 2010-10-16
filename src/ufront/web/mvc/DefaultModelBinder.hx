@@ -20,7 +20,7 @@ class DefaultModelBinder implements IModelBinder
 		if (value == null || value.rawValue == null)
 		{
 			//trace("Key '" + bindingContext.modelName + "' (" + typeName + ") not found in valueprovider.");
-		}
+		} 
 				
 		if (isSimpleType(typeName))
 		{
@@ -48,6 +48,17 @@ class DefaultModelBinder implements IModelBinder
 		var classType = Type.resolveClass(typeName);
 		
 		if (classType == null) throw new Error("Could not bind to class " + typeName);
+		
+		// TODO: check this is correct
+		if (null != value.rawValue)
+		{                    
+			try 
+			{
+				var v = haxe.Unserializer.run(value.rawValue);
+				if(Std.is(v, classType))
+					return v;
+			} catch(e : Dynamic){ }
+		}
 		if (!URtti.hasInfo(classType)) return null;
 		
 		var model = Type.createInstance(classType, []);

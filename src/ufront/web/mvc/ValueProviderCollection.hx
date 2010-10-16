@@ -31,7 +31,7 @@ class ValueProviderCollection extends List<IValueProvider>, implements IValuePro
 	public function getValue(key : String) : ValueProviderResult 
 	{
 		for (v in this)
-		{
+		{   
 			var output = v.getValue(key);
 			if (output != null) return output;
 		}

@@ -21,5 +21,9 @@ class ParameterDescriptor
 		this.ctype = ctype;
 	}
 	
+	public function toString()
+	{
+		return "ParameterDescriptor { name : " + name + ", type : " + type + ", ctype : " + ctype + "}";
+	}
 	// TODO: Attributes through metadata
 }

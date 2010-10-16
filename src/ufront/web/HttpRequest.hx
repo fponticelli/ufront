@@ -33,13 +33,13 @@ class HttpRequest
 	 * The parameters are collected in the following order:                    
 	 * - query-string parameters
 	 * - post values
-	 * - cookies
+	 * - cookies                    
 	 */
- 	public var params(getParams, null) : Hash<String>;
+ 	public var params(getParams, null) : CascadeHash<String>;
  	function getParams()
  	{
  		if (null == params)
- 			params = CascadeHash.create([new Hash(), query, post, cookies]);
+ 			params = new CascadeHash([new Hash(), query, post, cookies]);
  		return params;
  	}
 

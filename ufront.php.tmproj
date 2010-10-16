@@ -3,9 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/ufront/web/module/TraceModule.hx</string>
+	<string>test/ufront/web/mvc/TestValueProviders.hx</string>
 	<key>documents</key>
 	<array>
+		<dict>
+			<key>name</key>
+			<string>assets</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>assets</string>
+		</dict>
+		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>bin</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>bin</string>
+		</dict>
 		<dict>
 			<key>filename</key>
 			<string>build.neko.hxml</string>
@@ -25,14 +43,6 @@
 			<date>2010-09-14T18:12:13Z</date>
 		</dict>
 		<dict>
-			<key>name</key>
-			<string>assets</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>assets</string>
-		</dict>
-		<dict>
 			<key>expanded</key>
 			<true/>
 			<key>name</key>
@@ -41,16 +51,6 @@
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>src</string>
-		</dict>
-		<dict>
-			<key>expanded</key>
-			<true/>
-			<key>name</key>
-			<string>bin</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>bin</string>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -67,36 +67,6 @@
 	<integer>244</integer>
 	<key>metaData</key>
 	<dict>
-		<key>bin/lib/php/ufront/web/HttpRequest.class.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>27</integer>
-				<key>line</key>
-				<integer>238</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>206</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>21</integer>
-				<key>line</key>
-				<integer>238</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>27</integer>
-				<key>line</key>
-				<integer>238</integer>
-			</dict>
-		</dict>
 		<key>build.neko.hxml</key>
 		<dict>
 			<key>caret</key>
@@ -155,20 +125,6 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>src/nodejs/ufront/web/FileSession.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>2</integer>
-				<key>line</key>
-				<integer>18</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>src/php/ufront/web/HttpResponse.hx</key>
 		<dict>
 			<key>caret</key>
@@ -204,30 +160,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>99</integer>
+				<integer>13</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>41</integer>
-			<key>selectFrom</key>
+			<integer>1</integer>
+		</dict>
+		<key>src/ufront/web/HttpContext.hx</key>
+		<dict>
+			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>36</integer>
 				<key>line</key>
-				<integer>99</integer>
+				<integer>20</integer>
 			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>25</integer>
-				<key>line</key>
-				<integer>99</integer>
-			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>8</integer>
 		</dict>
 		<key>src/ufront/web/HttpResponseBase.hx</key>
 		<dict>
@@ -262,30 +216,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>34</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>63</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
+			<integer>6</integer>
 		</dict>
 		<key>src/ufront/web/module/TraceModule.hx</key>
 		<dict>
@@ -295,34 +233,6 @@
 				<integer>19</integer>
 				<key>line</key>
 				<integer>16</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>src/ufront/web/mvc/MethodInvoker.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>13</integer>
-				<key>line</key>
-				<integer>119</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>68</integer>
-		</dict>
-		<key>src/ufront/web/mvc/ViewResult.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>52</integer>
-				<key>line</key>
-				<integer>38</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -385,42 +295,114 @@
 			<key>firstVisibleLine</key>
 			<integer>88</integer>
 		</dict>
-		<key>src/ufront/web/mvc/view/TranslationHelper.hx</key>
+		<key>src/ufront/web/mvc/view/UrlHelper.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>40</integer>
+				<key>line</key>
+				<integer>68</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>16</integer>
+		</dict>
+		<key>src/ufront/web/routing/LocalizedRoute.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>24</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>42</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>15</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>24</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+		</dict>
+		<key>src/ufront/web/routing/RequestContext.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>43</integer>
+				<key>line</key>
+				<integer>22</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/routing/Route.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>65</integer>
+				<key>line</key>
+				<integer>25</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/routing/RouteBase.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/routing/RouteCollection.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>72</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/routing/RouteData.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>19</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>src/ufront/web/mvc/view/UrlHelper.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>3</integer>
-				<key>line</key>
-				<integer>77</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>21</integer>
-		</dict>
-		<key>test/TestAll.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>12</integer>
-				<key>line</key>
-				<integer>18</integer>
+				<integer>28</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -518,26 +500,26 @@
 				<key>column</key>
 				<integer>37</integer>
 				<key>line</key>
-				<integer>19</integer>
+				<integer>35</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>test/ufront/web/mvc/TestController.hx</key>
+		<key>test/ufront/web/mvc/TestValueProviders.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>51</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>0</integer>
 		</dict>
 		<key>test/ufront/web/mvc/TestViewResult.hx</key>
 		<dict>
@@ -581,6 +563,34 @@
 			<key>firstVisibleLine</key>
 			<integer>8</integer>
 		</dict>
+		<key>test/ufront/web/routing/TestRouteUriGeneration.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>67</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>17</integer>
+		</dict>
+		<key>test/ufront/web/routing/TestUrlRoutingModule.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>4</integer>
+				<key>line</key>
+				<integer>87</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>25</integer>
+		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
@@ -596,29 +606,56 @@
 		<string>test/ufront/web/HttpSessionStateMock.hx</string>
 		<string>test/ufront/web/mvc/test/MockController.hx</string>
 		<string>test/ufront/web/mvc/TestViewResult.hx</string>
-		<string>test/ufront/web/mvc/TestController.hx</string>
 		<string>test/ufront/web/TestHttpApplication.hx</string>
 		<string>src/ufront/web/module/TraceModule.hx</string>
 		<string>src/ufront/web/module/ErrorModule.hx</string>
+		<string>src/ufront/web/HttpApplication.hx</string>
+		<string>test/ufront/web/mvc/TestValueProviders.hx</string>
+		<string>src/ufront/web/routing/LocalizedRoute.hx</string>
+		<string>src/ufront/web/routing/RequestContext.hx</string>
+		<string>src/ufront/web/HttpContext.hx</string>
+		<string>src/ufront/web/routing/RouteData.hx</string>
+		<string>src/ufront/web/routing/RouteCollection.hx</string>
+		<string>src/ufront/web/routing/RouteBase.hx</string>
+		<string>test/ufront/web/routing/TestUrlRoutingModule.hx</string>
+		<string>src/ufront/web/routing/Route.hx</string>
 		<string>test/ufront/web/TestAll.hx</string>
 		<string>src/ufront/web/mvc/view/HtmlHelper.hx</string>
 		<string>src/ufront/web/mvc/view/UrlHelper.hx</string>
+		<string>test/ufront/web/routing/TestRouteUriGeneration.hx</string>
 		<string>src/ufront/web/mvc/view/HTemplateViewEngine.hx</string>
 		<string>src/ufront/web/mvc/view/HTemplateView.hx</string>
-		<string>src/ufront/web/mvc/MethodInvoker.hx</string>
-		<string>src/ufront/web/mvc/ViewResult.hx</string>
-		<string>test/TestAll.hx</string>
-		<string>bin/lib/php/ufront/web/HttpRequest.class.php</string>
-		<string>src/nodejs/ufront/web/FileSession.hx</string>
-		<string>src/ufront/web/mvc/view/TranslationHelper.hx</string>
-		<string>src/ufront/web/HttpApplication.hx</string>
 		<string>src/ufront/web/HttpResponseBase.hx</string>
 		<string>src/ufront/web/module/ErrorController.hx</string>
 		<string>src/php/ufront/web/HttpResponse.hx</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
-	<true/>
+	<false/>
+	<key>treeState</key>
+	<dict>
+		<key>bin</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
+		<key>src</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
+		<key>test</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
+	</dict>
 	<key>windowFrame</key>
-	<string>{{1524, 104}, {975, 1212}}</string>
+	<string>{{1228, 124}, {1205, 1154}}</string>
 </dict>
 </plist>
