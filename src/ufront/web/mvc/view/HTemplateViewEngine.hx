@@ -34,7 +34,9 @@ class HTemplateViewEngine implements IViewEngine
 		
 		parts[parts.length-1] = parts[parts.length-1].lcfirst();
 		
-		var controllerPath =  parts.join("/");                                          
+		var controllerPath =  parts.join("/");
+		if(controllerPath.substr(-10).toLowerCase() == "controller")
+			controllerPath = controllerPath.substr(0, -10);                                          
 		
 		var template = getTemplate(controllerContext, controllerPath + "/" + viewName);
 		if(null == template)   
