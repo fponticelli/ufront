@@ -1,9 +1,9 @@
 package ufront.web.routing;
+import ufront.web.routing.RouteCollection;
 import ufront.web.HttpContext;
 import thx.collections.UHash;
 import ufront.web.mvc.MvcRouteHandler;
 import hxculture.ITranslation;
-import ufront.web.routing.RoutesCollection;
 import thx.error.NullArgument;
 import ufront.web.routing.IRouteHandler;       
 import ufront.web.routing.RouteUriParser;   
@@ -131,7 +131,7 @@ class LocalizedRoute extends Route
 	}
 	
 	
-	public static function addLocalizedRoute(collection : RoutesCollection, translator : ITranslation, uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
+	public static function addLocalizedRoute(collection : RouteCollection, translator : ITranslation, uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
 	{
 		collection.add(
 	   		new LocalizedRoute( 

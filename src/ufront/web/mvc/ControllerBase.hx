@@ -45,4 +45,9 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 
 		executeCore();
 	}
+	
+	public function getViewHelpers() : Array<{ name : Null<String>, helper : Dynamic }>
+	{
+		return [];
+	}
 }

@@ -23,7 +23,7 @@ class TraceModule implements IHttpModule
 	{  
 		_old = haxe.Log.trace;
 		haxe.Log.trace = trace;
-		application.onSendContent.add(_sendContent);
+		application.endRequest.add(_sendContent);
 	}
 	
 	function _sendContent(application : HttpApplication)
