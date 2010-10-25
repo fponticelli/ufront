@@ -17,5 +17,5 @@ class MockController extends Controller {
 		disposed = true;
 	}
 	
-	override function execute(requestContext : RequestContext) : Void;
+	override function execute(requestContext : RequestContext, async : hxevents.Async) : Void;
 }

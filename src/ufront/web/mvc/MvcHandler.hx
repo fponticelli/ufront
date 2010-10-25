@@ -16,7 +16,7 @@ class MvcHandler implements IHttpHandler {
     	this.requestContext = requestContext;
 	}
 	
-	public function processRequest(httpContext : HttpContext)
+	public function processRequest(httpContext : HttpContext, async : hxevents.Async)
 	{                      
 		var controllerName = requestContext.routeData.getRequired("controller");  
 		var factory = controllerBuilder.getControllerFactory();
@@ -25,14 +25,10 @@ class MvcHandler implements IHttpHandler {
 			throw new BadRequestError();
 		try
 		{
-			controller.execute(requestContext);
+			controller.execute(requestContext, async);
 		} catch(e : Dynamic) {
 			factory.releaseController(controller);
-#if (php || neko)
-			Lib.rethrow(e);
-#else
-			throw e;
-#end
+			async.error(e);
 		}
 		factory.releaseController(controller);
 	}

@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import ufront.web.error.PageNotFoundError;
 
 import ufront.web.mvc.ActionResult;
 import thx.type.UType;
@@ -18,7 +19,7 @@ class ControllerActionInvoker implements IActionInvoker
 	public var binders : ModelBinderDictionary;
 	public var valueProvider : IValueProvider;
 	
-	public var error(default, null) : Error;   
+//	public var error(default, null) : Error;   
 	
 	function getParameterValue(controllerContext : ControllerContext, parameter : ParameterDescriptor) : Dynamic
 	{
@@ -40,7 +41,7 @@ class ControllerActionInvoker implements IActionInvoker
 		return binders.getBinder(parameter.type);
 	}
 	
-	function getParameters(controllerContext : ControllerContext, argsinfo : List<{t: CType, opt: Bool, name: String}>)
+	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>)
 	{
 		// TODO: ActionDescriptor, ControllerDescriptor
 		// TODO: Filters
@@ -73,15 +74,37 @@ class ControllerActionInvoker implements IActionInvoker
 		return arguments;
 	}
 	
-	public function invokeAction(controllerContext : ControllerContext, actionName : String) : Bool
+	static function isAsync(method)
+	{
+		var arguments = URtti.methodArguments(method);
+		if(0 == arguments.length)
+			return false;
+		var last = arguments.pop();
+		return switch(last.t)
+		{
+			case CFunction(args, ret): 
+				if(args.length != 1)
+					false;
+			    switch(ret) 
+				{
+					case CEnum(t, _):
+						t == "Void";
+					default:
+						false;
+				}
+			default: false;
+		}
+	}
+	
+	public function invokeAction(controllerContext : ControllerContext, actionName : String, async : hxevents.Async) : Void
 	{      
-		error = null; 
+//		error = null; 
 		
 		var controller = controllerContext.controller;
 		var fields = URtti.getClassFields(Type.getClass(controller));
 		var method = fields.get(actionName); 
 		var arguments : Array<Dynamic>;
-		
+		var isasync = isAsync(method); 
 		try
 		{
 			if(null == method)
@@ -91,6 +114,10 @@ class ControllerActionInvoker implements IActionInvoker
 				throw new Error("action {0} must be a public method", actionName);
 			   
 			var argsinfo = URtti.methodArguments(method);
+			if(isasync)
+			{
+				argsinfo.pop();
+			}
 			if(null == argsinfo)
 				throw new Error("action {0} is not a method", actionName); 
 
@@ -98,27 +125,53 @@ class ControllerActionInvoker implements IActionInvoker
 		}
 		catch (e : Error)
 		{   
-			error = e;
-			return false;
+			_handleUnknownAction(actionName, async, e);
+			return;
 		}
 		
 #if php
     	if(_mapper.exists(actionName))
 			actionName = "h" + actionName;
 #end    
-		var returnValue = Reflect.callMethod(controller, Reflect.field(controller, actionName), arguments);  
-		if(null != returnValue && Std.is(returnValue, ActionResult))
+		if(isasync)
 		{
-			var result : ActionResult = cast returnValue;    
+		 	var handler = function(value) {
+				processContent(value, controllerContext);
+				async.completed();
+			};
+			arguments.push(handler);
+			Reflect.callMethod(controller, Reflect.field(controller, actionName), arguments);
+		} else {
+			var value = Reflect.callMethod(controller, Reflect.field(controller, actionName), arguments);
+			processContent(value, controllerContext);
+			async.completed();
+		}
+	}
+	
+	static function processContent(value : Dynamic, controllerContext : ControllerContext)
+	{
+		if(null != value && Std.is(value, ActionResult))
+		{
+			var result : ActionResult = cast value;    
 			result.executeResult(controllerContext);
 		}
-		else if(returnValue != null && controllerContext != null && controllerContext.response != null)
+		else if(value != null && controllerContext != null && controllerContext.response != null)
 		{
 			// Write the returnValue to response.
-			controllerContext.response.write(Std.string(returnValue));
+			controllerContext.response.write(Std.string(value));
 		}
-				              
-		return true;
+	}
+	
+	function _handleUnknownAction(action : String, async : hxevents.Async, err : Dynamic)
+	{    
+		var error = new PageNotFoundError();
+		if (Std.is(err, Error))
+		{
+			error.setInner(err);
+		} else {
+			error.setInner(new Error("action can't be executed because {0}", Std.string(err)));
+		}   		
+		async.error(error);
 	}
 		
 #if php

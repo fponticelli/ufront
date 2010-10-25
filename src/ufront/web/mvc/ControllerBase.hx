@@ -34,16 +34,16 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 			
 	public function new() {}
 
-	private function executeCore() { throw "executeCore() must be overridden in subclass."; }
+	private function executeCore(async : hxevents.Async) { throw "executeCore() must be overridden in subclass."; }
 	
-	public function execute(requestContext : RequestContext) : Void
+	public function execute(requestContext : RequestContext, async : hxevents.Async) : Void
 	{
 		NullArgument.throwIfNull(requestContext, "requestContext");
 		
 		if(controllerContext == null)
 			controllerContext = new ControllerContext(this, requestContext);
 
-		executeCore();
+		executeCore(async);
 	}
 	
 	public function getViewHelpers() : Array<{ name : Null<String>, helper : Dynamic }>

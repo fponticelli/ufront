@@ -30,7 +30,7 @@ class Controller extends ControllerBase
 		super();
 	}
 	
-	override function executeCore()
+	override function executeCore(async : hxevents.Async)
 	{
 		if(invoker == null)
 			throw new Error("No IActionInvoker set on controller '" + Type.getClassName(Type.getClass(this)) + "'");
@@ -39,22 +39,8 @@ class Controller extends ControllerBase
 		
 		if(null == action)
 			throw new Error("No 'action' data found on route.");
-		if(!invoker.invokeAction(controllerContext, action))
-			_handleUnknownAction(action);
+	 //   if(!
+		invoker.invokeAction(controllerContext, action, async);
+	 //   	_handleUnknownAction(action, async);
 	}
-		
-	function _handleUnknownAction(action : String)
-	{    
-		var error = new PageNotFoundError();
-		
-		if (Std.is(invoker, ControllerActionInvoker))
-		{
-			var i = cast(invoker, ControllerActionInvoker);
-			error.setInner(i.error);
-		} else {
-			error.setInner(new Error("action can't be executed because {0}", "<unknown reason>"));
-		}   		
-		
-		throw error;
-	} 
 }

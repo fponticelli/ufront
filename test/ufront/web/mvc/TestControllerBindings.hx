@@ -108,6 +108,11 @@ class TestControllerBindings
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
 		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
+	} 
+	
+	function execute()
+	{
+		controller.execute(context, new hxevents.Async(function(){}));
 	}
 	
 	public function testControllerArguments1()
@@ -118,7 +123,7 @@ class TestControllerBindings
 		context.routeData.data.set("number", "0.1");
 		context.routeData.data.set("optional", "YES");
 		
-		controller.execute(context);
+		execute();
 	}
 	
 	public function testControllerArguments2()
@@ -127,7 +132,7 @@ class TestControllerBindings
 		
 		context.routeData.data.set("id", "-1");
 		
-		controller.execute(context);
+		execute();
 	}
 	
 	public function testControllerArguments3()
@@ -137,7 +142,7 @@ class TestControllerBindings
 		context.routeData.data.set("id", "-1");
 		context.routeData.data.set("arr", "2,1,0");
 		
-		controller.execute(context);
+		execute();
 	}
 	
 	public function testInvalidArgument()
@@ -147,7 +152,7 @@ class TestControllerBindings
 		// An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
 		try
 		{
-			controller.execute(context);
+			execute();
 			
 			Assert.fail("No invalid arguments found.");
 		}
@@ -171,7 +176,7 @@ class TestControllerBindings
 		context.routeData.data.set("name", "Mocked");
 		
 		controller.expectedModel = model;
-		controller.execute(context);
+		execute();
 	}
 	
 	public function testEnumBinding()
@@ -180,7 +185,7 @@ class TestControllerBindings
 		context.routeData.data.set("test", "First");
 		
 		controller.expectedEnum = TestEnum.First;
-		controller.execute(context);
+		execute();
 	}
 		
 	public function testFailedEnumBinding()
@@ -189,7 +194,7 @@ class TestControllerBindings
 		context.routeData.data.set("test", "InvalidValue");
 		
 		controller.expectedEnum = null;
-		controller.execute(context);
+		execute();
 	}
 	
 	public function testCustomBinder()
@@ -204,7 +209,7 @@ class TestControllerBindings
 		
 		controller.expectedDate = Date.fromString("2000-01-01");
 		
-		controller.execute(context);
+		execute();
 	}
 	
 	public function testCustomBinderFailedBind()
@@ -219,6 +224,6 @@ class TestControllerBindings
 		
 		controller.expectedDate = null;
 		
-		controller.execute(context);
+		execute();
 	}
 }

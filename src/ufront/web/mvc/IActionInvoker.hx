@@ -6,5 +6,5 @@ package ufront.web.mvc;
  */
 interface IActionInvoker 
 {
-	function invokeAction(controllerContext : ControllerContext, actionName : String) : Bool;
+	function invokeAction(controllerContext : ControllerContext, actionName : String, async : hxevents.Async) : Void;
 }

@@ -22,12 +22,12 @@ class ErrorModule implements IHttpModule
 	}
 	public function init(application : HttpApplication)
 	{
-		application.applicationError.add(_onError);
+		application.applicationError.addAsync(_onError);
 	}                                     
 	/**
 	* TODO: add discrimination about the kind of error  
 	*/
-	public function _onError(e : { application : HttpApplication, error : Error })
+	public function _onError(e : { application : HttpApplication, error : Error }, async)
 	{
 		var controller = getErrorController();                                                      
 		var httpError : HttpError;
@@ -64,7 +64,7 @@ class ErrorModule implements IHttpModule
 		if(null == requestContext)
 			requestContext = new RequestContext(e.application.httpContext, routeData, new RouteCollection());
 		
-		controller.execute(requestContext);
+		controller.execute(requestContext, async);
 	}
 	     
 	public function getErrorController() : Controller

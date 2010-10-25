@@ -22,7 +22,7 @@ class UrlRoutingModule implements IHttpModule
 	public function init(application : HttpApplication) : Void
 	{
 		application.postResolveRequestCache.add(setHttpHandler);
-		application.postMapRequestHandler.add(executeHttpHandler);
+		application.postMapRequestHandler.addAsync(executeHttpHandler);
 	}
 	
 	function setHttpHandler(application : HttpApplication)
@@ -43,9 +43,9 @@ class UrlRoutingModule implements IHttpModule
 		throw new PageNotFoundError();
 	}
 	
-	function executeHttpHandler(application : HttpApplication)
+	function executeHttpHandler(application : HttpApplication, async : hxevents.Async)
 	{		
-		httpHandler.processRequest(application.httpContext);
+		httpHandler.processRequest(application.httpContext, async);
 	}
 	
 	public function dispose() : Void
