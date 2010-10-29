@@ -16,7 +16,8 @@ class HttpResponse extends ufront.web.HttpResponse
 	public function new()
 	{
 		super();
-		_flushed = false;
+		_flushed = false; 
+		_init();
 	}
 	
 	override function flush()
@@ -57,10 +58,10 @@ class HttpResponse extends ufront.web.HttpResponse
 		Lib.print(_buff.toString());
 	}
 	
-	static var _set_header : Dynamic;
-	static var _set_cookie : Dynamic;
-	static var _set_return_code : Dynamic;
-	static function __init__()
+	var _set_header : Dynamic;
+	var _set_cookie : Dynamic;
+	var _set_return_code : Dynamic;
+	function _init()
 	{
 		var get_env = Lib.load("std", "get_env", 1);
 		var ver = untyped get_env("MOD_NEKO".__s);

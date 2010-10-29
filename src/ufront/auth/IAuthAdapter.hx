@@ -1,6 +1,6 @@
 package ufront.auth;
 
-interface IAuthAdapter 
+interface IAuthAdapter<T>
 {
-	public function authenticate() AuthResult;
+	public function authenticate() : AuthResult<T>;
 }

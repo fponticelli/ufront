@@ -26,7 +26,7 @@ class TestHttpApplication extends HttpApplication
 	
 	public function new()
 	{
-		var context = HttpContext.createWebContext();
+		var context = new HttpContextMock();
 		super(context);
 	}
 	

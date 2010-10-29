@@ -6,7 +6,8 @@ import utest.ui.Report;
 class TestAll
 {
 	public static function addTests(runner : Runner)
-	{
+	{                
+		ufront.auth.TestAll.addTests(runner);
 		ufront.web.TestAll.addTests(runner);
 	}
 	

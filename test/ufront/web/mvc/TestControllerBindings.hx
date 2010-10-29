@@ -114,7 +114,7 @@ class TestControllerBindings
 	{
 		controller.execute(context, new hxevents.Async(function(){}));
 	}
-	
+
 	public function testControllerArguments1()
 	{
 		controller.expected = { id : 1, number : 0.1, optional : true, arr : null };
@@ -144,24 +144,15 @@ class TestControllerBindings
 		
 		execute();
 	}
-	
+
 	public function testInvalidArgument()
 	{
 		// The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'Int' for method 
 		// 'Edit(Int)' in 'name.space.ControllerName'.
 		// An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
-		try
-		{
-			execute();
-			
-			Assert.fail("No invalid arguments found.");
-		}
-		catch (e : Error)
-		{
-			Assert.equals("argument id cannot be null", e.inner.params[0]);
-		}		
+		Assert.raises(execute, Error);  	
 	}
-	
+ 
 	public function testComplexModelBinding()
 	{
 		var model = new DataModel();
@@ -225,5 +216,5 @@ class TestControllerBindings
 		controller.expectedDate = null;
 		
 		execute();
-	}
+	}  
 }

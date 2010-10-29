@@ -13,4 +13,5 @@
 -neko bin/index.n
 -main TestAll  
 -D htemplate        
--D hxculture               
+-D hxculture 
+-cmd neko bin/index.n              

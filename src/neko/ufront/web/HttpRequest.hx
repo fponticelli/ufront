@@ -24,6 +24,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	public function new()
 	{
 		_uploadHandler = new EmptyUploadHandler();
+		_init();
 	}
 	
 	override function getQueryString()
@@ -257,17 +258,17 @@ class HttpRequest extends ufront.web.HttpRequest
 		return hash;
 	}
 	
-	static var _get_params_string : Dynamic;
-	static var _get_post_data : Dynamic;
-	static var _get_cookies : Dynamic;
-	static var _get_host_name : Dynamic;
-	static var _get_client_ip : Dynamic;
-	static var _get_uri : Dynamic;
-	static var _get_client_headers : Dynamic;
-	static var _get_cwd : Dynamic;
-	static var _get_http_method : Dynamic;
-	static var _parse_multipart : Dynamic;
-	static function __init__()
+	var _get_params_string : Dynamic;
+	var _get_post_data : Dynamic;
+	var _get_cookies : Dynamic;
+	var _get_host_name : Dynamic;
+	var _get_client_ip : Dynamic;
+	var _get_uri : Dynamic;
+	var _get_client_headers : Dynamic;
+	var _get_cwd : Dynamic;
+	var _get_http_method : Dynamic;
+	var _parse_multipart : Dynamic;
+	function _init()
 	{
 		var get_env = Lib.load("std", "get_env", 1);
 		var ver = untyped get_env("MOD_NEKO".__s);

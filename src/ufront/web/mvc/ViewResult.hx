@@ -18,6 +18,11 @@ class ViewResult extends ActionResult
 		viewTempData = null == tempData ? new Hash() : tempData;
 	}
 	
+	function createContext(result : ViewEngineResult, controllerContext : ControllerContext)
+	{
+		return new ViewContext(controllerContext, view, result.viewEngine, viewData, controllerContext.controller.getViewHelpers());
+	}
+	
 	override function executeResult(context : ControllerContext)
 	{
 		NullArgument.throwIfNull(context, "context");
@@ -30,7 +35,7 @@ class ViewResult extends ActionResult
 			result = findView(context, viewName);   
             this.view = result.view;
 		}   
-		var viewContext = new ViewContext(context, view, result.viewEngine, viewData, []);// context.controller.getViewHelpers());   
+		var viewContext = createContext(result, context);
 		
 		var r = null;
 		try {

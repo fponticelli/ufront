@@ -50,7 +50,7 @@ class DefaultModelBinder implements IModelBinder
 		if (classType == null) throw new Error("Could not bind to class " + typeName);
 		
 		// TODO: check this is correct
-		if (null != value.rawValue)
+		if (null != value && null != value.rawValue)
 		{                    
 			try 
 			{
