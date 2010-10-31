@@ -58,11 +58,15 @@ class HttpResponse extends ufront.web.HttpResponse
 		Lib.print(_buff.toString());
 	}
 	
-	var _set_header : Dynamic;
-	var _set_cookie : Dynamic;
-	var _set_return_code : Dynamic;
-	function _init()
-	{
+	static var _set_header : Dynamic;
+	static var _set_cookie : Dynamic;
+	static var _set_return_code : Dynamic; 
+	static var _inited = false;
+	static function _init()
+	{   
+		if(_inited)
+			return;
+		_inited = true;
 		var get_env = Lib.load("std", "get_env", 1);
 		var ver = untyped get_env("MOD_NEKO".__s);
 		var lib = "mod_neko" + if ( ver == untyped "1".__s ) "" else ver;

@@ -3,7 +3,7 @@
 -cp ../core/src
 #-cp ../uform/src
 -cp ../hxculture/src
--cp ../hxevents/src
+-lib hxevents
 -cp ../utest/src   
 -cp ../htemplate/src    
 -cp src

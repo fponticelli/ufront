@@ -258,18 +258,22 @@ class HttpRequest extends ufront.web.HttpRequest
 		return hash;
 	}
 	
-	var _get_params_string : Dynamic;
-	var _get_post_data : Dynamic;
-	var _get_cookies : Dynamic;
-	var _get_host_name : Dynamic;
-	var _get_client_ip : Dynamic;
-	var _get_uri : Dynamic;
-	var _get_client_headers : Dynamic;
-	var _get_cwd : Dynamic;
-	var _get_http_method : Dynamic;
-	var _parse_multipart : Dynamic;
-	function _init()
-	{
+	static var _get_params_string : Dynamic;
+	static var _get_post_data : Dynamic;
+	static var _get_cookies : Dynamic;
+	static var _get_host_name : Dynamic;
+	static var _get_client_ip : Dynamic;
+	static var _get_uri : Dynamic;
+	static var _get_client_headers : Dynamic;
+	static var _get_cwd : Dynamic;
+	static var _get_http_method : Dynamic;
+	static var _parse_multipart : Dynamic;
+	static var _inited = false;
+	static function _init()
+	{                  
+		if(_inited)
+			return;
+		_inited = true;
 		var get_env = Lib.load("std", "get_env", 1);
 		var ver = untyped get_env("MOD_NEKO".__s);
 		var lib = "mod_neko" + if ( ver == untyped "1".__s ) "" else ver;
