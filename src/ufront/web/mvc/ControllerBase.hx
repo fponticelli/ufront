@@ -4,6 +4,7 @@ import thx.error.Error;
 import thx.error.NullArgument;
 import ufront.web.routing.RequestContext;
 import ufront.web.mvc.ControllerContext;
+import hxevents.Dispatcher;
 
 /**
  * ...
@@ -16,6 +17,8 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 	 * If null, this value is automatically created in execute().
 	 */
 	public var controllerContext : ControllerContext;
+	public var onActionExecuted(default, null) : Dispatcher<ActionExecutedContext>;
+	public var onActionExecuting(default, null) : Dispatcher<ActionExecutingContext>;
 
 	var _valueProvider : IValueProvider;
 	public var valueProvider(getValueProvider, setValueProvider) : IValueProvider;
@@ -32,7 +35,11 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 		return _valueProvider;
 	}
 			
-	public function new() {}
+	public function new() 
+	{
+		onActionExecuted = new Dispatcher();
+		onActionExecuting = new Dispatcher();
+	}
 
 	private function executeCore(async : hxevents.Async) { throw "executeCore() must be overridden in subclass."; }
 	
