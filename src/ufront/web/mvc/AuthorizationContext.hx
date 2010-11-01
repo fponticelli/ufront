@@ -1,7 +1,7 @@
-package ufront.web.mvc; 
+package ufront.web.mvc;
 import thx.collections.HashList;
 
-class ActionExecutingContext
+class AuthorizationContext
 {   
 	public var actionName(default, null) : String;
 	public var controllerContext(default, null) : ControllerContext;

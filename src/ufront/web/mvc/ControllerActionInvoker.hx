@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import thx.collections.HashList;
 import ufront.web.error.PageNotFoundError;
 
 import ufront.web.mvc.ActionResult;
@@ -7,7 +8,9 @@ import thx.error.Error;
 import thx.type.URtti;
 import ufront.web.mvc.ControllerContext;
 import haxe.rtti.CType;         
-import thx.collections.Set;  
+import thx.collections.Set;
+
+using thx.collections.UIterable;  
 
 class ControllerActionInvoker implements IActionInvoker
 {                               
@@ -41,12 +44,12 @@ class ControllerActionInvoker implements IActionInvoker
 		return binders.getBinder(parameter.type);
 	}
 	
-	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>)
+	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>) : HashList<Dynamic>
 	{
 		// TODO: ActionDescriptor, ControllerDescriptor
 		// TODO: Filters
 		
-		var arguments = new Array<Dynamic>();
+		var arguments = new HashList<Dynamic>();
 		
 		for(info in argsinfo)
 		{
@@ -58,7 +61,7 @@ class ControllerActionInvoker implements IActionInvoker
 			{          
 				if(URtti.argumentAcceptNull(info))
 				{
-					arguments.push(null);
+					arguments.set(info.name, null);
 				}
 				else
 				{
@@ -67,7 +70,7 @@ class ControllerActionInvoker implements IActionInvoker
 			}
 			else
 			{
-				arguments.push(value);
+				arguments.set(info.name, value);
 			}
 		}
 		
@@ -103,7 +106,7 @@ class ControllerActionInvoker implements IActionInvoker
 		var controller = controllerContext.controller;
 		var fields = URtti.getClassFields(Type.getClass(controller));
 		var method = fields.get(actionName); 
-		var arguments : Array<Dynamic>;
+		var arguments : HashList<Dynamic>;
 		var isasync = isAsync(method); 
 		try
 		{
@@ -129,27 +132,47 @@ class ControllerActionInvoker implements IActionInvoker
 			return;
 		}
 		
+		var action = actionName;
 #if php
     	if(_mapper.exists(actionName))
-			actionName = "h" + actionName;
-#end    
-		if(isasync)
+			action = "h" + actionName;
+#end
+        var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
+		controllerContext.controller.onAuthorization.dispatch(authorizationContext);
+		if(null != authorizationContext.result)
 		{
-		 	var handler = function(value) {
-				processContent(value, controllerContext);
-				async.completed();
-			};
-			arguments.push(handler);
-			Reflect.callMethod(controller, Reflect.field(controller, actionName), arguments);
+			processContent(authorizationContext.result, controllerContext, async);
 		} else {
-			var value = Reflect.callMethod(controller, Reflect.field(controller, actionName), arguments);
-			processContent(value, controllerContext);
-			async.completed();
+			var executingContext = new ActionExecutingContext(controllerContext, actionName, arguments);
+			controllerContext.controller.onActionExecuting.dispatch(executingContext);
+			if(null != executingContext.result)
+			{
+				processContent(executingContext.result, controllerContext, async);
+			} else if(isasync) {
+			 	var handler = function(value) {
+					var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
+					controllerContext.controller.onActionExecuted.dispatch(executedContext);
+				
+					processContent(executedContext.result, controllerContext, async);
+				};
+				var args = arguments.array();
+				args.push(handler);
+				Reflect.callMethod(controller, Reflect.field(controller, action), args);
+			} else {
+				var value = Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array());
+			
+				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
+				controllerContext.controller.onActionExecuted.dispatch(executedContext);
+				processContent(executedContext.result, controllerContext, async);
+			}    
 		}
 	}
 	
-	static function processContent(value : Dynamic, controllerContext : ControllerContext)
-	{
+	static function processContent(value : Dynamic, controllerContext : ControllerContext, async : hxevents.Async)
+	{   
+		var executingContext = new ResultExecutingContext(controllerContext, value);
+		controllerContext.controller.onResultExecuting.dispatch(executingContext);
+		value = executingContext.result;
 		if(null != value && Std.is(value, ActionResult))
 		{
 			var result : ActionResult = cast value;    
@@ -160,6 +183,9 @@ class ControllerActionInvoker implements IActionInvoker
 			// Write the returnValue to response.
 			controllerContext.response.write(Std.string(value));
 		}
+		var executedContext = new ResultExecutedContext(controllerContext, value);
+		controllerContext.controller.onResultExecuted.dispatch(executedContext);
+		async.completed(); 
 	}
 	
 	function _handleUnknownAction(action : String, async : hxevents.Async, err : Dynamic)
