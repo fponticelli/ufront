@@ -44,7 +44,7 @@ enum TestEnum
 	Third;
 }
 
-class TestController extends Controller
+private class TestController extends Controller
 {
 	public var expected : { id : Int, number : Null<Float>, optional : Null<Bool>, arr : Null<Array<Int>> };
 	public var expectedModel : DataModel;
