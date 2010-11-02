@@ -21,8 +21,8 @@ class UrlRoutingModule implements IHttpModule
 	
 	public function init(application : HttpApplication) : Void
 	{
-		application.postResolveRequestCache.add(setHttpHandler);
-		application.postMapRequestHandler.addAsync(executeHttpHandler);
+		application.onPostResolveRequestCache.add(setHttpHandler);
+		application.onPostMapRequestHandler.addAsync(executeHttpHandler);
 	}
 	
 	function setHttpHandler(application : HttpApplication)

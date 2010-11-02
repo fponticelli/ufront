@@ -22,7 +22,7 @@ class ErrorModule implements IHttpModule
 	}
 	public function init(application : HttpApplication)
 	{
-		application.applicationError.addAsync(_onError);
+		application.onApplicationError.addAsync(_onError);
 	}                                     
 	/**
 	* TODO: add discrimination about the kind of error  

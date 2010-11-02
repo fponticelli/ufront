@@ -31,121 +31,121 @@ class HttpApplication
 	///// Events /////
 	
 	/**
-	 * The BeginRequest event signals the creation of any given new request. 
+	 * The onBeginRequest event signals the creation of any given new request. 
 	 * This event is always raised and is always the first event to occur during the processing of a request.
 	 */
-	public var beginRequest(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onBeginRequest(default, null) : AsyncDispatcher<HttpApplication>;
 	
 	/**
-	 * The AuthenticateRequest event signals that the configured authentication mechanism has authenticated 
+	 * The onAuthenticateRequest event signals that the configured authentication mechanism has authenticated 
 	 * the current request. Subscribing to the AuthenticateRequest event ensures that the request will be 
 	 * authenticated before processing the attached module or event handler.
 	 */
-	//public var authenticateRequest(default, null) : Dispatcher<HttpApplication>;
+	//public var onAuthenticateRequest(default, null) : Dispatcher<HttpApplication>;
 	
 	/**
-	 * The PostAuthenticateRequest event is raised after the AuthenticateRequest event has occurred. 
+	 * The onPostAuthenticateRequest event is raised after the AuthenticateRequest event has occurred. 
 	 * Functionality that subscribes to the PostAuthenticateRequest event can access any data that is 
 	 * processed by the PostAuthenticateRequest.
 	 */
-	//public var postAuthenticateRequest(default, null) : Dispatcher<HttpApplication>;
+	//public var onPostAuthenticateRequest(default, null) : Dispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when a security module has verified user authorization
 	 */
-	//public var authorizeRequest(default, null) : Dispatcher<HttpApplication>;
+	//public var onAuthorizeRequest(default, null) : Dispatcher<HttpApplication>;
 	
 	/**
 	 * Occurs when the user for the current request has been authorized.
 	 */
-	//public var postAuthorizeRequest(default, null) : Dispatcher<HttpApplication>;
+	//public var onPostAuthorizeRequest(default, null) : Dispatcher<HttpApplication>;
 	
 	/**
 	 * Occurs to let the caching modules serve requests from the cache, bypassing execution of the event 
 	 * handler (for example, a page or an XML Web service).
 	 */
-	public var resolveRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onResolveRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when execution of the current event handler is bypassed and allows a caching module to 
 	 * serve a request from the cache.
 	 */
-	public var postResolveRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostResolveRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when a request handler is selected to respond to the request.
 	 */
-	public var mapRequestHandler(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onMapRequestHandler(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when the current request is mapped to the appropriate event handler.
 	 */
-	public var postMapRequestHandler(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostMapRequestHandler(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when the current state (for example, session state) that is associated with the current 
 	 * request is acquired.
 	 */
-	public var acquireRequestState(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onAcquireRequestState(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when the request state (for example, session state) that is associated with the current 
 	 * request has been obtained.
 	 */
-	public var postAcquireRequestState(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostAcquireRequestState(default, null) : AsyncDispatcher<HttpApplication>;
 	
 	/**
 	 * Occurs just before executing an event handler (for example, a page or an XML Web service).
 	 */
-	public var preRequestHandlerExecute(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPreRequestHandlerExecute(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when the event handler (for example, a page or an XML Web service) finishes execution.
 	 */
-	public var postRequestHandlerExecute(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostRequestHandlerExecute(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs after ASP.NET finishes executing all request event handlers. This event causes state 
 	 * modules to save the current state data.
 	 */
-	public var releaseRequestState(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onReleaseRequestState(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when all request event handlers have completed executing and the request state data has been stored.
 	 */
-	public var postReleaseRequestState(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostReleaseRequestState(default, null) : AsyncDispatcher<HttpApplication>;
 	
 	/**
 	 * Occurs when an event handler finishes execution in order to let caching modules store responses that will 
 	 * be used to serve subsequent requests from the cache.
 	 */
-	public var updateRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onUpdateRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when caching modules are finished updating and storing responses that are used to serve subsequent 
 	 * requests from the cache.
 	 */
-	public var postUpdateRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostUpdateRequestCache(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs just before any logging is performed for the current request.
 	 */
-	public var logRequest(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onLogRequest(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs when all the event handlers for the LogRequest event has completed processing.
 	 */
-	public var postLogRequest(default, null) : AsyncDispatcher<HttpApplication>;
+	public var onPostLogRequest(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
 	 * Occurs as the last event in the HTTP pipeline chain of execution when responding to a request.
 	 */
-	public var endRequest(default, null) : Dispatcher<HttpApplication>;
+	public var onEndRequest(default, null) : Dispatcher<HttpApplication>;
 	
 	/**
 	 * Occurs when an unhandled exception is thrown.
 	 */
-	public var applicationError(default, null) : AsyncDispatcher<{ application : HttpApplication, error : Error}>;
+	public var onApplicationError(default, null) : AsyncDispatcher<{ application : HttpApplication, error : Error}>;
 	
 	///// End Events /////
 		
@@ -153,32 +153,32 @@ class HttpApplication
 	{                    
 		this.httpContext = (httpContext == null) ? HttpContext.createWebContext() : httpContext;
 		
-		beginRequest = new AsyncDispatcher();
+		onBeginRequest = new AsyncDispatcher();
 		
-		resolveRequestCache = new AsyncDispatcher();		
-		postResolveRequestCache = new AsyncDispatcher();
+		onResolveRequestCache = new AsyncDispatcher();		
+		onPostResolveRequestCache = new AsyncDispatcher();
 
-		mapRequestHandler = new AsyncDispatcher();
-		postMapRequestHandler = new AsyncDispatcher();
+		onMapRequestHandler = new AsyncDispatcher();
+		onPostMapRequestHandler = new AsyncDispatcher();
 		
-		acquireRequestState = new AsyncDispatcher();
-		postAcquireRequestState = new AsyncDispatcher();
+		onAcquireRequestState = new AsyncDispatcher();
+		onPostAcquireRequestState = new AsyncDispatcher();
 		
-		preRequestHandlerExecute = new AsyncDispatcher();
-		postRequestHandlerExecute = new AsyncDispatcher();
+		onPreRequestHandlerExecute = new AsyncDispatcher();
+		onPostRequestHandlerExecute = new AsyncDispatcher();
 		
-		releaseRequestState = new AsyncDispatcher();
-		postReleaseRequestState = new AsyncDispatcher();
+		onReleaseRequestState = new AsyncDispatcher();
+		onPostReleaseRequestState = new AsyncDispatcher();
 		
-		updateRequestCache = new AsyncDispatcher();
-		postUpdateRequestCache = new AsyncDispatcher();
+		onUpdateRequestCache = new AsyncDispatcher();
+		onPostUpdateRequestCache = new AsyncDispatcher();
 		
-		logRequest = new AsyncDispatcher();
-		postLogRequest = new AsyncDispatcher();
+		onLogRequest = new AsyncDispatcher();
+		onPostLogRequest = new AsyncDispatcher();
 		
-		endRequest = new Dispatcher();
+		onEndRequest = new Dispatcher();
 		
-		applicationError = new AsyncDispatcher();
+		onApplicationError = new AsyncDispatcher();
 		
 		modules = new List();
 	
@@ -192,21 +192,21 @@ class HttpApplication
 			_initModule(module);
 		
 		_dispatchChain([
-			beginRequest, 
-			resolveRequestCache,
-			postResolveRequestCache,
-			mapRequestHandler,
-			postMapRequestHandler,
-			acquireRequestState,
-			postAcquireRequestState,
-			preRequestHandlerExecute,
-			postRequestHandlerExecute,
-			releaseRequestState,
-			postReleaseRequestState,
-			updateRequestCache,
-			postUpdateRequestCache,
-			logRequest,
-			postLogRequest
+			onBeginRequest, 
+			onResolveRequestCache,
+			onPostResolveRequestCache,
+			onMapRequestHandler,
+			onPostMapRequestHandler,
+			onAcquireRequestState,
+			onPostAcquireRequestState,
+			onPreRequestHandlerExecute,
+			onPostRequestHandlerExecute,
+			onReleaseRequestState,
+			onPostReleaseRequestState,
+			onUpdateRequestCache,
+			onPostUpdateRequestCache,
+			onLogRequest,
+			onPostLogRequest
 		]);
 
 		// flush contents
@@ -240,7 +240,7 @@ class HttpApplication
 	{
 		try 
 		{
-			endRequest.dispatch(this);
+			onEndRequest.dispatch(this);
 		} catch (e : Dynamic) {
 			_dispatchError(e);
 		}
@@ -267,13 +267,13 @@ class HttpApplication
 			error : Std.is(e, Error) ? e : new Error(Std.string(e))
 		}; 
 		
-		if(!applicationError.has())
+		if(!onApplicationError.has())
 		{  
 			throw event.error;
 		}
 		else
 		{                             
-			applicationError.dispatch(event);
+			onApplicationError.dispatch(event);
 		}
 	}
 	

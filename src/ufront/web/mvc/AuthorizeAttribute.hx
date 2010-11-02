@@ -7,8 +7,8 @@ class AuthorizeAttribute extends FilterAttribute
 	public var groups : Array<String>;
 	public var users : Array<String>;
 	public var acl : Acl;
-	
-	public var currentRoles : Array<String>;
+	public var currentGroups : Array<String>;
+	public var currentUser : String;
 	
 	override function connect(controller : IController)
 	{  
@@ -49,13 +49,16 @@ class AuthorizeAttribute extends FilterAttribute
 	}
 	
 	function isAllowed(resource : String, privilege : String)
-	{
-		for(role in currentRoles)
-		{	
-			if(acl.isAllowed(role, resource, privilege))
-			{
+	{                                                   
+		var role = "user:" + currentUser;
+		if(null != currentUser && acl.existsRole(role) && acl.isAllowed(role, resource, privilege))
+			return true;
+			
+		for(group in currentGroups)
+		{  
+			role = "group:" + group;
+			if(acl.existsRole(role) && acl.isAllowed(role, resource, privilege))
 				return true;
-			}
 		}
 		return false;
 	}

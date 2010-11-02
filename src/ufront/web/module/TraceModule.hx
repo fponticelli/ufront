@@ -20,25 +20,38 @@ class TraceModule implements IHttpModule
 		messages = [];
 	}
 	public function init(application : HttpApplication)
-	{  
+	{   
 		_old = haxe.Log.trace;
-		haxe.Log.trace = trace;
-		application.endRequest.add(_sendContent);
+		haxe.Log.trace = screenTrace;
+		application.onLogRequest.add(_sendContent);
 	}
 	
 	function _sendContent(application : HttpApplication)
-	{      
+	{       
+		var results = [];
 		for(msg in messages)
-			application.response.write(_printMessage(msg)); 
+		{
+			results.push(_formatMessage(msg));
+		}
+		if(results.length > 0)
+		{
+			application.response.write(
+				'\n<script type="text/javascript">\n' +
+				results.join('\n') +
+				'\n</script>'
+			);
+		}
+		messages = []; 
 		haxe.Log.trace = _old;
 	}     
 	
-	function _printMessage(m : { msg : Dynamic, pos : PosInfos }) : String
+	function _formatMessage(m : { msg : Dynamic, pos : PosInfos }) : String
 	{
 		var type = if(m.pos != null && m.pos.customParams != null ) m.pos.customParams[0] else null;
 		if( type != "warn" && type != "info" && type != "debug" && type != "error" )
 			type = if( m.pos == null ) "error" else "log";
-		return '<script type="text/javascript">console.'+type+'(decodeURIComponent("'+StringTools.urlEncode(m.msg)+'"))</script>';
+	   	var msg = (m.pos.className.split('.').pop()) + "." + m.pos.methodName + "(" + m.pos.lineNumber + "): " + Std.string(m.msg);
+		return 'console.'+type+'(decodeURIComponent("'+StringTools.urlEncode(msg)+'"))';
 	}
 	
 	public function dispose()
@@ -46,8 +59,8 @@ class TraceModule implements IHttpModule
 		
 	}
 	
-	public function trace( v : Dynamic, ?pos : PosInfos ) : Void
-	{
+	public function screenTrace( v : Dynamic, ?pos : PosInfos ) : Void
+	{   
 		messages.push({ msg : v, pos : pos });
 	}
 }

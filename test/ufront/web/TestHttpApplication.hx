@@ -89,29 +89,29 @@ private class MockEventsModule implements IHttpModule
 		var events = triggeredEvents;
 		var crashonhandler = crashOnHandler;
 		
-		application.beginRequest.add(function (_) events.push("begin"));
+		application.onBeginRequest.add(function (_) events.push("begin"));
 		
-		application.resolveRequestCache.add(function (_) events.push("resolvecache"));
-		application.postResolveRequestCache.add(function (_) events.push("afterresolvecache"));
-		application.mapRequestHandler.add(function (_)
+		application.onResolveRequestCache.add(function (_) events.push("resolvecache"));
+		application.onPostResolveRequestCache.add(function (_) events.push("afterresolvecache"));
+		application.onMapRequestHandler.add(function (_)
 		{
 			events.push("handler");
 			if(crashonhandler)
 				application.completeRequest();
 		});
-		application.postMapRequestHandler.add(function (_) events.push("afterhandler"));
-		application.acquireRequestState.add(function (_) events.push("acquireRequestState"));
-		application.postAcquireRequestState.add(function (_) events.push("postAcquireRequestState"));
-		application.preRequestHandlerExecute.add(function (_) events.push("preRequestHandlerExecute"));
-		application.postRequestHandlerExecute.add(function (_) events.push("postRequestHandlerExecute"));
-		application.releaseRequestState.add(function (_) events.push("releaseRequestState"));
-		application.postReleaseRequestState.add(function (_) events.push("postReleaseRequestState"));
-		application.updateRequestCache.add(function (_) events.push("updatecache"));
-		application.postUpdateRequestCache.add(function (_) events.push("afterupdatecache"));
-		application.logRequest.add(function (_) events.push("log"));
-		application.postLogRequest.add(function (_) events.push("afterlog"));
+		application.onPostMapRequestHandler.add(function (_) events.push("afterhandler"));
+		application.onAcquireRequestState.add(function (_) events.push("acquireRequestState"));
+		application.onPostAcquireRequestState.add(function (_) events.push("postAcquireRequestState"));
+		application.onPreRequestHandlerExecute.add(function (_) events.push("preRequestHandlerExecute"));
+		application.onPostRequestHandlerExecute.add(function (_) events.push("postRequestHandlerExecute"));
+		application.onReleaseRequestState.add(function (_) events.push("releaseRequestState"));
+		application.onPostReleaseRequestState.add(function (_) events.push("postReleaseRequestState"));
+		application.onUpdateRequestCache.add(function (_) events.push("updatecache"));
+		application.onPostUpdateRequestCache.add(function (_) events.push("afterupdatecache"));
+		application.onLogRequest.add(function (_) events.push("log"));
+		application.onPostLogRequest.add(function (_) events.push("afterlog"));
 		
-		application.endRequest.add(function (_) events.push("end"));
+		application.onEndRequest.add(function (_) events.push("end"));
 	}
 	
 	public function dispose()

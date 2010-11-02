@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/ufront/acl/Acl.hx</string>
+	<string>src/ufront/web/mvc/AuthorizeAttribute.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -139,34 +139,6 @@
 			<key>firstVisibleLine</key>
 			<integer>2</integer>
 		</dict>
-		<key>src/ufront/acl/Acl.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>14</integer>
-				<key>line</key>
-				<integer>283</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>227</integer>
-		</dict>
-		<key>src/ufront/acl/Registry.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>25</integer>
-				<key>line</key>
-				<integer>44</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>39</integer>
-		</dict>
 		<key>src/ufront/auth/AuthResult.hx</key>
 		<dict>
 			<key>caret</key>
@@ -239,20 +211,6 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>src/ufront/auth/adapter/Digest.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>18</integer>
-				<key>line</key>
-				<integer>8</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>src/ufront/auth/storage/MemoryStorage.hx</key>
 		<dict>
 			<key>caret</key>
@@ -294,6 +252,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/HttpResponse.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>69</integer>
 		</dict>
 		<key>src/ufront/web/IHttpHandler.hx</key>
 		<dict>
@@ -383,6 +355,266 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/ufront/web/mvc/ActionExecutedContext.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>18</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
+		<key>src/ufront/web/mvc/ActionExecutingContext.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>15</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+		</dict>
+		<key>src/ufront/web/mvc/AuthorizationContext.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>64</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/AuthorizeAttribute.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>30</integer>
+				<key>line</key>
+				<integer>59</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/Controller.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/ControllerActionInvoker.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>4</integer>
+				<key>line</key>
+				<integer>138</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>100</integer>
+		</dict>
+		<key>src/ufront/web/mvc/ControllerBase.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>10</integer>
+				<key>line</key>
+				<integer>44</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/ControllerBuilder.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>43</integer>
+				<key>line</key>
+				<integer>15</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/DefaultControllerFactory.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/FilterAttribute.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/IActionFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>69</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>57</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>78</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+		</dict>
+		<key>src/ufront/web/mvc/IAuthorizationFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>63</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>56</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>76</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+		</dict>
+		<key>src/ufront/web/mvc/IController.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>99</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/IResultFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>2</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/ufront/web/mvc/MvcApplication.hx</key>
 		<dict>
 			<key>caret</key>
@@ -397,19 +629,47 @@
 			<key>firstVisibleLine</key>
 			<integer>7</integer>
 		</dict>
-		<key>src/ufront/web/mvc/view/HtmlHelper.hx</key>
+		<key>src/ufront/web/mvc/MvcHandler.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>43</integer>
 				<key>line</key>
-				<integer>100</integer>
+				<integer>27</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>65</integer>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/MvcRouteHandler.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/ResultExecutedContext.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>32</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>src/ufront/web/routing/UrlRoutingModule.hx</key>
 		<dict>
@@ -453,20 +713,6 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>test/ufront/acl/TestAcl.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>22</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>test/ufront/acl/TestAll.hx</key>
 		<dict>
 			<key>caret</key>
@@ -475,20 +721,6 @@
 				<integer>0</integer>
 				<key>line</key>
 				<integer>6</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>test/ufront/acl/TestRegistry.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>17</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -525,14 +757,14 @@
 				<integer>0</integer>
 			</dict>
 		</dict>
-		<key>test/ufront/web/HttpContextMock.hx</key>
+		<key>test/ufront/web/HttpResponseMock.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>11</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -586,28 +818,114 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>30</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>35</integer>
+				<integer>26</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>test/ufront/web/mvc/TestControllerBindings.hx</key>
+		<key>test/ufront/web/mvc/TestAuthorizeAttribute.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>67</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>31</integer>
+		</dict>
+		<key>test/ufront/web/mvc/TestControllerFilters.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>22</integer>
+				<key>line</key>
+				<integer>77</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>14</integer>
+		</dict>
+		<key>test/ufront/web/mvc/TestIActionFilter.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>140</integer>
+				<integer>46</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>16</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>54</integer>
+				<key>line</key>
+				<integer>47</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>46</integer>
+			</dict>
+		</dict>
+		<key>test/ufront/web/mvc/TestIAuthorizationFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>60</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>105</integer>
+			<integer>9</integer>
+		</dict>
+		<key>test/ufront/web/mvc/TestIResultFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>18</integer>
+				<key>line</key>
+				<integer>41</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>4</integer>
+		</dict>
+		<key>test/ufront/web/mvc/TestValueProviders.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>2</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>test/ufront/web/mvc/TestViewResult.hx</key>
 		<dict>
@@ -653,90 +971,37 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>test/ufront/web/routing/TestAll.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>test/ufront/web/routing/TestRouteParamExtractor.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>test/ufront/web/routing/TestRouteUriGeneration.hx</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>24</integer>
-				<key>line</key>
-				<integer>19</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>4</integer>
-		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>src/ufront/auth/adapter/Digest.hx</string>
-		<string>src/ufront/acl/Registry.hx</string>
-		<string>src/ufront/acl/Acl.hx</string>
-		<string>test/ufront/acl/TestRegistry.hx</string>
-		<string>test/ufront/web/HttpContextMock.hx</string>
-		<string>test/ufront/web/mvc/TestControllerBindings.hx</string>
+		<string>src/ufront/web/mvc/IActionFilter.hx</string>
+		<string>test/ufront/web/mvc/TestIActionFilter.hx</string>
+		<string>test/ufront/web/mvc/TestIResultFilter.hx</string>
+		<string>src/ufront/web/mvc/FilterAttribute.hx</string>
+		<string>src/ufront/web/mvc/AuthorizeAttribute.hx</string>
+		<string>test/ufront/web/mvc/TestAuthorizeAttribute.hx</string>
 		<string>test/ufront/web/mvc/TestViewResult.hx</string>
-		<string>src/ufront/web/mvc/view/HtmlHelper.hx</string>
-		<string>test/ufront/web/routing/TestRouteUriGeneration.hx</string>
-		<string>test/ufront/web/routing/TestRouteParamExtractor.hx</string>
-		<string>test/ufront/web/routing/TestAll.hx</string>
+		<string>test/ufront/web/mvc/TestValueProviders.hx</string>
 		<string>test/ufront/web/mvc/TestAll.hx</string>
-		<string>test/ufront/web/TestHttpApplication.hx</string>
-		<string>test/ufront/web/TestAll.hx</string>
-		<string>build.neko.hxml</string>
-		<string>build.php.hxml</string>
-		<string>src/neko/ufront/web/HttpRequest.hx</string>
-		<string>src/neko/ufront/web/HttpResponse.hx</string>
-		<string>bin/nodejs.js</string>
-		<string>src/ufront/auth/storage/MemoryStorage.hx</string>
-		<string>test/ufront/TestAll.hx</string>
-		<string>test/ufront/auth/TestAll.hx</string>
-		<string>test/ufront/acl/TestAll.hx</string>
-		<string>test/ufront/acl/TestAcl.hx</string>
-		<string>test/TestAll.hx</string>
-		<string>src/ufront/web/HttpPostedFile.hx</string>
-		<string>src/ufront/auth/IAuthAdapter.hx</string>
-		<string>src/ufront/auth/AuthResult.hx</string>
-		<string>src/ufront/auth/AuthResultMessage.hx</string>
-		<string>src/ufront/auth/IAuthStorage.hx</string>
-		<string>src/ufront/auth/storage/SessionStorage.hx</string>
-		<string>src/ufront/web/IHttpSessionState.hx</string>
-		<string>test/ufront/web/mvc/test/MockController.hx</string>
-		<string>test/ufront/web/mvc/MockController.hx</string>
-		<string>src/ufront/web/mvc/MvcApplication.hx</string>
+		<string>test/ufront/web/HttpResponseMock.hx</string>
+		<string>src/ufront/web/HttpResponse.hx</string>
+		<string>src/ufront/web/mvc/ControllerActionInvoker.hx</string>
+		<string>src/ufront/web/mvc/ResultExecutedContext.hx</string>
+		<string>src/ufront/web/mvc/Controller.hx</string>
+		<string>src/ufront/web/mvc/IResultFilter.hx</string>
+		<string>src/ufront/web/mvc/IAuthorizationFilter.hx</string>
+		<string>src/ufront/web/mvc/AuthorizationContext.hx</string>
+		<string>src/ufront/web/mvc/IController.hx</string>
+		<string>src/ufront/web/mvc/ActionExecutedContext.hx</string>
+		<string>src/ufront/web/mvc/ActionExecutingContext.hx</string>
+		<string>src/ufront/web/mvc/ControllerBase.hx</string>
 		<string>src/ufront/web/routing/UrlRoutingModule.hx</string>
-		<string>src/ufront/web/IHttpHandler.hx</string>
-		<string>src/ufront/web/module/TraceModule.hx</string>
-		<string>src/ufront/web/module/ErrorModule.hx</string>
+		<string>src/ufront/web/mvc/MvcRouteHandler.hx</string>
+		<string>src/ufront/web/mvc/MvcHandler.hx</string>
+		<string>src/ufront/web/mvc/ControllerBuilder.hx</string>
+		<string>src/ufront/web/mvc/DefaultControllerFactory.hx</string>
+		<string>test/ufront/web/mvc/TestIAuthorizationFilter.hx</string>
+		<string>test/ufront/web/mvc/TestControllerFilters.hx</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
@@ -932,6 +1197,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{1136, 101}, {1307, 1317}}</string>
+	<string>{{901, 84}, {1307, 1317}}</string>
 </dict>
 </plist>
