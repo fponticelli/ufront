@@ -136,13 +136,14 @@ class ControllerActionInvoker implements IActionInvoker
 #if php
     	if(_mapper.exists(actionName))
 			action = "h" + actionName;
-#end
-        var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
-		controllerContext.controller.onAuthorization.dispatch(authorizationContext);
-		if(null != authorizationContext.result)
+#end    
+//        var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
+//		controllerContext.controller.onAuthorization.dispatch(authorizationContext);
+//		if(null != authorizationContext.result)
+//		{
+//			processContent(authorizationContext.result, controllerContext, async);
+//		} else 
 		{
-			processContent(authorizationContext.result, controllerContext, async);
-		} else {
 			var executingContext = new ActionExecutingContext(controllerContext, actionName, arguments);
 			controllerContext.controller.onActionExecuting.dispatch(executingContext);
 			if(null != executingContext.result)
@@ -169,7 +170,7 @@ class ControllerActionInvoker implements IActionInvoker
 	}
 	
 	static function processContent(value : Dynamic, controllerContext : ControllerContext, async : hxevents.Async)
-	{   
+	{       
 		var executingContext = new ResultExecutingContext(controllerContext, value);
 		controllerContext.controller.onResultExecuting.dispatch(executingContext);
 		value = executingContext.result;

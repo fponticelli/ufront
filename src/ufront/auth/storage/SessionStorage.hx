@@ -20,7 +20,7 @@ class SessionStorage<T> implements IAuthStorage<T>
 	
 	public function isEmpty()
 	{
-		return _session.exists(_name);
+		return !_session.exists(_name);
 	}
 	
 	public function clear()

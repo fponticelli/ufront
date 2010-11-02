@@ -63,7 +63,7 @@ class ErrorModule implements IHttpModule
 		} 
 		if(null == requestContext)
 			requestContext = new RequestContext(e.application.httpContext, routeData, new RouteCollection());
-		
+
 		controller.execute(requestContext, async);
 	}
 	     

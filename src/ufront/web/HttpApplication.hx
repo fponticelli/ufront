@@ -174,6 +174,7 @@ class HttpApplication
 		onPostUpdateRequestCache = new AsyncDispatcher();
 		
 		onLogRequest = new AsyncDispatcher();
+		onLogRequest.add(_executingLogRequest);
 		onPostLogRequest = new AsyncDispatcher();
 		
 		onEndRequest = new Dispatcher();
@@ -185,8 +186,17 @@ class HttpApplication
 		_completed = false; 	
 	}
 	
+	var _logDispatched : Bool;
+	var _flushed : Bool;
+	
+	function _executingLogRequest(_)
+	{       
+		_logDispatched = true;
+	}
+	
 	public function init()
-	{		
+	{	
+		_flushed = _logDispatched = false;	
 		// wire modules
 		for (module in modules)
 			_initModule(module);
@@ -207,11 +217,13 @@ class HttpApplication
 			onPostUpdateRequestCache,
 			onLogRequest,
 			onPostLogRequest
-		]);
-
+		], _conclude);
+	}
+	
+	function _conclude()
+	{
 		// flush contents
 		_flush();                                 
-		
 		// this event is always dispatched no matter what
 		_dispatchEnd();
 	}
@@ -219,8 +231,12 @@ class HttpApplication
 	function _flush()
 	{
 		try 
-		{
-			response.flush();
+		{   
+			if(!_flushed)
+			{   
+				_flushed = true;
+				response.flush();
+			}
 		} catch(e : Dynamic) {
 			_dispatchError(e);
 		}
@@ -246,7 +262,7 @@ class HttpApplication
 		}
 	}
 	
-	function _dispatchChain(dispatchers : Array<AsyncDispatcher<HttpApplication>>)
+	function _dispatchChain(dispatchers : Array<AsyncDispatcher<HttpApplication>>, afterEffect : Void -> Void)
 	{                    
 		var self = this;
 		var next = null;
@@ -254,27 +270,36 @@ class HttpApplication
 		{
 			var dispatcher = dispatchers.shift();
 			if(self._completed || null == dispatcher)
+			{                 
+				if(null != afterEffect)
+					afterEffect();
 				return;
+			}
 			dispatcher.dispatch(self, next, self._dispatchError);
 		}
 		next();
 	}
 	
 	function _dispatchError(e : Dynamic) 
-	{
+	{     
+		if(!_logDispatched)
+		{
+			_dispatchChain([onLogRequest, onPostLogRequest], callback(_dispatchError, e));
+			return;
+		}      
 		var event = { 
 			application : this,
 			error : Std.is(e, Error) ? e : new Error(Std.string(e))
 		}; 
-		
 		if(!onApplicationError.has())
-		{  
+		{      
 			throw event.error;
 		}
 		else
 		{                             
 			onApplicationError.dispatch(event);
 		}
+		_conclude();
 	}
 	
 	

@@ -15,7 +15,35 @@ class ErrorController extends Controller
 	    
 	function _errorView(error : HttpError)
 	{                               
-		controllerContext.httpContext.response.status = error.code;
+		controllerContext.httpContext.response.status = error.code; 
+		
+		var inner = null != error.inner ? '<p>' + error.inner.toString() + '<p>' : "";
+		var items = _errorStack();
+		var stack = items.length > 0 ? '<div><p><i>error stack:</i></p>\n<ul><li>' + items.join("</li><li>") + '</li></ul></div>' : '';
+		return  	
+'<!doctype html>
+<html>
+<head>
+<title>' + error.toString() + '</title>
+<style>
+body { text-align: center;}
+h1 { font-size: 50px; }
+body { font: 20px Constantia, "Hoefler Text",  "Adobe Caslon Pro", Baskerville, Georgia, Times, serif; color: #999; text-shadow: 2px 2px 2px rgba(200, 200, 200, 0.5)}
+a { color: rgb(36, 109, 56); text-decoration:none; }
+a:hover { color: rgb(96, 73, 141) ; text-shadow: 2px 2px 2px rgba(36, 109, 56, 0.5) }
+span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
+</style>
+</head>
+<bofy>
+<details>
+  <summary><h1>' + error.toString() + '</h1></summary>  
+  ' + inner + stack + ' 
+  <p><span frown>:(</p>
+</details>
+</body>
+</html>';
+		
+		/*
 		var view = new ViewResult();
 		view.viewName = "error";
 		view.viewData.set("title", error.toString());   
@@ -23,6 +51,7 @@ class ErrorController extends Controller
 			view.viewData.set("description", error.inner.toString());   
 		view.viewData.set("stack", _errorStack());
 		return view;
+		*/
 	}
 	   
 	private static function _stackItemToString(s) {
