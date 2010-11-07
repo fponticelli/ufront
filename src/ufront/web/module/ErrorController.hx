@@ -13,13 +13,13 @@ class ErrorController extends Controller
 		super();
 	}           
 	    
-	function _errorView(error : HttpError)
+	function _errorView(error : HttpError, showStack = false)
 	{                               
 		controllerContext.httpContext.response.status = error.code; 
 		
 		var inner = null != error.inner ? '<p>' + error.inner.toString() + '<p>' : "";
 		var items = _errorStack();
-		var stack = items.length > 0 ? '<div><p><i>error stack:</i></p>\n<ul><li>' + items.join("</li><li>") + '</li></ul></div>' : '';
+		var stack = showStack && items.length > 0 ? '<div><p><i>error stack:</i></p>\n<ul><li>' + items.join("</li><li>") + '</li></ul></div>' : '';
 		return  	
 '<!doctype html>
 <html>
@@ -80,8 +80,10 @@ span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
 	{
 		var arr = [];
 		var stack = haxe.Stack.exceptionStack();
+#if php
 		stack.pop();
 		stack = stack.slice(2);
+#end
 		for(item in stack)      
 		{
 			arr.push(_stackItemToString(item));
@@ -91,7 +93,7 @@ span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
 	
 	public function internalServerError(error : HttpError)
 	{                 
-		return _errorView(error);   
+		return _errorView(error, true);   
 	} 
 	
 	public function badRequestError(error : HttpError)

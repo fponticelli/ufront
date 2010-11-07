@@ -5,6 +5,6 @@ class UnauthorizedError extends HttpError
 {             
 	public function new(?pos : PosInfos)
 	{
-		super(401, "Unauthorized", pos); 
+		super(401, "Unauthorized Access", pos); 
 	}
 }

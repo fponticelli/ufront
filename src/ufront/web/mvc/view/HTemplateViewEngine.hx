@@ -27,7 +27,6 @@ class HTemplateViewEngine implements IViewEngine
 	public function findView(controllerContext : ControllerContext, viewName : String) : ViewEngineResult
 	{   
 		var parts = controllerContext.controller.fullName().split(".");
-		
 		parts
 			.removeR("controller")
 			.removeR("controllers");
@@ -37,7 +36,7 @@ class HTemplateViewEngine implements IViewEngine
 		var controllerPath =  parts.join("/");
 		if(controllerPath.substr(-10).toLowerCase() == "controller")
 			controllerPath = controllerPath.substr(0, -10);                                          
-		
+
 		var template = getTemplate(controllerContext, controllerPath + "/" + viewName);
 		if(null == template)   
 		{
@@ -58,7 +57,7 @@ class HTemplateViewEngine implements IViewEngine
 	 */
 	public function getTemplate(controllerContext : ControllerContext, path : String) 
 	{            
-	   	var fullpath = _templatePath(controllerContext, path);   
+	   	var fullpath = _templatePath(controllerContext, path);
 #if (neko || php)
 		if(!FileSystem.exists(fullpath))
 			return null;   

@@ -59,21 +59,24 @@ class UrlHelper
 	public function controller(controllerName : String, ?action : String, ?data : Dynamic)
 	{
 		NullArgument.throwIfNull(controllerName, "controllerName");
+		var hash = null;
 		if(null == data)
-			data = {};
-		data.controller = controllerName;
+			hash = new Hash();
+		else if(!Std.is(data, Hash))
+			hash = UHash.createHash(data);
+		else
+			hash = data;
+		
+		hash.set("controller", controllerName);
 		if(null != action)
-			data.action = action;      
+			hash.set("action", action);      
         
-//		trace(data);
 		for(route in requestContext.routeData.route.routes.iterator())
 		{                  
-//			trace(route);
-			var url = route.getPath(requestContext.httpContext, UHash.createHash(data));       
-//			trace(url);
+			var url = route.getPath(requestContext.httpContext, hash);       
 			if(null != url)
 				return url;
 		}
-		throw new Error("unable to find a suitable route for {0}", Std.string(data));
+		throw new Error("unable to find a suitable route for {0}", Std.string(hash));
 	}
 }

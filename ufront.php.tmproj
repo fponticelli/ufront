@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/ufront/web/mvc/AuthorizeAttribute.hx</string>
+	<string>src/ufront/web/mvc/IAuthorizationFilter.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -17,8 +17,6 @@
 			<string>assets</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -139,6 +137,20 @@
 			<key>firstVisibleLine</key>
 			<integer>2</integer>
 		</dict>
+		<key>src/ufront/auth/Auth.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>22</integer>
+				<key>line</key>
+				<integer>18</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/ufront/auth/AuthResult.hx</key>
 		<dict>
 			<key>caret</key>
@@ -188,9 +200,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>47</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>4</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -230,14 +242,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>26</integer>
+				<integer>10</integer>
 				<key>line</key>
-				<integer>20</integer>
+				<integer>22</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/HttpApplication.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>9</integer>
+				<key>line</key>
+				<integer>192</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>177</integer>
 		</dict>
 		<key>src/ufront/web/HttpPostedFile.hx</key>
 		<dict>
@@ -327,33 +353,117 @@
 				<integer>7</integer>
 			</dict>
 		</dict>
+		<key>src/ufront/web/error/BadRequestError.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>14</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/error/HttpError.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/error/PageNotFoundError.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>35</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/error/UnauthorizedError.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/module/ErrorController.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>15</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/ufront/web/module/ErrorModule.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>42</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>66</integer>
+				<integer>65</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>18</integer>
+			<integer>20</integer>
+		</dict>
+		<key>src/ufront/web/module/HttpFileServerModule.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>src/ufront/web/module/TraceModule.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>24</integer>
+				<integer>121</integer>
 				<key>line</key>
-				<integer>25</integer>
+				<integer>52</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>7</integer>
 		</dict>
 		<key>src/ufront/web/mvc/ActionExecutedContext.hx</key>
 		<dict>
@@ -434,14 +544,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>30</integer>
+				<integer>69</integer>
 				<key>line</key>
-				<integer>59</integer>
+				<integer>52</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>13</integer>
 		</dict>
 		<key>src/ufront/web/mvc/Controller.hx</key>
 		<dict>
@@ -462,23 +572,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>138</integer>
+				<integer>139</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>100</integer>
+			<integer>123</integer>
 		</dict>
 		<key>src/ufront/web/mvc/ControllerBase.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>10</integer>
+				<integer>14</integer>
 				<key>line</key>
-				<integer>44</integer>
+				<integer>13</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -562,37 +672,21 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>63</integer>
+				<integer>41</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>7</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>56</integer>
-				<key>line</key>
-				<integer>6</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>76</integer>
-				<key>line</key>
-				<integer>6</integer>
-			</dict>
 		</dict>
 		<key>src/ufront/web/mvc/IController.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>99</integer>
+				<integer>65</integer>
 				<key>line</key>
 				<integer>3</integer>
 			</dict>
@@ -671,14 +765,28 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/ufront/web/mvc/ViewResult.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>23</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/ufront/web/routing/UrlRoutingModule.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>59</integer>
+				<integer>17</integer>
 				<key>line</key>
-				<integer>47</integer>
+				<integer>24</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -790,14 +898,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>35</integer>
+				<integer>17</integer>
 				<key>line</key>
-				<integer>28</integer>
+				<integer>99</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>49</integer>
 		</dict>
 		<key>test/ufront/web/mvc/MockController.hx</key>
 		<dict>
@@ -832,14 +940,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>23</integer>
+				<integer>12</integer>
 				<key>line</key>
-				<integer>67</integer>
+				<integer>87</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>31</integer>
+			<integer>42</integer>
 		</dict>
 		<key>test/ufront/web/mvc/TestControllerFilters.hx</key>
 		<dict>
@@ -979,6 +1087,20 @@
 		<string>test/ufront/web/mvc/TestIResultFilter.hx</string>
 		<string>src/ufront/web/mvc/FilterAttribute.hx</string>
 		<string>src/ufront/web/mvc/AuthorizeAttribute.hx</string>
+		<string>src/ufront/auth/Auth.hx</string>
+		<string>src/ufront/auth/storage/SessionStorage.hx</string>
+		<string>src/ufront/web/module/HttpFileServerModule.hx</string>
+		<string>src/ufront/web/module/TraceModule.hx</string>
+		<string>src/ufront/auth/IAuthAdapter.hx</string>
+		<string>src/ufront/web/module/ErrorController.hx</string>
+		<string>src/ufront/web/error/UnauthorizedError.hx</string>
+		<string>src/ufront/web/error/BadRequestError.hx</string>
+		<string>src/ufront/web/error/HttpError.hx</string>
+		<string>src/ufront/web/error/PageNotFoundError.hx</string>
+		<string>src/ufront/web/mvc/ViewResult.hx</string>
+		<string>src/ufront/web/module/ErrorModule.hx</string>
+		<string>src/ufront/web/HttpApplication.hx</string>
+		<string>test/ufront/web/TestHttpApplication.hx</string>
 		<string>test/ufront/web/mvc/TestAuthorizeAttribute.hx</string>
 		<string>test/ufront/web/mvc/TestViewResult.hx</string>
 		<string>test/ufront/web/mvc/TestValueProviders.hx</string>
@@ -1010,13 +1132,6 @@
 	<key>treeState</key>
 	<dict>
 		<key>assets</key>
-		<dict>
-			<key>isExpanded</key>
-			<true/>
-			<key>subItems</key>
-			<dict/>
-		</dict>
-		<key>bin</key>
 		<dict>
 			<key>isExpanded</key>
 			<true/>
@@ -1197,6 +1312,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{901, 84}, {1307, 1317}}</string>
+	<string>{{1148, 93}, {1340, 1083}}</string>
 </dict>
 </plist>

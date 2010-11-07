@@ -137,12 +137,12 @@ class ControllerActionInvoker implements IActionInvoker
     	if(_mapper.exists(actionName))
 			action = "h" + actionName;
 #end    
-//        var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
-//		controllerContext.controller.onAuthorization.dispatch(authorizationContext);
-//		if(null != authorizationContext.result)
-//		{
-//			processContent(authorizationContext.result, controllerContext, async);
-//		} else 
+        var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
+		controllerContext.controller.onAuthorization.dispatch(authorizationContext);
+		if(null != authorizationContext.result)
+		{
+			processContent(authorizationContext.result, controllerContext, async);
+		} else 
 		{
 			var executingContext = new ActionExecutingContext(controllerContext, actionName, arguments);
 			controllerContext.controller.onActionExecuting.dispatch(executingContext);
@@ -161,7 +161,6 @@ class ControllerActionInvoker implements IActionInvoker
 				Reflect.callMethod(controller, Reflect.field(controller, action), args);
 			} else {
 				var value = Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array());
-			
 				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
 				controllerContext.controller.onActionExecuted.dispatch(executedContext);
 				processContent(executedContext.result, controllerContext, async);
@@ -179,7 +178,7 @@ class ControllerActionInvoker implements IActionInvoker
 			var result : ActionResult = cast value;    
 			result.executeResult(controllerContext);
 		}
-		else if(value != null && controllerContext != null && controllerContext.response != null)
+		else if(value != null)
 		{
 			// Write the returnValue to response.
 			controllerContext.response.write(Std.string(value));

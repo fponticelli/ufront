@@ -31,7 +31,7 @@ class Controller extends ControllerBase
 	}
 	
 	override function executeCore(async : hxevents.Async)
-	{
+	{ 
 		if(invoker == null)
 			throw new Error("No IActionInvoker set on controller '" + Type.getClassName(Type.getClass(this)) + "'");
 		

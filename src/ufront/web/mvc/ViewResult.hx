@@ -32,7 +32,9 @@ class ViewResult extends ActionResult
 		var result = null;      
 		if(null == view) 
 		{          
-			result = findView(context, viewName);   
+			result = findView(context, viewName);
+			if(null == result)
+				throw new Error("unable to find a view/engine for {0}", viewName);   
             this.view = result.view;
 		}   
 		var viewContext = createContext(result, context);
@@ -62,7 +64,7 @@ class ViewResult extends ActionResult
 			var result = engine.findView(context, viewName);
 			if(null != result)
 				return result;
-		}                  
-		throw new Error("unable to find a view/engine for {0}", viewName);
+		}
+		return null;
 	}
 }

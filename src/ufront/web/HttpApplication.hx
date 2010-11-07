@@ -221,7 +221,7 @@ class HttpApplication
 	}
 	
 	function _conclude()
-	{
+	{           
 		// flush contents
 		_flush();                                 
 		// this event is always dispatched no matter what
@@ -231,7 +231,7 @@ class HttpApplication
 	function _flush()
 	{
 		try 
-		{   
+		{       
 			if(!_flushed)
 			{   
 				_flushed = true;

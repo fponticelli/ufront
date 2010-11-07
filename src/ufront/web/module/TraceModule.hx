@@ -17,12 +17,12 @@ class TraceModule implements IHttpModule
 	var _old : Dynamic;
 	public function new()
 	{
+		_old = haxe.Log.trace;
+		haxe.Log.trace = this.trace;
 		messages = [];
 	}
 	public function init(application : HttpApplication)
-	{   
-		_old = haxe.Log.trace;
-		haxe.Log.trace = screenTrace;
+	{
 		application.onLogRequest.add(_sendContent);
 	}
 	
@@ -42,7 +42,6 @@ class TraceModule implements IHttpModule
 			);
 		}
 		messages = []; 
-		haxe.Log.trace = _old;
 	}     
 	
 	function _formatMessage(m : { msg : Dynamic, pos : PosInfos }) : String
@@ -56,10 +55,10 @@ class TraceModule implements IHttpModule
 	
 	public function dispose()
 	{
-		
+		haxe.Log.trace = _old;
 	}
 	
-	public function screenTrace( v : Dynamic, ?pos : PosInfos ) : Void
+	public function trace( v : Dynamic, ?pos : PosInfos ) : Void
 	{   
 		messages.push({ msg : v, pos : pos });
 	}

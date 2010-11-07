@@ -182,7 +182,7 @@ class HttpResponse
 	
 	function setRedirectLocation(v : String)
 	{
-		if (null == null)
+		if (null == v)
 			_headers.remove(LOCATION)
 		else
 			_headers.set(LOCATION, v);

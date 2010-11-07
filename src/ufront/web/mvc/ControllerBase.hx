@@ -22,6 +22,7 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 	public var onResultExecuting(default, null) : Dispatcher<ResultExecutingContext>;
 	public var onResultExecuted(default, null) : Dispatcher<ResultExecutedContext>;
 	public var onAuthorization(default, null) : Dispatcher<AuthorizationContext>;
+	public var onFailedAuthorization(default, null) : Dispatcher<AuthorizationContext>;
 
 	var _valueProvider : IValueProvider;
 	public var valueProvider(getValueProvider, setValueProvider) : IValueProvider;
@@ -45,6 +46,7 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 		onResultExecuted = new Dispatcher();
 		onResultExecuting = new Dispatcher();
 		onAuthorization = new Dispatcher();
+		onFailedAuthorization = new Dispatcher();
 	}
 
 	private function executeCore(async : hxevents.Async) { throw "executeCore() must be overridden in subclass."; }
@@ -52,7 +54,6 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 	public function execute(requestContext : RequestContext, async : hxevents.Async) : Void
 	{
 		NullArgument.throwIfNull(requestContext, "requestContext");
-		
 		if(controllerContext == null)
 			controllerContext = new ControllerContext(this, requestContext);
 

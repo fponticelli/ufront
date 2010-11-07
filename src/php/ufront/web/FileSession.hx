@@ -30,7 +30,11 @@ class FileSession implements IHttpSessionState
 
 	public function get(name : String) : Dynamic
 	{
-		return Lib.unserialize(Session.get(name));
+		var value : String = Session.get(name);
+		if(value == null)
+			return null;
+		else
+			return Lib.unserialize(value);
 	}
 
 	public function set(name : String, value : Dynamic) : Void
