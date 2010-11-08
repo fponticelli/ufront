@@ -45,13 +45,7 @@ class AuthorizeAttribute extends FilterAttribute
 	}
 	
 	function isAllowed(resource : String, privilege : String)
-	{   
-		trace(resource);
-		trace(privilege);
-		trace(currentUser);
-		trace(currentRoles);
-		trace(users);
-		trace(roles);
+	{
 		if(Lambda.has(users, currentUser))
 			return true;
 		for(role in currentRoles)

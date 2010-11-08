@@ -39,8 +39,8 @@ class TestAuthorizeAttribute
 		var auth = new AuthorizeAttribute();
 		auth.acl = new Acl();
 		auth.currentUser = 'franco';
-		auth.currentGroups = [];
-		auth.groups = [];
+		auth.currentRoles = [];
+		auth.roles = [];
 		auth.users = ['franco'];
 		auth.connect(controller);
 		execute();
@@ -53,8 +53,8 @@ class TestAuthorizeAttribute
 		var auth = new AuthorizeAttribute();
 		auth.acl = new Acl();    
 		auth.currentUser = null;
-		auth.currentGroups = ['admin'];
-		auth.groups = ['admin'];
+		auth.currentRoles = ['admin'];
+		auth.roles = ['admin'];
 		auth.users = [];
 		auth.connect(controller);
 		execute();
@@ -67,8 +67,8 @@ class TestAuthorizeAttribute
 		var auth = new AuthorizeAttribute();
 		auth.acl = new Acl();
 		auth.currentUser = 'drwho';
-		auth.currentGroups = [];
-		auth.groups = [];
+		auth.currentRoles = [];
+		auth.roles = [];
 		auth.users = ['franco'];
 		auth.connect(controller);
 		execute();
@@ -81,8 +81,8 @@ class TestAuthorizeAttribute
 		var auth = new AuthorizeAttribute();
 		auth.acl = new Acl();    
 		auth.currentUser = null;
-		auth.currentGroups = [];
-		auth.groups = ['admin'];
+		auth.currentRoles = [];
+		auth.roles = ['admin'];
 		auth.users = [];
 		auth.connect(controller);
 		execute();

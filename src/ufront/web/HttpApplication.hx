@@ -263,7 +263,18 @@ class HttpApplication
 	}
 	
 	function _dispatchChain(dispatchers : Array<AsyncDispatcher<HttpApplication>>, afterEffect : Void -> Void)
-	{                    
+	{  
+#if php
+// PHP has issues with long chains of methods
+        for(dispatcher in dispatchers)
+		{
+	    	if(_completed)
+				break;
+			dispatcher.dispatch(this, null, _dispatchError);
+		}
+		if(null != afterEffect)
+			afterEffect();
+#else                 
 		var self = this;
 		var next = null;
 		next = function()
@@ -278,6 +289,7 @@ class HttpApplication
 			dispatcher.dispatch(self, next, self._dispatchError);
 		}
 		next();
+#end
 	}
 	
 	function _dispatchError(e : Dynamic) 
