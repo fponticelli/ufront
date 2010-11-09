@@ -2,7 +2,6 @@ package ufront.web.mvc;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
-import thx.error.NullArgument;
 
 class ViewResult extends ActionResult
 {   
@@ -45,10 +44,14 @@ class ViewResult extends ActionResult
 		} catch(e : Dynamic) {
 			throw new Error("error in the template processing: {0}", Std.string(e));
 		}
-		
-		context.response.write(r); 
+		writeResponse(context, r);
 		if(null != result)
 			result.viewEngine.releaseView(context, view);
+	}
+	
+	function writeResponse(context : ControllerContext, content : String)
+	{
+		context.response.write(content);
 	}
 	
 //	function findEngine() : ViewEngine

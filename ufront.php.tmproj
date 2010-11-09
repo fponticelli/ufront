@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/ufront/web/mvc/AuthorizeAttribute.hx</string>
+	<string>src/ufront/web/mvc/HtmlViewResult.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -12,9 +12,9 @@
 			<key>name</key>
 			<string>assets</string>
 			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
-			<string>assets</string>
+			<string>../silviabadalotti.com/assets</string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -64,7 +64,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>290</integer>
+	<integer>256</integer>
 	<key>metaData</key>
 	<dict>
 		<key>bin/nodejs.js</key>
@@ -352,6 +352,34 @@
 				<key>line</key>
 				<integer>7</integer>
 			</dict>
+		</dict>
+		<key>src/ufront/web/IUrlFilter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>75</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/PartialUrl.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>42</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>src/ufront/web/error/BadRequestError.hx</key>
 		<dict>
@@ -653,6 +681,36 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/ufront/web/mvc/HtmlViewResult.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>22</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>29</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>22</integer>
+			</dict>
+		</dict>
 		<key>src/ufront/web/mvc/IActionFilter.hx</key>
 		<dict>
 			<key>caret</key>
@@ -781,14 +839,42 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/ufront/web/mvc/ViewEngines.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>16</integer>
+				<key>line</key>
+				<integer>34</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/ufront/web/mvc/ViewResult.hx</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>32</integer>
 				<key>line</key>
-				<integer>23</integer>
+				<integer>53</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/ufront/web/mvc/view/HTemplateViewEngine.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>65</integer>
+				<key>line</key>
+				<integer>28</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -1103,6 +1189,7 @@
 		<string>test/ufront/web/mvc/TestIResultFilter.hx</string>
 		<string>src/ufront/web/mvc/FilterAttribute.hx</string>
 		<string>src/ufront/web/mvc/AuthorizeAttribute.hx</string>
+		<string>src/ufront/web/IUrlFilter.hx</string>
 		<string>src/ufront/auth/Auth.hx</string>
 		<string>src/ufront/auth/storage/SessionStorage.hx</string>
 		<string>src/ufront/web/module/HttpFileServerModule.hx</string>
@@ -1114,6 +1201,10 @@
 		<string>src/ufront/web/error/HttpError.hx</string>
 		<string>src/ufront/web/error/PageNotFoundError.hx</string>
 		<string>src/ufront/web/mvc/ViewResult.hx</string>
+		<string>src/ufront/web/PartialUrl.hx</string>
+		<string>src/ufront/web/mvc/view/HTemplateViewEngine.hx</string>
+		<string>src/ufront/web/mvc/ViewEngines.hx</string>
+		<string>src/ufront/web/mvc/HtmlViewResult.hx</string>
 		<string>src/ufront/web/module/ErrorModule.hx</string>
 		<string>src/ufront/web/HttpApplication.hx</string>
 		<string>test/ufront/web/TestHttpApplication.hx</string>
@@ -1152,7 +1243,15 @@
 			<key>isExpanded</key>
 			<true/>
 			<key>subItems</key>
-			<dict/>
+			<dict>
+				<key>css</key>
+				<dict>
+					<key>isExpanded</key>
+					<true/>
+					<key>subItems</key>
+					<dict/>
+				</dict>
+			</dict>
 		</dict>
 		<key>src</key>
 		<dict>
@@ -1328,6 +1427,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{1052, 100}, {1340, 1083}}</string>
+	<string>{{1639, 115}, {1273, 1286}}</string>
 </dict>
 </plist>
