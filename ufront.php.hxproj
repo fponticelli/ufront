@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="d:\Projects\Haxe\Sandbox\www" />
+    <movie path="bin" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
@@ -18,7 +18,6 @@
     <class path="..\core\src" />
     <class path="..\htemplate\src" />
     <class path="..\utest\src" />
-    <class path="..\umock\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -33,6 +32,7 @@
     <library name="hxevents" />
     <library name="hxculture" />
     <library name="hscript" />
+    <library name="umock" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
@@ -40,7 +40,7 @@
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
-    <!-- example: <hidden path="..." /> -->
+    <hidden path=".hg" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />

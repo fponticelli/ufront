@@ -3,6 +3,8 @@ package ufront.web.routing;
 import utest.Runner;
 import utest.ui.Report;
 
+import ufront.web.mvc.HtmlViewResult;
+
 class TestAll
 {
 	public static function addTests(runner : Runner)

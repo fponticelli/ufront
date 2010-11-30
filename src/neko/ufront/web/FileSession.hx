@@ -33,7 +33,7 @@ class FileSession implements IHttpSessionState
 	}
 
 	public function get(name : String) : Dynamic
-	{
+	{                                          
 		return NekoSession.get(name);
 	}
 
