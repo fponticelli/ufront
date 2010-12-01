@@ -167,7 +167,7 @@ class HttpApplication
 		onPreRequestHandlerExecute = new AsyncDispatcher();
 		onPostRequestHandlerExecute = new AsyncDispatcher();
 		
-		onReleaseRequestState = new AsyncDispatcher();\rptools.
+		onReleaseRequestState = new AsyncDispatcher();
 		onPostReleaseRequestState = new AsyncDispatcher();
 		
 		onUpdateRequestCache = new AsyncDispatcher();
