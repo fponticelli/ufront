@@ -11,6 +11,7 @@ import thx.sys.Lib;
 import ufront.web.IHttpHandler;    
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;
+import ufront.web.UserAgent;
 using thx.text.UString;
 using StringTools;
 
@@ -146,6 +147,13 @@ class HttpRequest extends ufront.web.HttpRequest
 		if (null == cookies)
 			cookies = Lib.hashOfAssociativeArray(untyped __php__("$_COOKIE"));
 		return cookies;
+	}
+	
+	override function getUserAgent()
+	{
+		if (null == userAgent)
+			userAgent = UserAgent.fromString(clientHeaders.get("User-Agent"));
+		return userAgent;
 	}
 	
 	override function getHostName()

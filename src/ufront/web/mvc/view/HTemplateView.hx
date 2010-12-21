@@ -41,7 +41,7 @@ class HTemplateView implements IView
 		data.registerHelper("url", urlHelper);
 		switch(viewContext.response.contentType)
 		{           
-			case "text/xhtml":
+			case "application/xhtml+xml":
 				data.registerHelper("html", new XHtmlHelper(viewContext, data, urlHelper)); 
 			case "text/html":
 				data.registerHelper("html", new HtmlHelper(viewContext, data, urlHelper));

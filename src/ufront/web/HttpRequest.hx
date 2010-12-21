@@ -69,6 +69,9 @@ class HttpRequest
 
  	public var clientHeaders(getClientHeaders, null) : Hash<String>;
  	function getClientHeaders() return throw new AbstractMethod()
+	
+	public var userAgent(getUserAgent, null) : UserAgent;
+ 	function getUserAgent() return throw new AbstractMethod()
 
  	public var httpMethod(getHttpMethod, null) : String;
  	function getHttpMethod() return throw new AbstractMethod()

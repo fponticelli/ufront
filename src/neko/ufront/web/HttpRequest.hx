@@ -11,6 +11,7 @@ import thx.sys.Lib;
 import ufront.web.IHttpHandler;
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;
+import ufront.web.UserAgent;
 using thx.text.UString;
 using StringTools;
 
@@ -128,6 +129,13 @@ class HttpRequest extends ufront.web.HttpRequest
 		if (null == query)
 			query = getHashFromString(queryString);
 		return query;
+	}
+	
+	override function getUserAgent()
+	{
+		if (null == userAgent)
+			userAgent = new UserAgent(clientHeaders.get("User-Agent"));
+		return userAgent;
 	}
 	
 	override function getPost()
