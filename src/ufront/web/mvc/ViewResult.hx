@@ -2,6 +2,7 @@ package ufront.web.mvc;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
+using thx.type.UType;
 
 class ViewResult extends ActionResult
 {   
@@ -33,7 +34,7 @@ class ViewResult extends ActionResult
 		{          
 			result = findView(context, viewName);
 			if(null == result)
-				throw new Error("unable to find a view/engine for {0}", viewName);   
+				throw new Error("unable to find a view/engine for '{0}'", context.controller.typeName() + "/" + viewName);   
             this.view = result.view;
 		}   
 		var viewContext = createContext(result, context);

@@ -6,8 +6,8 @@
 package ufront.web;
 import haxe.io.Bytes;
 import thx.collections.HashList;
-import thx.neutral.io.FileOutput;
-import thx.neutral.io.File;
+import thx.sys.io.FileOutput;
+import thx.sys.io.File;
 
 using StringTools;
 
@@ -15,8 +15,8 @@ class SaveToDirectoryUploadHandler implements IHttpUploadHandler
 {
 	var _directory : String;
 	var _output : FileOutput;
-	public var uploadedFilesInfo : HashList<{ size : Int, filename : String }>;
-	var _size : Int;
+	public var uploadedFilesInfo : HashList<UploadInfo>;
+	var _current : UploadInfo;
 	public function new(directory : String)
 	{
 		uploadedFilesInfo = new HashList();
@@ -26,21 +26,25 @@ class SaveToDirectoryUploadHandler implements IHttpUploadHandler
 	}
 	public function uploadStart(name : String, filename : String) : Void
 	{
-		uploadedFilesInfo.set(name, { size : 0, filename : filename } );
-		_size = 0;
+		_current = { size : 0, filename : filename };
+		uploadedFilesInfo.set(name, _current);
 		_output = File.write(_directory + filename, true);
 	}
 	
-	public function uploadProgress(name : String, bytes : Bytes, pos : Int, len : Int) : Void
+	public function uploadProgress(bytes : Bytes, pos : Int, len : Int) : Void
 	{
-		_size += len;
+		_current.size += len;
 		_output.writeBytes(bytes, pos, len);
 	}
 	
-	public function uploadEnd(name : String) : Void
+	public function uploadEnd() : Void
 	{
 		_output.close();
-		var ob = uploadedFilesInfo.get(name);
-		ob.size = _size;
+		_current = null;
 	}
+}
+
+typedef UploadInfo = {
+	size : Int,
+	filename : String
 }

@@ -1,11 +1,9 @@
 package ufront.web.mvc;     
-import php.Lib;
-import sb.controller.backend.SetupController;
 import thx.error.Error;
-import thx.html.HtmlFormat;
 import thx.html.XHtmlFormat;
-import thx.html.HtmlParser;
+import thx.html.Html;
 import thx.html.HtmlDocumentFormat;
+import ufront.web.mvc.view.UrlHelper;
 import ufront.web.UserAgent;
 using StringTools;
 using thx.collections.UArray;
@@ -64,20 +62,20 @@ class HtmlViewResult extends ViewResult
 	
 	override function writeResponse(context : ControllerContext, content : String)
 	{
-		var template = getTemplate(version);
+		var template = Html.getTemplate(version);
 		var result : String = null;
-		var parser = getParser(version);
+		var parser = Html.getParser(version);
 		if(autoformat)
 		{
-			var body = template.replace("{content}", content);
+			var body = template.replace("</body>", content + "</body>");
 			var dom = parser(body);
 			handleDom(dom, context);
-			result = getFormatter(version).format(dom);
+			result = Html.getFormatter(version).format(dom);
 		} else {
 			var dom = parser(template);
 			handleDom(dom, context);
-			result = getFormatter(version).format(dom);
-			result = result.replace("{content}", content);
+			result = Html.getFormatter(version).format(dom);
+			result = result.replace("</body>", "\n" + content + "\n</body>");
 		}
 		context.response.write(result);
 	}
@@ -86,8 +84,8 @@ class HtmlViewResult extends ViewResult
 	{       
 		var html  = dom.firstElement();
 		var head  = html.firstElement();
-		var body  = head.elementsNamed("body").next();
 		var title = head.elementsNamed("title").next();  
+		var body  = html.elementsNamed("body").next();
 		
 		// title
 		var t = getTitle();
@@ -126,6 +124,8 @@ class HtmlViewResult extends ViewResult
 			}   
 		}
 		
+		var httpContext = context.httpContext;
+		
 		// scripts
 		var scripts = getScripts();
 		for (script in scripts)
@@ -133,7 +133,7 @@ class HtmlViewResult extends ViewResult
 			var node = Xml.createElement("script");
 			if (null != script.src)
 			{
-				node.set("src", script.src);
+				node.set("src", httpContext.generateUri(script.src));
 			} else {
 				var content = Xml.createPCData(script.script);
 				node.addChild(content);
@@ -154,7 +154,7 @@ class HtmlViewResult extends ViewResult
 			if (null != css.href)
 			{
 				node = Xml.createElement("link");
-				node.set("href", css.href);
+				node.set("href", httpContext.generateUri(css.href));
 				node.set("rel", null == css.rel ? "StyleSheet" : css.rel);
 				if (null != css.title)
 					node.set("title", css.title);
@@ -262,9 +262,7 @@ class HtmlViewResult extends ViewResult
 			var re = ~/^(\d+)(?:\.(\d+))?$/;
 			if (!re.match(parts[2]))
 				return null;
-			trace(parts[2] + " " + re.match(parts[2]));
 			majorVersion = Std.parseInt(re.matched(1));
-			trace(majorVersion);
 			if (null != re.matched(2))
 				minorVersion = Std.parseInt(re.matched(2));
 		}
@@ -278,6 +276,30 @@ class HtmlViewResult extends ViewResult
 			minorVersion : minorVersion,
 			operator : operator
 		};
+	}
+	
+	public function addScriptLink(src : String, ?browser : String, ?charset : String, ?defer : Bool)
+	{
+		addScript({
+			src     : src,
+			charset : charset,
+			defer   : defer,
+			script  : null,
+			browser : browser
+		});
+		return this;
+	}
+	
+	public function addScriptCode(code : String, ?browser : String, ?charset : String, ?defer : Bool)
+	{
+		addScript({
+			src     : null,
+			charset : charset,
+			defer   : defer,
+			script  : code,
+			browser : browser
+		});
+		return this;
 	}
 	
 	public function addScript(script : Script)
@@ -383,17 +405,6 @@ class HtmlViewResult extends ViewResult
 		};
 	}
 	
-	static function getParser(version) : String -> Xml
-	{
-		switch(version)
-		{
-			case Html401Strict, Html401Transitional, Html401Frameset, Html5:
-				return Html.toXml;
-			case XHtml10Transitional, XHtml10Frameset, XHtml10Strict, XHtml11:
-				return Xml.parse;
-		}
-	}
-	
 	static function getContentType(version) : String
 	{
 		switch(version)
@@ -404,106 +415,6 @@ class HtmlViewResult extends ViewResult
 				return "application/xhtml+xml";
 		}
 	}
-	
-	static function getFormatter(version) : XHtmlFormat
-	{
-		var format : XHtmlFormat;
-		switch(version)
-		{
-			case Html401Strict, Html401Transitional, Html401Frameset:
-				var f = new HtmlFormat();
-				f.quotesRemoval = false;
-				f.useCloseSelf = false;
-				f.specialElementContentFormat = AsCommentedText;
-				format = f;
-			case Html5:
-				var f = new HtmlFormat();
-				f.quotesRemoval = true;
-				f.useCloseSelf = true;
-				f.specialElementContentFormat = AsPlainText;
-				format = f;
-			case XHtml10Transitional, XHtml10Frameset, XHtml10Strict, XHtml11:
-				format = new XHtmlFormat();
-		}
-		format.autoformat = true;
-		format.normalizeNewlines = true;
-		return format;
-	}
-	
-	static function getTemplate(version)
-	{
-		switch(version)
-		{
-			case Html401Strict:
-				return getTemplateHtml4Strict();
-			case Html401Transitional:
-				return getTemplateHtml4Transitional();
-			case Html401Frameset:
-				return getTemplateHtml4Frameset();
-			case Html5:
-				return getTemplateHtml5();
-			case XHtml10Transitional:
-				return getTemplateXHtml10Transitional();
-			case XHtml10Frameset:
-				return getTemplateXHtml10Frameset();
-			case XHtml10Strict:
-				return getTemplateXHtml10Strict();
-			case XHtml11:
-				return getTemplateXHtml11();
-		}   
-	}
-	
-	static function getTemplateHtml4Strict()
-	{
-		return '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title></title></head><body>{content}</body></html>';
-	}
-	
-	static function getTemplateHtml4Transitional()
-	{
-		return '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><title></title></head><body>{content}</body></html>';
-	}
-	
-	static function getTemplateHtml4Frameset()
-	{
-		return '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd"><html><head><title></title></head><frameset><noframes><body>{content}</body></noframes></frameset></html>';
-	}
-	
-	static function getTemplateHtml5()
-	{
-		return '<!doctype html><html><head><title></title></head><body>{content}</body></html>';
-	}
-	
-	static function getTemplateXHtml10Transitional()
-	{
-		return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title></title></head><body>{content}</body></html>';
-	}
-	
-	static function getTemplateXHtml10Strict()
-	{
-		return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title></title></head><body>{content}</body></html>';
-	}
-	
-	static function getTemplateXHtml10Frameset()
-	{
-		return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title></title></head><frameset><noframes><body>{content}</body></noframes></frameset></html>';
-	}
-	
-	static function getTemplateXHtml11()
-	{
-		return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title></title></head><body>{content}</body></html>';
-	}
-}
-
-enum HtmlVersion
-{
-	Html401Strict;
-	Html401Transitional;
-	Html401Frameset;
-	Html5;
-	XHtml10Transitional;
-	XHtml10Strict;
-	XHtml10Frameset;
-	XHtml11;
 }
 
 typedef Script = {

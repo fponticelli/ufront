@@ -2,6 +2,8 @@ package ufront.web;
 
 import utest.Runner;
 import utest.ui.Report;
+import ufront.web.EmptyUploadHandler;
+import ufront.web.SaveToDirectoryUploadHandler;
 
 class TestAll
 {

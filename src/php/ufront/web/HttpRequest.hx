@@ -106,10 +106,10 @@ class HttpRequest extends ufront.web.HttpRequest
 			while (!__call__("feof", h)) {
 				var buf : String = __call__("fread", h, bsize);
 				var size : Int = __call__("strlen", buf);
-				handler.uploadProgress(name, Bytes.ofString(buf), 0, size);
+				handler.uploadProgress(Bytes.ofString(buf), 0, size);
 			}
 			untyped __call__("fclose", h);
-			handler.uploadEnd(name);
+			handler.uploadEnd();
 			untyped __call__("unlink", tmp);
 		}
 	}

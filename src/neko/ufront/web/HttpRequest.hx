@@ -67,7 +67,7 @@ class HttpRequest extends ufront.web.HttpRequest
 			if (lastWasFile)
 			{
 				// close previous upload
-				handler.uploadEnd(partName);
+				handler.uploadEnd();
 			}
 			isFile = null != pf && "" != pf;
 			partName = pn.urlDecode();
@@ -90,7 +90,7 @@ class HttpRequest extends ufront.web.HttpRequest
 				{
 					if (len > 0)
 					{
-						handler.uploadProgress(partName, bytes, pos, len);
+						handler.uploadProgress(bytes, pos, len);
 					}
 				} else {
 					post.set(partName, bytes.readString(pos, len));
@@ -99,7 +99,7 @@ class HttpRequest extends ufront.web.HttpRequest
 				if (isFile)
 				{
 					if(len > 0)
-						handler.uploadProgress(partName, bytes, pos, len);
+						handler.uploadProgress(bytes, pos, len);
 				} else {
 					post.set(partName, post.get(partName) + bytes.readString(pos, len));
 				}
@@ -112,7 +112,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		if (isFile)
 		{
 			// close last upload
-			handler.uploadEnd(partName);
+			handler.uploadEnd();
 		}
 	}
 
@@ -134,7 +134,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	override function getUserAgent()
 	{
 		if (null == userAgent)
-			userAgent = new UserAgent(clientHeaders.get("User-Agent"));
+			userAgent = UserAgent.fromString(clientHeaders.get("User-Agent"));
 		return userAgent;
 	}
 	
