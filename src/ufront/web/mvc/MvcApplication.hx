@@ -58,9 +58,7 @@ class MvcApplication extends HttpApplication
 
 			ControllerBuilder.current.addPackage(packageName);
 		}
-		
-		beginRequest.add(onBeginRequest);
-	}
-	
-	function onBeginRequest(app : HttpApplication) {}
+		else
+			ControllerBuilder.current.addPackage(controllerPackage);
+	}	
 }

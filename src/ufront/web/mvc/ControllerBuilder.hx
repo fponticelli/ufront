@@ -2,6 +2,7 @@ package ufront.web.mvc;
 
 #if macro
 import haxe.macro.Compiler;
+import haxe.macro.Context;
 import haxe.macro.Expr;
 #else
 import thx.error.NullArgument;
@@ -31,9 +32,10 @@ class ControllerBuilder
 		this._controllerFactory = controllerFactory;
 	}
 	
-	public function addPackageToList(pack : String)
+	public function addPackage(pack : String)
 	{
 		_packs.add(pack);
+		ControllerBuilder.includePackage(pack);
 	}
 	
 	public function packages()
@@ -41,28 +43,8 @@ class ControllerBuilder
 		return _packs.iterator();
 	}
 #end
-	@:macro public static function addPackage(pack : Expr)
+	@:macro public static function includePackage(pack : Expr)
 	{
-		var alternative = {
-			expr : ECall( {
-				expr : EField({ 
-					expr : EField({
-						expr : EType({
-						   expr : EField({
-							   expr : EField({
-								   expr : EConst(CIdent("ufront")),
-								   pos : pack.pos 
-							   },"web"), 
-							   pos : pack.pos
-						   },"mvc"),
-						   pos : pack.pos },"ControllerBuilder"),
-					   pos : pack.pos }, "current"),
-					pos : pack.pos },"addPackageToList"),
-			   pos : pack.pos },
-			   [pack]),
-		   pos : pack.pos
-		};
-		
 		switch(pack.expr)
 		{
 			case EConst(c):
@@ -76,6 +58,7 @@ class ControllerBuilder
 			default:
 				//
 		}
-		return alternative;
+		
+		return { expr: EConst(CType("Void")), pos: Context.currentPos() };
 	}
 }
