@@ -43,7 +43,8 @@ class TestHTemplateData
 		t.templateData.register();
     	Assert.equals("A", t.view.render(t.viewContext));
 	}
-*/	
+*/
+/*
 	public function testRegisterHelperVariable()
 	{        
 	 	var t = getHTemplateData("{:h.v}");  
@@ -84,7 +85,8 @@ class TestHTemplateData
 		Assert.equals("o", t.view.render(t.viewContext));
     }
     
-#end	
+#end
+*/
 	public static function getHTemplateData(templateString : String = "")
 	{
 		var controller = new MockController();                                                
@@ -101,7 +103,7 @@ class TestHTemplateData
 	        view : view,
 			viewContext : viewContext
 		};
-	}  
+	}
 }      
 
 private class Helper { 

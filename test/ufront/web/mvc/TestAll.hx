@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 import ufront.web.routing.RouteCollection;
 import ufront.web.mvc.view.TestHTemplateData;
-                       
+
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.Route;
 import ufront.web.routing.RouteData;

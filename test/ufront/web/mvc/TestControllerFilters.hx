@@ -15,22 +15,6 @@ import ufront.web.mvc.test.MockController;
 import ufront.web.mvc.MockController; 
 import ufront.web.mvc.Controller;
 
-private class TestController extends Controller
-{           
-	public var handler : Void -> Void;
-	public function new()
-	{
-		super();
-	}
-	
-	public function index(?id : Int)
-	{
-    	if(null != handler)
-			handler();
-		return "content";
-	}
-}
-
 class TestControllerFilters
 {   
 	public function testEventsSequence()
@@ -94,13 +78,13 @@ class TestControllerFilters
 	public function new()
 	{}
 
-	var controller : TestController;
+	var controller : ControllerTest;
 	var context : RequestContext;
 	
 	public function setup()
 	{
 		context = TestAll.getRequestContext();
-		controller = new TestController();
+		controller = new ControllerTest();
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
 		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
