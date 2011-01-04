@@ -35,7 +35,6 @@ class ControllerBuilder
 	public function addPackage(pack : String)
 	{
 		_packs.add(pack);
-		ControllerBuilder.includePackage(pack);
 	}
 	
 	public function packages()

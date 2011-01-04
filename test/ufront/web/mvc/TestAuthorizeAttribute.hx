@@ -1,5 +1,7 @@
 package ufront.web.mvc;
+import thx.collections.HashList;
 import ufront.acl.Acl;
+import ufront.web.error.UnauthorizedError;
 import ufront.web.HttpResponseMock;
 import haxe.rtti.Infos;
 import thx.error.Error;
@@ -42,10 +44,9 @@ class TestAuthorizeAttribute
 		auth.currentRoles = [];
 		auth.roles = [];
 		auth.users = ['franco'];
-		auth.connect(controller);
-		execute();
-		var response = cast(controller.controllerContext.response, HttpResponseMock);
-		Assert.equals("content", response.getBuffer());
+		
+		var authContext = setupContext(auth);
+		Assert.isNull(authContext.result);
 	}
 	
 	public function testGroup()
@@ -56,10 +57,9 @@ class TestAuthorizeAttribute
 		auth.currentRoles = ['admin'];
 		auth.roles = ['admin'];
 		auth.users = [];
-		auth.connect(controller);
-		execute();
-		var response = cast(controller.controllerContext.response, HttpResponseMock);
-		Assert.equals("content", response.getBuffer());
+		
+		var authContext = setupContext(auth);
+		Assert.isNull(authContext.result);
 	}
 	
 	public function testFailUser()
@@ -70,10 +70,9 @@ class TestAuthorizeAttribute
 		auth.currentRoles = [];
 		auth.roles = [];
 		auth.users = ['franco'];
-		auth.connect(controller);
-		execute();
-		var response = cast(controller.controllerContext.response, HttpResponseMock);
-		Assert.notEquals("content", response.getBuffer());
+		
+		var authContext = setupContext(auth);		
+		Assert.is(authContext.result, HttpUnauthorizedResult);
 	}
 	
 	public function testFailGroup()
@@ -84,10 +83,9 @@ class TestAuthorizeAttribute
 		auth.currentRoles = [];
 		auth.roles = ['admin'];
 		auth.users = [];
-		auth.connect(controller);
-		execute();
-		var response = cast(controller.controllerContext.response, HttpResponseMock);
-		Assert.notEquals("content", response.getBuffer());
+		
+		var authContext = setupContext(auth);
+		Assert.is(authContext.result, HttpUnauthorizedResult);
 	}
 	    
 	public static function addTests(runner : Runner)
@@ -121,5 +119,13 @@ class TestAuthorizeAttribute
 	function execute()
 	{
 		controller.execute(context, new hxevents.Async(function(){}));
+	}
+	
+	function setupContext(auth : AuthorizeAttribute)
+	{
+		var authContext = new AuthorizationContext(new ControllerContext(controller, context), "index", new HashList<Dynamic>());		
+		auth.onAuthorization(authContext);
+		
+		return authContext;
 	}
 }

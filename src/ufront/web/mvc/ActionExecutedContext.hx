@@ -6,9 +6,10 @@ class ActionExecutedContext
 	public var controllerContext(default, null) : ControllerContext;
 //	public var canceled : Bool;
 //	public var exception : Dynamic
-// public var exceptionHandled : Bool;
-	public var result : Dynamic;
-	public function new(controllerContext : ControllerContext, actionName : String, result : Dynamic)
+//  public var exceptionHandled : Bool;
+	public var result : ActionResult;
+	
+	public function new(controllerContext : ControllerContext, actionName : String, result : ActionResult)
 	{
 		this.controllerContext = controllerContext;
 		this.actionName = actionName;

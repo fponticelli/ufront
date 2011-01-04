@@ -16,7 +16,8 @@ import ufront.web.mvc.MockController;
 import ufront.web.mvc.Controller;
 
 private class TestController extends Controller
-{           
+{
+	public var auth : AuthorizationContext -> Void;	
 	public var handler : Void -> Void;
 	public function new()
 	{
@@ -29,34 +30,49 @@ private class TestController extends Controller
 			handler();
 		return "content";
 	}
+	
+	override function onAuthorization(context : AuthorizationContext)
+	{
+		auth(context);
+	}
 }
 
 class TestIAuthorizationFilter
 {   
 	public function testAuthorizationOverridesAction()
 	{
-		controller.onAuthorization.add(function(e){
-			Assert.isNull(e.result);
-			e.result = "eventcontent";
-		});       
+		var authResult : ActionResult = null;
+		
+		controller.auth = function(context : AuthorizationContext)
+		{
+			Assert.isNull(context.result);
+			
+			context.result = new ContentResult("eventcontent");
+			authResult = context.result;
+		}
+		
 		controller.handler = function()
 		{
 			Assert.fail("should never reach this point");
 		}
+		
 		execute();
-		var response = cast(controller.controllerContext.response, HttpResponseMock);
-		Assert.equals("eventcontent", response.getBuffer());
+		
+		Assert.equals("eventcontent", cast(authResult, ContentResult).content);
 	}
 		
 	public function testAuthorizationArguments()
 	{  
 		context.routeData.data.set("id", "1");
-		controller.onAuthorization.add(function(e){
+		
+		controller.auth = function(e)
+		{
 			Assert.notNull(e.controllerContext);
 			Assert.notNull(e.actionParameters);
 			Assert.equals("index", e.actionName);
 			Assert.equals(1, e.actionParameters.get("id"));
-		});
+		};
+		
 		execute();
 	}
 	    

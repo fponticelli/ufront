@@ -16,68 +16,80 @@ import ufront.web.mvc.MockController;
 import ufront.web.mvc.Controller;
 
 private class TestController extends Controller
-{           
+{
+	public var sequence : Array<Int>;
+	
 	public var handler : Void -> Void;
 	public function new()
 	{
+		this.sequence = [];
 		super();
 	}
 	
 	public function index(?id : Int)
 	{
+		sequence.push(2);
+		
     	if(null != handler)
 			handler();
+			
 		return "content";
 	}
+	
+	override function onAuthorization(filterContext : AuthorizationContext)
+	{
+		sequence.push(0);
+	}
+
+	override function onActionExecuting(filterContext : ActionExecutingContext)
+	{
+		sequence.push(1);
+	}
+	
+	override function onActionExecuted(filterContext : ActionExecutedContext)
+	{
+		sequence.push(3);
+	}
+
+	override function onResultExecuting(filterContext : ResultExecutingContext)
+	{
+		sequence.push(4);
+	}
+	
+	override function onResultExecuted(filterContext : ResultExecutedContext)
+	{
+		sequence.push(5);
+	}
+}
+
+private class TestFailAuthController extends TestController
+{
+	public function new() { super(); }
+	
+	override function onAuthorization(filterContext : AuthorizationContext)
+	{
+		super.onAuthorization(filterContext);
+		filterContext.result = new HttpUnauthorizedResult();
+	}	
 }
 
 class TestControllerFilters
 {   
 	public function testEventsSequence()
-	{                                   
-		var sequence = [];
-		controller.onAuthorization.add(function(_) sequence.push(0)); 
-		controller.onActionExecuting.add(function(_) sequence.push(1));
-		controller.handler = function() sequence.push(2);
-		controller.onActionExecuted.add(function(_) sequence.push(3)); 
-		controller.onResultExecuting.add(function(_) sequence.push(4));
-		controller.onResultExecuted.add(function(_) sequence.push(5));
+	{
 		execute();
-		Assert.same([0,1,2,3,4,5], sequence);
+		Assert.equals(6, controller.sequence.length);
+		Assert.same([0,1,2,3,4,5], controller.sequence);
 	}
 	
 	public function testEventsSequenceWhenAuthorizationBlocksTheResult()
-	{                                   
-		var sequence = [];
-		controller.onAuthorization.add(function(e) {
-			e.result = "authorization";
-			sequence.push(0);
-		}); 
-		controller.onActionExecuting.add(function(_) sequence.push(1));
-		controller.handler = function() sequence.push(2);
-		controller.onActionExecuted.add(function(_) sequence.push(3)); 
-		controller.onResultExecuting.add(function(_) sequence.push(4));
-		controller.onResultExecuted.add(function(_) sequence.push(5));
+	{
+		setupController(new TestFailAuthController());		
 		execute();
-		Assert.same([0,4,5], sequence);
+		
+		Assert.same([0], controller.sequence);
 	}
 	
-	public function testEventsSequenceWhenActionExecutingBlocksTheResult()
-	{                                   
-		var sequence = [];
-		controller.onAuthorization.add(function(_) sequence.push(0)); 
-		controller.onActionExecuting.add(function(e) {
-			e.result = "actionexecuting";
-			sequence.push(1);
-		});
-		controller.handler = function() sequence.push(2);
-		controller.onActionExecuted.add(function(_) sequence.push(3)); 
-		controller.onResultExecuting.add(function(_) sequence.push(4));
-		controller.onResultExecuted.add(function(_) sequence.push(5));
-		execute();
-		Assert.same([0,1,4,5], sequence);
-	}
-	    
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestControllerFilters());
@@ -99,11 +111,16 @@ class TestControllerFilters
 	
 	public function setup()
 	{
+		setupController(null);
+	} 
+	
+	public function setupController(?controller : TestController)
+	{
 		context = TestAll.getRequestContext();
-		controller = new TestController();
+		this.controller = controller == null ? new TestController() : controller;
 
-		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
+		var valueProvider = new RouteDataValueProvider(new ControllerContext(this.controller, context));
+		this.controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
 	} 
 	
 	function execute()

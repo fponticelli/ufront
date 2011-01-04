@@ -3,7 +3,7 @@ import ufront.web.error.UnauthorizedError;
 import ufront.acl.Acl;
 using thx.type.UType;
 
-class AuthorizeAttribute extends FilterAttribute
+class AuthorizeAttribute extends FilterAttribute, implements IAuthorizationFilter
 {
 	public var roles : Array<String>;
 	public var users : Array<String>;
@@ -11,12 +11,7 @@ class AuthorizeAttribute extends FilterAttribute
 	public var currentRoles : Array<String>;
 	public var currentUser : String;
 	
-	override function connect(controller : IController)
-	{   
-		controller.onAuthorization.add(authorize);
-	}                                            
-	
-	function authorize(e : AuthorizationContext)
+	public function onAuthorization(e : AuthorizationContext)
 	{   
 		var cname = e.controllerContext.controller.fullName();
 		if(!acl.existsResource(cname))
@@ -32,15 +27,8 @@ class AuthorizeAttribute extends FilterAttribute
 			acl.allow(roles, [cname], [e.actionName]);
 		
 		if(!isAllowed(cname, e.actionName))
-		{   
-			if(!e.controllerContext.controller.onFailedAuthorization.has())
-				throw new UnauthorizedError();
-			else
-				e.controllerContext.controller.onFailedAuthorization.dispatch(e);
-			/*
-			e.controllerContext.response.setUnauthorized();
-			e.result = "Unauthorized access";              
-			*/
+		{
+			e.result = new HttpUnauthorizedResult();
 		}
 	}
 	

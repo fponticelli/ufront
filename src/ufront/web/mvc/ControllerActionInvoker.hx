@@ -137,55 +137,83 @@ class ControllerActionInvoker implements IActionInvoker
     	if(_mapper.exists(actionName))
 			action = "h" + actionName;
 #end    
-        var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
-		controllerContext.controller.onAuthorization.dispatch(authorizationContext);
-		if(null != authorizationContext.result)
+		var filterInfo = getFilters(controllerContext, action);		
+		mergeControllerFilters(cast controller, filterInfo);
+		
+		try
 		{
-			processContent(authorizationContext.result, controllerContext, async);
-		} else 
-		{
-			var executingContext = new ActionExecutingContext(controllerContext, actionName, arguments);
-			controllerContext.controller.onActionExecuting.dispatch(executingContext);
-			if(null != executingContext.result)
+			var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
+			for (filter in filterInfo.authorizationFilters)
 			{
-				processContent(executingContext.result, controllerContext, async);
-			} else if(isasync) {
-			 	var handler = function(value) {
-					var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
-					controllerContext.controller.onActionExecuted.dispatch(executedContext);
+				filter.onAuthorization(authorizationContext);
+			}
+			
+			//trace(Type.getClassName(Type.getClass(authorizationContext.result)));
+						
+			if(null != authorizationContext.result)
+			{
+				// No other filters should be called if an authorizationFilter is
+				// short-circuting the request.
+				authorizationContext.result.executeResult(controllerContext);
+			} 
+			else 
+			{
+				var executingContext = new ActionExecutingContext(controllerContext, actionName, arguments);
+				for (filter in filterInfo.actionFilters)
+				{
+					filter.onActionExecuting(executingContext);
+				}
 				
-					processContent(executedContext.result, controllerContext, async);
-				};
-				var args = arguments.array();
-				args.push(handler);
-				Reflect.callMethod(controller, Reflect.field(controller, action), args);
-			} else {
-				var value = Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array());
-				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
-				controllerContext.controller.onActionExecuted.dispatch(executedContext);
-				processContent(executedContext.result, controllerContext, async);
-			}    
+				var value = createActionResult(Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array()));
+
+				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);				
+				for (filter in reverse(filterInfo.actionFilters))
+				{
+					filter.onActionExecuted(executedContext);
+				}
+
+				processContent(value, controllerContext, filterInfo);
+			}
 		}
+		catch(e : Dynamic)
+		{
+			
+		}
+		
+		async.completed();
 	}
 	
-	static function processContent(value : Dynamic, controllerContext : ControllerContext, async : hxevents.Async)
-	{       
-		var executingContext = new ResultExecutingContext(controllerContext, value);
-		controllerContext.controller.onResultExecuting.dispatch(executingContext);
-		value = executingContext.result;
-		if(null != value && Std.is(value, ActionResult))
+	public static function createActionResult(actionReturnValue : Dynamic) : ActionResult
+	{
+		if (actionReturnValue == null)
+			return new EmptyResult();
+			
+		if (Std.is(actionReturnValue, ActionResult)) return cast actionReturnValue;
+		return new ContentResult(Std.string(actionReturnValue), null);
+	}
+	
+	function reverse<T>(list : Array<T>)
+	{
+		var output = new Array<T>();
+		for(i in list) { output.push(i); }
+		return output; 
+	}
+	
+	function processContent(value : ActionResult, controllerContext : ControllerContext, filters : FilterInfo)
+	{
+		var executingContext = new ResultExecutingContext(controllerContext, value);		
+		for (filter in filters.resultFilters)
 		{
-			var result : ActionResult = cast value;    
-			result.executeResult(controllerContext);
+			filter.onResultExecuting(executingContext);
 		}
-		else if(value != null)
-		{
-			// Write the returnValue to response.
-			controllerContext.response.write(Std.string(value));
-		}
+		
+		value.executeResult(controllerContext);
+
 		var executedContext = new ResultExecutedContext(controllerContext, value);
-		controllerContext.controller.onResultExecuted.dispatch(executedContext);
-		async.completed(); 
+		for (filter in filters.resultFilters)
+		{
+			filter.onResultExecuted(executedContext);
+		}
 	}
 	
 	function _handleUnknownAction(action : String, async : hxevents.Async, err : Dynamic)
@@ -199,7 +227,29 @@ class ControllerActionInvoker implements IActionInvoker
 		}   		
 		async.error(error);
 	}
+	
+	function getFilters(context : ControllerContext, actionField : String) : FilterInfo
+	{
+		var output = new FilterInfo();
 		
+		return output;
+	}
+
+	private function mergeControllerFilters(controller : ControllerBase, filterInfo : FilterInfo) : Void 
+	{
+		if (Std.is(controller, IAuthorizationFilter))
+			filterInfo.authorizationFilters.unshift(cast controller);
+			
+		if (Std.is(controller, IActionFilter))
+			filterInfo.actionFilters.unshift(cast controller);
+
+		if (Std.is(controller, IResultFilter))
+			filterInfo.resultFilters.unshift(cast controller);
+
+		if (Std.is(controller, IExceptionFilter))
+			filterInfo.exceptionFilters.unshift(cast controller);
+	}
+
 #if php
 	static var _mapper : Set<String>; 
     static function __init__()

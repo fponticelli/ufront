@@ -31,7 +31,7 @@ class MvcApplication extends HttpApplication
 	 * @param	?serverConfiguration Server-specific settings like mod_rewrite. If null, class defaults will be used.
 	 * @param	?httpContext		 Context for the request, if null a web context will be created. Could be useful for unit testing.
 	 */
-	public function new(?routes : RouteCollection, ?controllerPackage : String, ?serverConfiguration : ServerConfiguration, ?httpContext : HttpContext)
+	public function new(?controllerPackage = "", ?routes : RouteCollection, ?serverConfiguration : ServerConfiguration, ?httpContext : HttpContext)
 	{
 		if (serverConfiguration == null)
 			serverConfiguration = new ServerConfiguration();
@@ -50,15 +50,6 @@ class MvcApplication extends HttpApplication
 		// Add a UrlRoutingModule to the application, to set up the routing.
 		modules.add(new UrlRoutingModule(routes == null ? new RouteCollection([defaultRoute]) : routes));
 		
-		// If no controllerPackage is set, use the current class package.
-		if (controllerPackage == null)
-		{
-			var className = Type.getClassName(Type.getClass(this));
-			var packageName = className.substr(0, className.lastIndexOf("."));
-
-			ControllerBuilder.current.addPackage(packageName);
-		}
-		else
-			ControllerBuilder.current.addPackage(controllerPackage);
+		ControllerBuilder.current.addPackage(controllerPackage);
 	}	
 }

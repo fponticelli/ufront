@@ -35,8 +35,8 @@ class TestDefaultControllerFactory
 	public function testControllerInst1()
 	{
 		var builder = new ControllerBuilder();
-		builder.addPackageToList("ufront.web.mvc");
-		builder.addPackageToList("ufront.web.mvc.test");
+		builder.addPackage("ufront.web.mvc");
+		builder.addPackage("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder);
 		
 		// Note that "Controller" is auto-appended.
@@ -48,8 +48,8 @@ class TestDefaultControllerFactory
 	public function testControllerInst2()
 	{
 		var builder = new ControllerBuilder();
-		builder.addPackageToList("ufront.web.mvc.test");
-		builder.addPackageToList("ufront.web.mvc");
+		builder.addPackage("ufront.web.mvc.test");
+		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
 		var controller = factory.createController(TestAll.getRequestContext(), "Mock");
@@ -60,7 +60,7 @@ class TestDefaultControllerFactory
 	public function testControllerDisposal1()
 	{
 		var builder = new ControllerBuilder();
-		builder.addPackageToList("ufront.web.mvc");
+		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
 		var controller = cast(factory.createController(TestAll.getRequestContext(), "Mock"), ufront.web.mvc.MockController);
@@ -75,7 +75,7 @@ class TestDefaultControllerFactory
 	public function testControllerDisposal2()
 	{
 		var builder = new ControllerBuilder();
-		builder.addPackageToList("ufront.web.mvc.test");
+		builder.addPackage("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder);
 		
 		var controller = cast(factory.createController(TestAll.getRequestContext(), "Mock"), ufront.web.mvc.test.MockController);
@@ -87,7 +87,7 @@ class TestDefaultControllerFactory
 	public function testType()
 	{
 		var builder = new ControllerBuilder();
-		builder.addPackageToList("ufront.web.mvc");
+		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
 		Assert.raises(function() factory.createController(TestAll.getRequestContext(), "TestDefaultControllerFactory"), Error);
@@ -96,7 +96,7 @@ class TestDefaultControllerFactory
 	public function testNotFound() 
 	{
 		var builder = new ControllerBuilder();
-		builder.addPackageToList("ufront.web.mvc");
+		builder.addPackage("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder);
 		
 		Assert.raises(function() factory.createController(TestAll.getRequestContext(), "Fake"), Error);

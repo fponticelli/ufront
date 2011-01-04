@@ -16,7 +16,10 @@ import ufront.web.mvc.MockController;
 import ufront.web.mvc.Controller;
 
 private class TestController extends Controller
-{           
+{
+	public var executing : ActionExecutingContext -> Void;
+	public var executed : ActionExecutedContext -> Void;
+	
 	public var handler : Void -> Void;
 	public function new()
 	{
@@ -29,54 +32,45 @@ private class TestController extends Controller
 			handler();
 		return "content";
 	}
+	
+	override function onActionExecuting(filterContext : ActionExecutingContext)
+	{
+		if(executing != null)
+			executing(filterContext);
+	}
+	
+	override function onActionExecuted(filterContext : ActionExecutedContext)
+	{
+		if(executed != null)
+			executed(filterContext);
+	}
 }
 
 class TestIActionFilter
 {   
-	public function testActionExecutingOverridesAction()
-	{
-		controller.onActionExecuting.add(function(e : ActionExecutingContext){
-			Assert.isNull(e.result);
-			e.result = "eventcontent";
-		});       
-		controller.handler = function()
-		{
-			Assert.fail("should never reach this point");
-		}
-		execute();
-		var response = cast(controller.controllerContext.response, HttpResponseMock);
-		Assert.equals("eventcontent", response.getBuffer());
-	}
-	
-	public function testEventsSequence()
-	{                                    
-		var sequence = [];
-		controller.onActionExecuting.add(function(_) sequence.push(0));
-		controller.onActionExecuted.add(function(_) sequence.push(2));
-		controller.handler = function() sequence.push(1);
-		execute();
-		Assert.same([0,1,2], sequence);
-	}
-	
 	public function testActionExecutingArguments()
 	{   
 		context.routeData.data.set("id", "1");
-		controller.onActionExecuting.add(function(e : ActionExecutingContext){
+		controller.executing = function(e : ActionExecutingContext)
+		{
 			Assert.notNull(e.controllerContext);
 			Assert.notNull(e.actionParameters);
 			Assert.equals("index", e.actionName);
 			Assert.equals(1, e.actionParameters.get("id"));
-		});
+		};
+		
 		execute(); 
 	}
 	
 	public function testActionExecutedArguments()
 	{
 		context.routeData.data.set("id", "1");   
-		controller.onActionExecuted.add(function(e : ActionExecutedContext){
+		controller.executed = function(e : ActionExecutedContext)
+		{
 			Assert.notNull(e.controllerContext);
-			Assert.equals("content", e.result);
-		});
+			Assert.equals("content", cast(e.result, ContentResult).content);
+		};
+		
 		execute();
 	}
 	    

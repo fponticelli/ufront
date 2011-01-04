@@ -21,10 +21,10 @@ class TestAll
 		TestHTemplateData.addTests(runner);
 		TestValueProviders.addTests(runner);
 		TestIActionFilter.addTests(runner);
-		TestIResultFilter.addTests(runner);
 		TestIAuthorizationFilter.addTests(runner);
 		TestControllerFilters.addTests(runner);
 		TestAuthorizeAttribute.addTests(runner);
+		//TestControllerFiltersMetaData.addTests(runner);
 	}
 	
 	public static function main()

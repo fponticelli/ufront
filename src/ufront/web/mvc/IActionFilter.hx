@@ -1,9 +1,10 @@
 package ufront.web.mvc;
 
 import hxevents.Dispatcher;
+import ufront.events.ReverseDispatcher;
 
 interface IActionFilter
 {
-	public var onActionExecuted(default, null) : Dispatcher<ActionExecutedContext>;
-	public var onActionExecuting(default, null) : Dispatcher<ActionExecutingContext>;
+	function onActionExecuting(filterContext : ActionExecutingContext) : Void;
+	function onActionExecuted(filterContext : ActionExecutedContext) : Void;
 }
