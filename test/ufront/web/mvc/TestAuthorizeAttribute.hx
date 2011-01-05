@@ -113,7 +113,7 @@ class TestAuthorizeAttribute
 		controller = new TestController();
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
 	} 
 	
 	function execute()

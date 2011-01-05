@@ -24,7 +24,7 @@ class TestAll
 		TestIAuthorizationFilter.addTests(runner);
 		TestControllerFilters.addTests(runner);
 		TestAuthorizeAttribute.addTests(runner);
-		//TestControllerFiltersMetaData.addTests(runner);
+		TestControllerFiltersMetaData.addTests(runner);
 	}
 	
 	public static function main()

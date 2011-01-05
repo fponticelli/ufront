@@ -13,12 +13,18 @@ class ControllerBuilder
 #if !macro
 	public static var current = new ControllerBuilder();
 	
-	var _packs : List<String>;
+	public var packages(default, null) : List<String>;
+	public var attributes(default, null) : List<String>;
+	
+	public var controllerFactory(getControllerFactory, setControllerFactory) : IControllerFactory;
 	var _controllerFactory : IControllerFactory;
+	
 	public function new()
 	{
-		_packs = new List();
-		_controllerFactory = new DefaultControllerFactory(this);
+		packages = new List();
+		attributes = new List();
+		
+		setControllerFactory(new DefaultControllerFactory(this));
 	}
 	
 	public function getControllerFactory() : IControllerFactory
@@ -30,18 +36,11 @@ class ControllerBuilder
 	{
 		NullArgument.throwIfNull(controllerFactory, "controllerFactory");
 		this._controllerFactory = controllerFactory;
-	}
-	
-	public function addPackage(pack : String)
-	{
-		_packs.add(pack);
-	}
-	
-	public function packages()
-	{
-		return _packs.iterator();
-	}
+		
+		return controllerFactory;
+	}	
 #end
+
 	@:macro public static function includePackage(pack : Expr)
 	{
 		switch(pack.expr)

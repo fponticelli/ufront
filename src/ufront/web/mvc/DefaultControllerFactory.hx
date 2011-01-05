@@ -17,7 +17,7 @@ class DefaultControllerFactory implements IControllerFactory {
 	public function createController(requestContext : RequestContext, controllerName : String) : IController
 	{
 	    var cls = UString.ucfirst(controllerName) + "Controller";
-		for (pack in _controllerBuilder.packages())
+		for (pack in _controllerBuilder.packages)
 		{
 			var fullname = pack + "." + cls;			
 			var type = Type.resolveClass(fullname);

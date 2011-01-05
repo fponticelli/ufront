@@ -1,4 +1,5 @@
 package ufront.web.mvc;
+import haxe.rtti.Meta;
 import thx.collections.HashList;
 import ufront.web.error.PageNotFoundError;
 
@@ -14,11 +15,13 @@ using thx.collections.UIterable;
 
 class ControllerActionInvoker implements IActionInvoker
 {                               
-	public function new(binders : ModelBinderDictionary)
+	public function new(binders : ModelBinderDictionary, controllerBuilder : ControllerBuilder)
 	{
 		this.binders = binders;
+		this.controllerBuilder = controllerBuilder;
 	} 
 	
+	public var controllerBuilder : ControllerBuilder;
 	public var binders : ModelBinderDictionary;
 	public var valueProvider : IValueProvider;
 	
@@ -230,11 +233,71 @@ class ControllerActionInvoker implements IActionInvoker
 	
 	function getFilters(context : ControllerContext, actionField : String) : FilterInfo
 	{
-		var output = new FilterInfo();
+		var array = new Array<FilterAttribute>();
+		var attribute = getFieldAttributes(context.controller, actionField);
 		
+		if (attribute != null)
+		{
+			for (attributeClassName in Reflect.fields(attribute))
+			{
+				var c = getAttributeClass(attributeClassName);
+				if (c == null) throw new Error('Attribute ' + attributeClassName + ' not found.');
+				
+				var obj = Type.createInstance(c, []);
+				if (!Std.is(obj, FilterAttribute))
+					throw new Error('Attribute ' + attributeClassName + ' does not inherit from FilterAttribute.');
+					
+				array.push(cast obj);
+			}			
+		}
+		
+		array.sort(function(x, y) { return x.order - y.order; } );
+		
+		return addFilters(array);
+	}
+	
+	function addFilters(filters : Array<FilterAttribute>) : FilterInfo
+	{
+		var output = new FilterInfo();
+		for (filter in filters)
+		{
+			addFilter(filter, output);
+		}
 		return output;
 	}
+	
+	function getAttributeClass(className : String) : Class<Dynamic>
+	{
+		for (pack in controllerBuilder.attributes)
+		{
+			var c = Type.resolveClass(pack + '.' + className + 'Attribute');
+			if (c != null) return c;
+		}
+		
+		return null;
+	}
+	
+	function getFieldAttributes(object : Dynamic, field : String) : Dynamic
+	{
+		var metadata = Meta.getFields(Type.getClass(object));
+		return Reflect.field(metadata, field);
+	}
 
+	private function addFilter(attribute : FilterAttribute, filterInfo : FilterInfo) : Void 
+	{
+		if (Std.is(attribute, IAuthorizationFilter))
+			filterInfo.authorizationFilters.push(cast attribute);
+			
+		if (Std.is(attribute, IActionFilter))
+			filterInfo.actionFilters.push(cast attribute);
+			
+		if (Std.is(attribute, IResultFilter))
+			filterInfo.resultFilters.push(cast attribute);
+			
+		if (Std.is(attribute, IExceptionFilter))
+			filterInfo.exceptionFilters.push(cast attribute);
+	}
+	
 	private function mergeControllerFilters(controller : ControllerBase, filterInfo : FilterInfo) : Void 
 	{
 		if (Std.is(controller, IAuthorizationFilter))

@@ -1,14 +1,19 @@
 package ufront.web;
 
 /**
- * Used in ufront.web.mvc.MvcApplication for example, to set url filters.
+ * Used in ufront.web.mvc.MvcApplication
  */
-class ServerConfiguration
+class AppConfiguration
 {
 	public var modRewrite : Bool;
+	public var controllerPackages : Array<String>;
+	public var attributePackages : Array<String>;
 	
-	public function new()
+	public function new(?controllerPackage : String, ?modRewrite : Bool)
 	{
-		modRewrite = false;
+		this.modRewrite = modRewrite == null ? false : modRewrite;
+		
+		this.controllerPackages = [controllerPackage == null ? "" : controllerPackage];
+		this.attributePackages = ["ufront.web.mvc"];
 	}
 }

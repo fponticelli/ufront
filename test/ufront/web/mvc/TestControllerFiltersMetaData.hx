@@ -1,10 +1,13 @@
 package ufront.web.mvc;
+
 import ufront.web.HttpResponseMock;
 import haxe.rtti.Infos;
 import thx.error.Error;
 import ufront.web.mvc.TestDefaultControllerFactory;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.TestUrlRoutingModule;
+
+import ufront.web.mvc.attributes.TestActionAttribute;
 
 import utest.Assert;
 import utest.Runner;
@@ -24,24 +27,9 @@ private class TestAttributeNoType extends FilterAttribute
 	
 }
 
-private class TestActionAttribute extends FilterAttribute, implements IActionFilter
-{
-	public function onActionExecuting(filterContext : ActionExecutingContext) : Void
-	{
-		var c = cast(filterContext.controllerContext.controller, BaseTestController);
-		c.sequence.push('executing');
-	}
-	
-	public function onActionExecuted(filterContext : ActionExecutedContext) : Void
-	{
-		var c = cast(filterContext.controllerContext.controller, BaseTestController);
-		c.sequence.push('executed');		
-	}
-}
-
 ///// Controllers ///////////////////////////////////////////////////
 
-private class BaseTestController extends Controller
+class BaseTestController extends Controller
 {
 	public var sequence : Array<String>;
 	
@@ -73,7 +61,7 @@ private class TestControllerMetaData extends BaseTestController
 
 class TestControllerFiltersMetaData
 {   
-	public function testAttributeAdded()
+	public function testAttributeAddedOnMethod()
 	{
 		var self = this;
 		
@@ -110,9 +98,16 @@ class TestControllerFiltersMetaData
 		context = TestAll.getRequestContext();
 		controller = new TestControllerMetaData();
 
-		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
-	} 
+		ControllerBuilder.current.attributes.add("ufront.web.mvc.attributes");
+		
+		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
+	}
+	
+	public function teardown()
+	{
+		ControllerBuilder.current.attributes.remove("ufront.web.mvc.attributes");
+	}
 	
 	function execute()
 	{

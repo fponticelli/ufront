@@ -8,7 +8,7 @@ import ufront.web.routing.Route;
 import ufront.web.routing.RouteBase;
 import ufront.web.routing.RouteCollection;
 import ufront.web.routing.UrlRoutingModule;
-import ufront.web.ServerConfiguration;
+import ufront.web.AppConfiguration;
 
 /**
  * ...
@@ -31,17 +31,17 @@ class MvcApplication extends HttpApplication
 	 * @param	?serverConfiguration Server-specific settings like mod_rewrite. If null, class defaults will be used.
 	 * @param	?httpContext		 Context for the request, if null a web context will be created. Could be useful for unit testing.
 	 */
-	public function new(?controllerPackage = "", ?routes : RouteCollection, ?serverConfiguration : ServerConfiguration, ?httpContext : HttpContext)
+	public function new(?configuration : AppConfiguration, ?routes : RouteCollection, ?httpContext : HttpContext)
 	{
-		if (serverConfiguration == null)
-			serverConfiguration = new ServerConfiguration();
+		if (configuration == null)
+			configuration = new AppConfiguration();
 		
 		if (httpContext == null)
 		{
 			httpContext = HttpContext.createWebContext();
 
 			// Unless mod_rewrite is used, filter out index.php/index.n from the urls.
-			if(serverConfiguration.modRewrite != true)
+			if(configuration.modRewrite != true)
 				httpContext.addUrlFilter(new PathInfoUrlFilter());
 		}
 		
@@ -50,6 +50,14 @@ class MvcApplication extends HttpApplication
 		// Add a UrlRoutingModule to the application, to set up the routing.
 		modules.add(new UrlRoutingModule(routes == null ? new RouteCollection([defaultRoute]) : routes));
 		
-		ControllerBuilder.current.addPackage(controllerPackage);
+		for (pack in configuration.controllerPackages)
+		{
+			ControllerBuilder.current.addPackage(pack);
+		}
+		
+		for (pack in configuration.attributePackages)
+		{
+			ControllerBuilder.current.addAttributePackage(pack);
+		}
 	}	
 }
