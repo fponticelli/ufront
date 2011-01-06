@@ -50,7 +50,6 @@ class ControllerActionInvoker implements IActionInvoker
 	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>) : HashList<Dynamic>
 	{
 		// TODO: ActionDescriptor, ControllerDescriptor
-		// TODO: Filters
 		
 		var arguments = new HashList<Dynamic>();
 		
@@ -104,13 +103,12 @@ class ControllerActionInvoker implements IActionInvoker
 	
 	public function invokeAction(controllerContext : ControllerContext, actionName : String, async : hxevents.Async) : Void
 	{      
-//		error = null; 
-		
 		var controller = controllerContext.controller;
 		var fields = URtti.getClassFields(Type.getClass(controller));
 		var method = fields.get(actionName); 
 		var arguments : HashList<Dynamic>;
 		var isasync = isAsync(method); 
+		
 		try
 		{
 			if(null == method)
@@ -141,7 +139,6 @@ class ControllerActionInvoker implements IActionInvoker
 			action = "h" + actionName;
 #end    
 		var filterInfo = getFilters(controllerContext, action);		
-		mergeControllerFilters(cast controller, filterInfo);
 		
 		try
 		{
@@ -151,8 +148,6 @@ class ControllerActionInvoker implements IActionInvoker
 				filter.onAuthorization(authorizationContext);
 			}
 			
-			//trace(Type.getClassName(Type.getClass(authorizationContext.result)));
-						
 			if(null != authorizationContext.result)
 			{
 				// No other filters should be called if an authorizationFilter is
@@ -185,6 +180,138 @@ class ControllerActionInvoker implements IActionInvoker
 		
 		async.completed();
 	}
+
+	function processContent(result : ActionResult, controllerContext : ControllerContext, filters : FilterInfo)
+	{
+		var executingContext = new ResultExecutingContext(controllerContext, result);
+		for (filter in filters.resultFilters)
+		{
+			filter.onResultExecuting(executingContext);
+		}
+		
+		result.executeResult(controllerContext);
+
+		var executedContext = new ResultExecutedContext(controllerContext, result);
+		for (filter in reverse(filters.resultFilters))
+		{
+			filter.onResultExecuted(executedContext);
+		}
+	}
+	
+	///// Attribute filters /////////////////////////////////////////
+
+	function getFilters(context : ControllerContext, actionField : String) : FilterInfo
+	{
+		var attributes = getAttributes(context.controller, actionField);
+		attributes.sort(function(x, y) { return x.order - y.order; } );
+				
+		var output = new FilterInfo(attributes);
+		
+		// Add controller filters to beginning of output, if they exist.
+		output.mergeControllerFilters(context.controller);		
+		return output;
+	}
+	
+	function getAttributes(controller : ControllerBase, actionField : String) : Array<FilterAttribute>
+	{
+		// Get metadata from all controller classes
+		var classes = createClassTree(Type.getClass(controller));
+		var metadata = Lambda.map(classes, function(c) { return Meta.getType(c); } );
+		
+		// Append the action's field metadata last so it will have highest precedence.
+		metadata.add(getFieldAttributes(controller, actionField));
+		
+		//trace(metadata);
+		
+		// Create a hash that will store all attributes and their arguments
+		var hash = Lambda.fold(metadata, function(meta : Dynamic, output : Hash<Dynamic>) {
+			if (meta == null) return output;
+			//trace(meta);
+			for (className in Reflect.fields(meta))
+			{
+				var field = Reflect.field(meta, className);
+				//trace(field);
+				
+				// We only care about the first array element, since it's like a 
+				// configuration object for the filter class (property injection)
+				if (!Std.is(field, Array))
+					output.set(className, null);
+				else
+					output.set(className, field[0]);
+			}
+			
+			return output;
+		}, new Hash<Dynamic>());
+		
+		//trace(hash);
+		
+		// Map all valid attributes (exists in ControllerBuilder and ends with 'Attribute' to an object.
+		var self = this;
+		var objects = Lambda.map({iterator: hash.keys}, function(key) {
+			var c = self.getAttributeClass(key);
+			if (c == null) return null;
+			
+			var instance = Type.createInstance(c, []);
+			var args = hash.get(key);
+			
+			//trace('Creating ' + Type.getClassName(c));
+			
+			// Filters require public properties to be configured properly.
+			for(arg in Reflect.fields(args))
+			{
+				if (!Reflect.hasField(instance, arg))
+					throw new Error("Filter " + Type.getClassName(Type.getClass(instance)) + " has no field " + arg);
+				
+				//trace("Setting " + Type.getClassName(c) + "." + arg + " to " + Reflect.field(args, arg));
+				Reflect.setField(instance, arg, Reflect.field(args, arg));
+			}
+			
+			return instance;
+		});
+		
+		//trace(objects);
+		
+		// Filter out all non-created objects (null) and return
+		return Lambda.array(Lambda.filter(objects, function(o) { return o != null; } ));
+	}
+	
+	function createClassTree(cls : Class<Dynamic>, ?array : Array<Class<Dynamic>>) : Array<Class<Dynamic>>
+	{
+		if (array == null) 
+			array = new Array<Class<Dynamic>>();
+		
+		array.unshift(cls);
+		
+		var superClass = Type.getSuperClass(cls);
+		return superClass != null ? createClassTree(superClass, array) : array;
+	}
+	
+	function getAttributeClass(className : String) : Class<Dynamic>
+	{
+		for (pack in controllerBuilder.attributes)
+		{
+			var c = Type.resolveClass(pack + '.' + className + 'Attribute');
+			if (c != null && inheritsFrom(c, FilterAttribute)) return c;
+		}
+		
+		return null;
+	}
+	
+	function getFieldAttributes(object : Dynamic, field : String) : Dynamic
+	{
+		var metadata = Meta.getFields(Type.getClass(object));
+		return Reflect.field(metadata, field);
+	}
+	
+	function inheritsFrom(c : Class<Dynamic>, superClass : Class<Dynamic>)
+	{
+		var parent = Type.getSuperClass(c);
+		
+		if (parent == superClass) return true;		
+		return parent == null ? false : inheritsFrom(parent, superClass);
+	}
+
+	///// Action handler methods ////////////////////////////////////
 	
 	public static function createActionResult(actionReturnValue : Dynamic) : ActionResult
 	{
@@ -193,30 +320,6 @@ class ControllerActionInvoker implements IActionInvoker
 			
 		if (Std.is(actionReturnValue, ActionResult)) return cast actionReturnValue;
 		return new ContentResult(Std.string(actionReturnValue), null);
-	}
-	
-	function reverse<T>(list : Array<T>)
-	{
-		var output = new Array<T>();
-		for(i in list) { output.push(i); }
-		return output; 
-	}
-	
-	function processContent(value : ActionResult, controllerContext : ControllerContext, filters : FilterInfo)
-	{
-		var executingContext = new ResultExecutingContext(controllerContext, value);		
-		for (filter in filters.resultFilters)
-		{
-			filter.onResultExecuting(executingContext);
-		}
-		
-		value.executeResult(controllerContext);
-
-		var executedContext = new ResultExecutedContext(controllerContext, value);
-		for (filter in filters.resultFilters)
-		{
-			filter.onResultExecuted(executedContext);
-		}
 	}
 	
 	function _handleUnknownAction(action : String, async : hxevents.Async, err : Dynamic)
@@ -231,88 +334,16 @@ class ControllerActionInvoker implements IActionInvoker
 		async.error(error);
 	}
 	
-	function getFilters(context : ControllerContext, actionField : String) : FilterInfo
-	{
-		var array = new Array<FilterAttribute>();
-		var attribute = getFieldAttributes(context.controller, actionField);
-		
-		if (attribute != null)
-		{
-			for (attributeClassName in Reflect.fields(attribute))
-			{
-				var c = getAttributeClass(attributeClassName);
-				if (c == null) throw new Error('Attribute ' + attributeClassName + ' not found.');
-				
-				var obj = Type.createInstance(c, []);
-				if (!Std.is(obj, FilterAttribute))
-					throw new Error('Attribute ' + attributeClassName + ' does not inherit from FilterAttribute.');
-					
-				array.push(cast obj);
-			}			
-		}
-		
-		array.sort(function(x, y) { return x.order - y.order; } );
-		
-		return addFilters(array);
-	}
+	///// Other /////////////////////////////////////////////////////
 	
-	function addFilters(filters : Array<FilterAttribute>) : FilterInfo
+	function reverse<T>(list : Array<T>)
 	{
-		var output = new FilterInfo();
-		for (filter in filters)
-		{
-			addFilter(filter, output);
-		}
-		return output;
-	}
-	
-	function getAttributeClass(className : String) : Class<Dynamic>
-	{
-		for (pack in controllerBuilder.attributes)
-		{
-			var c = Type.resolveClass(pack + '.' + className + 'Attribute');
-			if (c != null) return c;
-		}
-		
-		return null;
-	}
-	
-	function getFieldAttributes(object : Dynamic, field : String) : Dynamic
-	{
-		var metadata = Meta.getFields(Type.getClass(object));
-		return Reflect.field(metadata, field);
+		var output = new Array<T>();
+		for(i in list) { output.unshift(i); }
+		return output; 
 	}
 
-	private function addFilter(attribute : FilterAttribute, filterInfo : FilterInfo) : Void 
-	{
-		if (Std.is(attribute, IAuthorizationFilter))
-			filterInfo.authorizationFilters.push(cast attribute);
-			
-		if (Std.is(attribute, IActionFilter))
-			filterInfo.actionFilters.push(cast attribute);
-			
-		if (Std.is(attribute, IResultFilter))
-			filterInfo.resultFilters.push(cast attribute);
-			
-		if (Std.is(attribute, IExceptionFilter))
-			filterInfo.exceptionFilters.push(cast attribute);
-	}
 	
-	private function mergeControllerFilters(controller : ControllerBase, filterInfo : FilterInfo) : Void 
-	{
-		if (Std.is(controller, IAuthorizationFilter))
-			filterInfo.authorizationFilters.unshift(cast controller);
-			
-		if (Std.is(controller, IActionFilter))
-			filterInfo.actionFilters.unshift(cast controller);
-
-		if (Std.is(controller, IResultFilter))
-			filterInfo.resultFilters.unshift(cast controller);
-
-		if (Std.is(controller, IExceptionFilter))
-			filterInfo.exceptionFilters.unshift(cast controller);
-	}
-
 #if php
 	static var _mapper : Set<String>; 
     static function __init__()

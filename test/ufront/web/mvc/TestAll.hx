@@ -34,11 +34,21 @@ class TestAll
 		Report.create(runner);
 		runner.run();
 	}     
+
+	public static function setupController(controller : Controller, ?action = "index") : ControllerContext
+	{
+		ControllerBuilder.current.attributes.remove("ufront.web.mvc.attributes");
+		ControllerBuilder.current.attributes.add("ufront.web.mvc.attributes");
+		
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
+		
+		return new ControllerContext(controller, TestAll.getRequestContext(action));
+	}
 	
-	public static function getRequestContext()
+	public static function getRequestContext(?action = "index")
 	{
 		var data = new Hash<String>();
-		data.set("action", "index");
+		data.set("action", action);
 		
 		var routeHandler = new MvcRouteHandler();
 		var route = new Route("/", routeHandler);  

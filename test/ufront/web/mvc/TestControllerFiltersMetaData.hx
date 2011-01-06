@@ -8,6 +8,11 @@ import ufront.web.routing.RequestContext;
 import ufront.web.routing.TestUrlRoutingModule;
 
 import ufront.web.mvc.attributes.TestActionAttribute;
+import ufront.web.mvc.attributes.TestAction2Attribute;
+
+import ufront.web.mvc.attributes.TestResultAttribute;
+import ufront.web.mvc.attributes.TestResult2Attribute;
+
 
 import utest.Assert;
 import utest.Runner;
@@ -34,26 +39,84 @@ class BaseTestController extends Controller
 	public var sequence : Array<String>;
 	
 	public var handler : Void -> Void;
+	public var result : Void -> ActionResult;
+	
 	public function new()
 	{
 		sequence = [];
 		super();
 	}
 	
-	public function index(?id : Int)
+	public function index(?id : Int) : Dynamic
 	{
     	if(null != handler)
 			handler();
-		return "content";
+			
+		sequence.push("handler");
+		
+		if (result == null) return "content";
+		else return result();
 	}
 }
 
 private class TestControllerMetaData extends BaseTestController
 {
-	@TestAction
+	public function new() { super(); }
+	
+	@TestAction({id: "OnMethod"})
+	@TestAction2({order: 2 })
+	@TestResult({id: "OnMethod", order: 2 })
+	@TestResult2({order: 1 })
 	override public function index(?id : Int)
 	{
 		return super.index(id);
+	}
+}
+
+@TestAction
+private class TestControllerClassMetaData extends BaseTestController
+{
+	public function new() { super(); }
+	
+	override public function index(?id : Int)
+	{
+		return super.index(id);
+	}
+}
+
+private class TestControllerSuperClassMetaData extends TestControllerClassMetaData
+{
+	public function new() { super(); }
+	
+	override public function index(?id : Int)
+	{
+		return super.index(id);
+	}
+}
+
+private class TestControllerSuperClassOverride extends TestControllerClassMetaData
+{
+	public function new() { super(); }
+	
+	@TestAction({id: "Override"})
+	override public function index(?id : Int)
+	{
+		return super.index(id);
+	}
+}
+
+private class SequenceResult extends ActionResult
+{
+	public var controller : BaseTestController;
+	
+	public function new(controller : BaseTestController)
+	{
+		this.controller = controller;
+	}
+	
+	override public function executeResult(controllerContext : ControllerContext)
+	{
+		this.controller.sequence.push("executeResult");
 	}
 }
 
@@ -61,19 +124,48 @@ private class TestControllerMetaData extends BaseTestController
 
 class TestControllerFiltersMetaData
 {   
-	public function testAttributeAddedOnMethod()
+	public function testAttributeAdded() // Default test is for method
 	{
 		var self = this;
 		
-		controller.handler = function()
-		{
-			self.controller.sequence.push("handler");
+		controller.result = function() {
+			return new SequenceResult(self.controller);
 		}
 		
 		execute();		
+		Assert.same(['executingOnMethod', 'executing2', 
+					 'handler', 
+					 'executed2', 'executedOnMethod',
+					 'result2 executing', 'result executingOnMethod', 
+					 'executeResult', 
+					 'result executedOnMethod', 'result2 executed'], controller.sequence);
+	}
+
+	public function testAttributeAddedOnClass()
+	{
+		// Change controller to one with a filter on the class.
+		setupController(new TestControllerClassMetaData());
+		
+		execute();
 		Assert.same(['executing', 'handler', 'executed'], controller.sequence);
 	}
-	    
+
+	public function testAttributeAddedOnSuperClass()
+	{
+		setupController(new TestControllerSuperClassMetaData());
+		
+		execute();
+		Assert.same(['executing', 'handler', 'executed'], controller.sequence);
+	}
+	
+	public function testAttributeOverridingSuperClass()
+	{
+		setupController(new TestControllerSuperClassOverride());
+		
+		execute();
+		Assert.same(['executingOverride', 'handler', 'executedOverride'], controller.sequence);
+	}
+
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestControllerFiltersMetaData());
@@ -87,21 +179,22 @@ class TestControllerFiltersMetaData
 		runner.run();
 	}
 	
-	public function new()
-	{}
+	public function new();
 
 	var controller : BaseTestController;
 	var context : RequestContext;
 	
 	public function setup()
 	{
-		context = TestAll.getRequestContext();
-		controller = new TestControllerMetaData();
-
-		ControllerBuilder.current.attributes.add("ufront.web.mvc.attributes");
+		setupController(new TestControllerMetaData());
+	}
+	
+	public function setupController(controller : BaseTestController)
+	{
+		var context = TestAll.setupController(controller);
 		
-		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
+		this.context = context.requestContext;
+		this.controller = cast(context.controller, BaseTestController);
 	}
 	
 	public function teardown()
