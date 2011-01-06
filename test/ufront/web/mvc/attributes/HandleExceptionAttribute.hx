@@ -27,7 +27,7 @@ class HandleExceptionAttribute extends FilterAttribute, implements IExceptionFil
 		var c = cast(filterContext.controller, BaseTestController);
 		c.sequence.push("onException");
 		
-		filterContext.result = new SequenceResult(c, "ExceptionHandler");
+		filterContext.result = new SequenceResult(c, "ExceptionHandler for " + Std.string(filterContext.exception));
 		filterContext.exceptionHandled = handleIt;
 	}	
 }

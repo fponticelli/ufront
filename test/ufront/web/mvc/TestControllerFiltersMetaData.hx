@@ -224,7 +224,7 @@ class TestControllerFiltersMetaData
 		setupController(new TestControllerWithExceptionHandler());
 		
 		execute();
-		Assert.same(['onException', 'sequenceResultExceptionHandler'], controller.sequence);
+		Assert.same(['onException', 'sequenceResultExceptionHandler for ERROR AGAIN'], controller.sequence);
 	}
 	
 	/////////////////////////////////////////////////////////////////
