@@ -8,9 +8,10 @@ package ufront.web.mvc;
 class ExceptionContext extends ControllerContext
 {
 	public var exception : Dynamic;
+	public var exceptionHandled : Bool;
 	
-	private var _result : ActionResult;
 	public var result(getResult, setResult) : ActionResult;
+	private var _result : ActionResult;
 		
 	public function new(controllerContext : ControllerContext, exception : Dynamic)
 	{
@@ -18,12 +19,12 @@ class ExceptionContext extends ControllerContext
 		this.exception = exception;
 	}
 	
-	public function getResult()
+	function getResult()
 	{
 		return _result != null ? _result : new EmptyResult();
 	}
 	
-	public function setResult(result : ActionResult)
+	function setResult(result : ActionResult)
 	{
 		_result = result;
 		return result;

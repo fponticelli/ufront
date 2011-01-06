@@ -175,7 +175,16 @@ class ControllerActionInvoker implements IActionInvoker
 		}
 		catch(e : Dynamic)
 		{
+			var exceptionContext = new ExceptionContext(controllerContext, e);
+			for (filter in filterInfo.exceptionFilters)
+			{
+				filter.onException(exceptionContext);
+			}
 			
+			if (exceptionContext.exceptionHandled != true)
+				throw e;
+			
+			createActionResult(exceptionContext.result).executeResult(controllerContext);
 		}
 		
 		async.completed();

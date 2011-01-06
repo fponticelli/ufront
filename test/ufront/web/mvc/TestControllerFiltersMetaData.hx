@@ -14,6 +14,7 @@ import ufront.web.mvc.attributes.TestResultAttribute;
 import ufront.web.mvc.attributes.TestResult2Attribute;
 
 import ufront.web.mvc.attributes.AuthFailAttribute;
+import ufront.web.mvc.attributes.HandleExceptionAttribute;
 
 import utest.Assert;
 import utest.Runner;
@@ -113,6 +114,30 @@ private class TestControllerAuthFail extends BaseTestController
 	public function new() { super(); }
 }
 
+@HandleException
+private class TestControllerNoRealExceptionHandler extends BaseTestController
+{
+	public function new() { super(); }
+	
+	override public function index(?id : Int)
+	{
+		throw "ERROR";
+		return super.index(id);
+	}
+}
+
+private class TestControllerWithExceptionHandler extends TestControllerNoRealExceptionHandler
+{
+	public function new() { super(); }
+	
+	@HandleException({handleIt: true})
+	override public function index(?id : Int)
+	{
+		throw "ERROR AGAIN";
+		return super.index(id);
+	}
+}
+
 ///// ActionResult //////////////////////////////////////////////////
 
 class SequenceResult extends ActionResult
@@ -184,6 +209,22 @@ class TestControllerFiltersMetaData
 		
 		execute();
 		Assert.same(['onAuthorization', 'sequenceResultAuthFail'], controller.sequence);
+	}
+	
+	public function testClassWithExceptionHandlerThatFailsToHandleError()
+	{
+		setupController(new TestControllerNoRealExceptionHandler());
+		
+		Assert.raises(execute, String);		
+		Assert.same(['onException'], controller.sequence);
+	}
+	
+	public function testClassWithExceptionHandlerThatHandlesTheError()
+	{
+		setupController(new TestControllerWithExceptionHandler());
+		
+		execute();
+		Assert.same(['onException', 'sequenceResultExceptionHandler'], controller.sequence);
 	}
 	
 	/////////////////////////////////////////////////////////////////
