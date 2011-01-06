@@ -107,14 +107,14 @@ private class TestControllerSuperClassOverride extends TestControllerClassMetaDa
 	}
 }
 
-@TestResult // This filter should not run since authorization will fail
+@TestResult // This filter should not run since authorization will fail.
 @AuthFail
 private class TestControllerAuthFail extends BaseTestController
 {
 	public function new() { super(); }
 }
 
-@HandleException
+@HandleException // Won't handle the exception, the handleIt property is false.
 private class TestControllerNoRealExceptionHandler extends BaseTestController
 {
 	public function new() { super(); }
@@ -258,11 +258,6 @@ class TestControllerFiltersMetaData
 		
 		this.context = context.requestContext;
 		this.controller = cast(context.controller, BaseTestController);
-	}
-	
-	public function teardown()
-	{
-		ControllerBuilder.current.attributes.remove("ufront.web.mvc.attributes");
 	}
 	
 	function execute()
