@@ -13,6 +13,7 @@ import ufront.web.mvc.attributes.TestAction2Attribute;
 import ufront.web.mvc.attributes.TestResultAttribute;
 import ufront.web.mvc.attributes.TestResult2Attribute;
 
+import ufront.web.mvc.attributes.AuthFailAttribute;
 
 import utest.Assert;
 import utest.Runner;
@@ -105,18 +106,29 @@ private class TestControllerSuperClassOverride extends TestControllerClassMetaDa
 	}
 }
 
-private class SequenceResult extends ActionResult
+@TestResult // This filter should not run since authorization will fail
+@AuthFail
+private class TestControllerAuthFail extends BaseTestController
+{
+	public function new() { super(); }
+}
+
+///// ActionResult //////////////////////////////////////////////////
+
+class SequenceResult extends ActionResult
 {
 	public var controller : BaseTestController;
+	public var id : String;
 	
-	public function new(controller : BaseTestController)
+	public function new(controller : BaseTestController, ?id = "")
 	{
 		this.controller = controller;
+		this.id = id;
 	}
 	
 	override public function executeResult(controllerContext : ControllerContext)
 	{
-		this.controller.sequence.push("executeResult");
+		this.controller.sequence.push("sequenceResult" + id);
 	}
 }
 
@@ -132,12 +144,12 @@ class TestControllerFiltersMetaData
 			return new SequenceResult(self.controller);
 		}
 		
-		execute();		
+		execute();
 		Assert.same(['executingOnMethod', 'executing2', 
 					 'handler', 
 					 'executed2', 'executedOnMethod',
 					 'result2 executing', 'result executingOnMethod', 
-					 'executeResult', 
+					 'sequenceResult', 
 					 'result executedOnMethod', 'result2 executed'], controller.sequence);
 	}
 
@@ -166,6 +178,16 @@ class TestControllerFiltersMetaData
 		Assert.same(['executingOverride', 'handler', 'executedOverride'], controller.sequence);
 	}
 
+	public function testClassWithAuthFailAttribute()
+	{
+		setupController(new TestControllerAuthFail());
+		
+		execute();
+		Assert.same(['onAuthorization', 'sequenceResultAuthFail'], controller.sequence);
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestControllerFiltersMetaData());
