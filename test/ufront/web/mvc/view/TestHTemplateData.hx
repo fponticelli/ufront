@@ -83,7 +83,7 @@ class TestHTemplateData
 		t.templateData.registerHelper("t", helper);
 		Assert.equals("o", t.view.render(t.viewContext));
     }
-    
+#end
 	public static function getHTemplateData(templateString : String = "")
 	{
 		var controller = new MockController();                                                
