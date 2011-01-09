@@ -49,6 +49,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="NewTab" />
+    <option testMovie="Custom" />
+    <option testMovieCommand="run.bat" />
   </options>
 </project>

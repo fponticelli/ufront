@@ -58,9 +58,8 @@ class ControllerActionInvoker implements IActionInvoker
 			// URtti.typeName is always called with false since the ValueProviderResult doesn't care about nullable.
 			var parameter = new ParameterDescriptor(info.name, URtti.typeName(info.t, false), info.t);
 			var value = getParameterValue(controllerContext, parameter);
-			
 			if(null == value)
-			{          
+			{
 				if(URtti.argumentAcceptNull(info))
 				{
 					arguments.set(info.name, null);
@@ -116,15 +115,13 @@ class ControllerActionInvoker implements IActionInvoker
 
 			if(!method.isPublic)
 				throw new Error("action {0} must be a public method", actionName);
-			   
+			
 			var argsinfo = URtti.methodArguments(method);
-			if(isasync)
-			{
-				argsinfo.pop();
-			}
 			if(null == argsinfo)
 				throw new Error("action {0} is not a method", actionName); 
 
+			if(isasync)
+				argsinfo.pop();
 			arguments = getParameters(controllerContext, argsinfo);
 		}
 		catch (e : Error)

@@ -34,14 +34,13 @@ class TestHTemplateData
 	{           
 	 	var t = getHTemplateData("{?set('a','A');}{:get('a')}");
 		t.templateData.register();
-		// TODO: Commented out to give a warning that tests must be fixed
-		//Assert.equals("A", t.view.render(t.viewContext));
+		Assert.equals("A", t.view.render(t.viewContext));
 	}
 
-/*
 	public function testRegisterSetGetFunction()
 	{           
-	 	var t = getHTemplateData("{?set('a',function(){ return 'A';});}{:get('a')()}");
+//	 	var t = getHTemplateData("{?set('a',function(){ return 'A';});}{:get('a')()}");
+		var t = getHTemplateData("{?var f = function(){ return 'A';};}{:f()}");
 		t.templateData.register();
     	Assert.equals("A", t.view.render(t.viewContext));
 	}
@@ -86,7 +85,6 @@ class TestHTemplateData
 		Assert.equals("o", t.view.render(t.viewContext));
     }   
 #end
-*/
 
 	public static function getHTemplateData(templateString : String = "")
 	{

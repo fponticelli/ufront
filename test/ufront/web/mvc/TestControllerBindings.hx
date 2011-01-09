@@ -78,6 +78,11 @@ private class TestController extends Controller
 	{
 		Assert.same(expectedDate, date);
 	}
+	
+	public override function onException(e)
+	{
+		throw e;
+	}
 }
 
 class TestControllerBindings
@@ -112,7 +117,7 @@ class TestControllerBindings
 	
 	function execute()
 	{
-		controller.execute(context, new hxevents.Async(function(){}));
+		controller.execute(context, new hxevents.Async(function() { }, function(e) { throw e; } ));
 	}
 
 	public function testControllerArguments1()
@@ -151,7 +156,7 @@ class TestControllerBindings
 		// 'Edit(Int)' in 'name.space.ControllerName'.
 		// An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
 		// TODO: Test is broken it seems
-		//Assert.raises(execute, Error);  	
+		Assert.raises(execute, Error);  	
 	}
  
 	public function testComplexModelBinding()
@@ -217,5 +222,5 @@ class TestControllerBindings
 		controller.expectedDate = null;
 		
 		execute();
-	}  
+	}
 }
