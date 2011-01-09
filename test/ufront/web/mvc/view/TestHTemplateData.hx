@@ -39,8 +39,7 @@ class TestHTemplateData
 
 	public function testRegisterSetGetFunction()
 	{           
-//	 	var t = getHTemplateData("{?set('a',function(){ return 'A';});}{:get('a')()}");
-		var t = getHTemplateData("{?var f = function(){ return 'A';};}{:f()}");
+	 	var t = getHTemplateData("{?set('a',function(){ return 'A';});}{:get('a')()}");
 		t.templateData.register();
     	Assert.equals("A", t.view.render(t.viewContext));
 	}
@@ -83,9 +82,8 @@ class TestHTemplateData
 		var t = getHTemplateData("{:t._('o')}");  
 		t.templateData.registerHelper("t", helper);
 		Assert.equals("o", t.view.render(t.viewContext));
-    }   
-#end
-
+    }
+    
 	public static function getHTemplateData(templateString : String = "")
 	{
 		var controller = new MockController();                                                
@@ -102,7 +100,7 @@ class TestHTemplateData
 	        view : view,
 			viewContext : viewContext
 		};
-	}  
+	}
 }      
 
 private class Helper { 
