@@ -28,6 +28,7 @@ class TestHTemplateData
 		runner.run();
 	}
 	
+	
 	public function new();  
 	
 	public function testRegisterSetGetVariable()
