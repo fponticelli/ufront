@@ -24,7 +24,7 @@ class ControllerBuilder
 		packages = new List();
 		attributes = new List();
 		
-		setControllerFactory(new DefaultControllerFactory(this));
+		setControllerFactory(new DefaultControllerFactory(this, new DefaultDependencyResolver()));
 	}
 	
 	public function getControllerFactory() : IControllerFactory

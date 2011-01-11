@@ -4,11 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-<<<<<<< local
     <movie path="bin\index.n" />
-=======
-    <movie path="bin/index.n" />
->>>>>>> other
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
@@ -25,11 +21,7 @@
   </classpaths>
   <!-- Build options -->
   <build>
-<<<<<<< local
     <option directives="htemplate" />
-=======
-    <option directives="" />
->>>>>>> other
     <option flashStrict="False" />
     <option mainClass="TestAll" />
     <option enabledebug="False" />
@@ -58,10 +50,6 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Custom" />
-<<<<<<< local
-    <option testMovieCommand="run.bat" />
-=======
-    <option testMovieCommand="http://localhost/index.php" />
->>>>>>> other
+    <option testMovieCommand="neko bin\index.n" />
   </options>
 </project>

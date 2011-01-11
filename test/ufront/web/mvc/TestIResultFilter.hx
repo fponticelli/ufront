@@ -16,8 +16,7 @@ import ufront.web.mvc.MockController;
 import ufront.web.mvc.Controller;
 
 private class TestController extends Controller
-{
-	public var auth : AuthorizationContext -> Void;	
+{           
 	public var handler : Void -> Void;
 	public function new()
 	{
@@ -30,55 +29,37 @@ private class TestController extends Controller
 			handler();
 		return "content";
 	}
-	
-	override function onAuthorization(context : AuthorizationContext)
-	{
-		auth(context);
-	}
 }
 
-class TestIAuthorizationFilter
+class TestIResultFilter
 {   
-	public function testAuthorizationOverridesAction()
-	{
-		var authResult : ActionResult = null;
-		
-		controller.auth = function(context : AuthorizationContext)
-		{
-			Assert.isNull(context.result);
-			
-			context.result = new ContentResult("eventcontent");
-			authResult = context.result;
-		}
-		
-		controller.handler = function()
-		{
-			Assert.fail("should never reach this point");
-		}
-		
+	public function testEventsSequence()
+	{                             
+		var sequence = [];
+		controller.onResultExecuting.add(function(_) sequence.push(0));
+		controller.onResultExecuted.add(function(_) sequence.push(1));
 		execute();
-		
-		Assert.equals("eventcontent", cast(authResult, ContentResult).content);
+		Assert.same([0,1], sequence);
 	}
-		
-	public function testAuthorizationArguments()
+	
+	public function testResultValue()
 	{  
-		context.routeData.data.set("id", "1");
-		
-		controller.auth = function(e)
-		{
+		controller.onResultExecuting.add(function(e){
 			Assert.notNull(e.controllerContext);
-			Assert.notNull(e.actionParameters);
-			Assert.equals("index", e.actionName);
-			Assert.equals(1, e.actionParameters.get("id"));
-		};
+			Assert.equals("content", e.result);
+			e.result = "modifiedcontent";
+		}); 
 		
+		controller.onResultExecuted.add(function(e){
+			Assert.notNull(e.controllerContext);
+			Assert.equals("modifiedcontent", e.result);
+		});
 		execute();
 	}
 	    
 	public static function addTests(runner : Runner)
 	{
-		runner.addCase(new TestIAuthorizationFilter());
+		runner.addCase(new TestIResultFilter());
 	}
 	
 	public static function main()
@@ -101,7 +82,7 @@ class TestIAuthorizationFilter
 		controller = new TestController();
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, DependencyResolver.current);
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary());
 	} 
 	
 	function execute()
