@@ -33,6 +33,7 @@
     <library name="hxculture" />
     <library name="hscript" />
     <library name="umock" />
+    <library name="unject" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>

@@ -1,5 +1,4 @@
 package ufront.web.mvc;
-import thx.error.Error;
 
 /**
  * ...
