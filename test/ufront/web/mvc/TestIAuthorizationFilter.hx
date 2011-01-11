@@ -101,7 +101,7 @@ class TestIAuthorizationFilter
 		controller = new TestController();
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, DependencyResolver.current);
 	} 
 	
 	function execute()

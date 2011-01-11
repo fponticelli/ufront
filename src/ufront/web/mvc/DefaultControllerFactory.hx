@@ -8,10 +8,15 @@ import thx.error.NullArgument;
 
 class DefaultControllerFactory implements IControllerFactory {
 	var _controllerBuilder : ControllerBuilder;
-	public function new(controllerBuilder : ControllerBuilder)
+	var _dependencyResolver : IDependencyResolver;
+	
+	// TODO: IControllerActivator as ControllerBuilder
+	public function new(controllerBuilder : ControllerBuilder, dependencyResolver : IDependencyResolver)
 	{
 		NullArgument.throwIfNull(controllerBuilder, "controllerBuilder");
+		
 		_controllerBuilder = controllerBuilder;
+		_dependencyResolver = dependencyResolver;
 	}
 	
 	public function createController(requestContext : RequestContext, controllerName : String) : IController
@@ -19,12 +24,12 @@ class DefaultControllerFactory implements IControllerFactory {
 	    var cls = UString.ucfirst(controllerName) + "Controller";
 		for (pack in _controllerBuilder.packages)
 		{
-			var fullname = pack + "." + cls;			
+			var fullname = pack + "." + cls;
 			var type = Type.resolveClass(fullname);
 			
 			if (type != null)
 			{
-				var controller = Type.createInstance(type, []); // TODO: Dependency injection support				
+				var controller = _dependencyResolver.getService(type);
 				if (Std.is(controller, IController)) return controller;
 			}
 		}

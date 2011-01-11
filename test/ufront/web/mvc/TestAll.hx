@@ -40,7 +40,7 @@ class TestAll
 		ControllerBuilder.current.attributes.remove("ufront.web.mvc.attributes");
 		ControllerBuilder.current.attributes.add("ufront.web.mvc.attributes");
 		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, DependencyResolver.current);
 		
 		return new ControllerContext(controller, TestAll.getRequestContext(action));
 	}

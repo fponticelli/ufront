@@ -120,7 +120,7 @@ class TestControllerFilters
 		this.controller = controller == null ? new TestController() : controller;
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(this.controller, context));
-		this.controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current);
+		this.controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, DependencyResolver.current);
 	} 
 	
 	function execute()

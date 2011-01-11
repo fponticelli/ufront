@@ -15,7 +15,7 @@ class Controller extends ControllerBase, implements IActionFilter, implements IA
 	private function getInvoker()
 	{
 		if (_invoker == null)
-			_invoker = new ControllerActionInvoker(ModelBinders.binders, ControllerBuilder.current);
+			_invoker = new ControllerActionInvoker(ModelBinders.binders, ControllerBuilder.current, DependencyResolver.current);
 			
 		return _invoker;
 	}

@@ -14,16 +14,19 @@ import thx.collections.Set;
 using thx.collections.UIterable;  
 
 class ControllerActionInvoker implements IActionInvoker
-{                               
-	public function new(binders : ModelBinderDictionary, controllerBuilder : ControllerBuilder)
+{
+	
+	public function new(binders : ModelBinderDictionary, controllerBuilder : ControllerBuilder, dependencyResolver : IDependencyResolver)
 	{
 		this.binders = binders;
 		this.controllerBuilder = controllerBuilder;
+		this.dependencyResolver = dependencyResolver;
 	} 
 	
 	public var controllerBuilder : ControllerBuilder;
 	public var binders : ModelBinderDictionary;
 	public var valueProvider : IValueProvider;
+	public var dependencyResolver : IDependencyResolver;
 	
 //	public var error(default, null) : Error;   
 	
@@ -257,7 +260,7 @@ class ControllerActionInvoker implements IActionInvoker
 			var c = self.getAttributeClass(key);
 			if (c == null) return null;
 			
-			var instance = Type.createInstance(c, []);
+			var instance = self.dependencyResolver.getService(c);
 			var args = hash.get(key);
 			
 			//trace('Creating ' + Type.getClassName(c));
