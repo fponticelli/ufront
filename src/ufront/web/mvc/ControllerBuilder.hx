@@ -23,12 +23,13 @@ class ControllerBuilder
 	{
 		packages = new List();
 		attributes = new List();
-		
-		setControllerFactory(new DefaultControllerFactory(this, new DefaultDependencyResolver()));
 	}
 	
 	public function getControllerFactory() : IControllerFactory
 	{
+		if (_controllerFactory == null)
+			_controllerFactory = new DefaultControllerFactory(this, DependencyResolver.current);
+		
 		return _controllerFactory;
 	}
 	
