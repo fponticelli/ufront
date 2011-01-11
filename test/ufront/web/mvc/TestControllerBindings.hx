@@ -112,7 +112,7 @@ class TestControllerBindings
 		controller = new TestController();
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, DependencyResolver.current);
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, new DefaultDependencyResolver());
 	} 
 	
 	function execute()
@@ -199,7 +199,7 @@ class TestControllerBindings
 		var binders = new ModelBinderDictionary();
 		binders.add(Date, new SpecialDateBinder());
 		
-		controller.invoker = new ControllerActionInvoker(binders, ControllerBuilder.current, DependencyResolver.current);
+		controller.invoker = new ControllerActionInvoker(binders, ControllerBuilder.current, new DefaultDependencyResolver());
 		
 		context.routeData.data.set("action", "bindDate");
 		context.routeData.data.set("date", "Millenium");
@@ -214,7 +214,7 @@ class TestControllerBindings
 		var binders = new ModelBinderDictionary();
 		binders.add(Date, new SpecialDateBinder());
 		
-		controller.invoker = new ControllerActionInvoker(binders, ControllerBuilder.current, DependencyResolver.current);
+		controller.invoker = new ControllerActionInvoker(binders, ControllerBuilder.current, new DefaultDependencyResolver());
 		
 		context.routeData.data.set("action", "bindDate");
 		context.routeData.data.set("date", "Some other value");

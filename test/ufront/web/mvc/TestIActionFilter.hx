@@ -99,7 +99,7 @@ class TestIActionFilter
 		controller = new TestController();
 
 		var valueProvider = new RouteDataValueProvider(new ControllerContext(controller, context));		
-		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, DependencyResolver.current);
+		controller.invoker = new ControllerActionInvoker(new ModelBinderDictionary(), ControllerBuilder.current, new DefaultDependencyResolver());
 	} 
 	
 	function execute()
