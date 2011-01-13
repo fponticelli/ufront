@@ -5,9 +5,9 @@ using thx.type.UType;
 
 class AuthorizeAttribute extends FilterAttribute, implements IAuthorizationFilter
 {
+	public var acl : Acl;
 	public var roles : Array<String>;
 	public var users : Array<String>;
-	public var acl : Acl;
 	public var currentRoles : Array<String>;
 	public var currentUser : String;
 	
