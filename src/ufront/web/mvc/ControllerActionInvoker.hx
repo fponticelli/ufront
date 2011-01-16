@@ -11,7 +11,7 @@ import thx.type.URtti;
 import ufront.web.mvc.ControllerContext;
 import haxe.rtti.CType;         
 import thx.collections.Set;
-
+using thx.text.UString;
 using thx.collections.UIterable;  
 
 class ControllerActionInvoker implements IActionInvoker
@@ -228,8 +228,6 @@ class ControllerActionInvoker implements IActionInvoker
 		// Append the action's field metadata last so it will have highest precedence.
 		metadata.add(getFieldAttributes(controller, actionField));
 		
-		//trace(metadata);
-		
 		// Create a hash that will store all attributes and their arguments
 		var hash = Lambda.fold(metadata, function(meta : Dynamic, output : Hash<Dynamic>) {
 			if (meta == null) return output;
@@ -257,6 +255,7 @@ class ControllerActionInvoker implements IActionInvoker
 		var objects = Lambda.map({iterator: hash.keys}, function(key) {
 			var c = self.getAttributeClass(key);
 			if (c == null) return null;
+
 			trace(c);
 			var instance = self.dependencyResolver.getService(c);
 			trace(instance);
@@ -298,7 +297,7 @@ class ControllerActionInvoker implements IActionInvoker
 	{
 		for (pack in controllerBuilder.attributes)
 		{
-			var c = Type.resolveClass(pack + '.' + className + 'Attribute');
+			var c = Type.resolveClass(pack + '.' + className.ucfirst() + 'Attribute');
 			if (c != null && inheritsFrom(c, FilterAttribute)) return c;
 		}
 		

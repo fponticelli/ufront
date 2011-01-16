@@ -3,6 +3,7 @@ import ufront.web.mvc.IDependencyResolver;
 import unject.IKernel;
 import unject.StandardKernel;
 import unject.UnjectModule;
+import thx.error.NullArgument;
 
 /**
  * ...
@@ -15,6 +16,7 @@ class UnjectDependencyResolver implements IDependencyResolver
 	
 	public function new(kernel : IKernel)
 	{
+		NullArgument.throwIfNull(kernel, "kernel");
 		this.kernel = kernel;
 	}
 	
@@ -22,9 +24,4 @@ class UnjectDependencyResolver implements IDependencyResolver
 	{
 		return kernel.get(serviceType);
 	}
-	
-	public function getServices<T>(serviceType:Class<T>):Iterable<T>
-	{
-		return throw "Not implemented.";
-	}	
 }

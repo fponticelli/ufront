@@ -1,4 +1,5 @@
 package ufront.web.mvc.attributes;
+import haxe.rtti.Infos;
 import ufront.web.error.UnauthorizedError;
 import ufront.acl.Acl;
 using thx.type.UType;
@@ -10,12 +11,14 @@ class AuthorizeAttribute extends FilterAttribute, implements IAuthorizationFilte
 	public var users : Array<String>;
 	public var currentRoles : Array<String>;
 	public var currentUser : String;
-	
-	public function new(?acl : Acl)
+
+	public function new()
 	{
 		super();
-		this.acl = acl;
-		trace(acl);
+		roles = [];
+		users = [];
+		currentRoles = [];
+		currentUser = null;
 	}
 	
 	public function onAuthorization(e : AuthorizationContext)

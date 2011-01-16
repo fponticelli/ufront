@@ -21,9 +21,4 @@ class DefaultDependencyResolver implements IDependencyResolver
 			return null;
 		}		
 	}
-	
-    public function getServices<T>(serviceType : Class<T>) : Iterable<T>
-	{
-		return new List<T>();
-	}
 }
