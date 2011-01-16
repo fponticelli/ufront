@@ -1,5 +1,7 @@
 package ufront.web.mvc;
 
+import ufront.web.mvc.attributes.FilterAttribute;
+
 /**
  * ...
  * @author Andreas Soderlund

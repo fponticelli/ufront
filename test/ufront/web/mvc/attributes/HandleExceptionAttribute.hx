@@ -2,7 +2,7 @@ package ufront.web.mvc.attributes;
 
 import ufront.web.mvc.AuthorizationContext;
 import ufront.web.mvc.ExceptionContext;
-import ufront.web.mvc.FilterAttribute;
+import ufront.web.mvc.attributes.FilterAttribute;
 import ufront.web.mvc.IExceptionFilter;
 import ufront.web.mvc.TestControllerFiltersMetaData;
 

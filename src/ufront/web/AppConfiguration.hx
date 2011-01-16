@@ -14,6 +14,6 @@ class AppConfiguration
 		this.modRewrite = modRewrite == null ? false : modRewrite;
 		
 		this.controllerPackages = [controllerPackage == null ? "" : controllerPackage];
-		this.attributePackages = ["ufront.web.mvc"];
+		this.attributePackages = ["ufront.web.mvc.attributes"];
 	}
 }

@@ -1,6 +1,6 @@
 package ufront.web.mvc.attributes;
 import ufront.web.mvc.AuthorizationContext;
-import ufront.web.mvc.FilterAttribute;
+import ufront.web.mvc.attributes.FilterAttribute;
 import ufront.web.mvc.IAuthorizationFilter;
 import ufront.web.mvc.TestControllerFiltersMetaData;
 

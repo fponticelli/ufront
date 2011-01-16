@@ -3,7 +3,7 @@ package ufront.web.mvc.attributes;
 import ufront.web.mvc.ActionExecutedContext;
 import ufront.web.mvc.IActionFilter;
 import ufront.web.mvc.TestControllerFiltersMetaData;
-import ufront.web.mvc.FilterAttribute;
+import ufront.web.mvc.attributes.FilterAttribute;
 
 /**
  * ...

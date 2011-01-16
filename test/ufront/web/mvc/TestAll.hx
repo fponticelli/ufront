@@ -23,7 +23,7 @@ class TestAll
 		TestIActionFilter.addTests(runner);
 		TestIAuthorizationFilter.addTests(runner);
 		TestControllerFilters.addTests(runner);
-		TestAuthorizeAttribute.addTests(runner);
+		ufront.web.mvc.attributes.TestAuthorizeAttribute.addTests(runner);
 		TestControllerFiltersMetaData.addTests(runner);
 	}
 	

@@ -3,6 +3,7 @@ import haxe.rtti.Meta;
 import thx.collections.HashList;
 import ufront.web.error.PageNotFoundError;
 
+import ufront.web.mvc.attributes.FilterAttribute;
 import ufront.web.mvc.ActionResult;
 import thx.type.UType;
 import thx.error.Error;
@@ -138,15 +139,12 @@ class ControllerActionInvoker implements IActionInvoker
     	if(_mapper.exists(actionName))
 			action = "h" + actionName;
 #end    
-		var filterInfo = getFilters(controllerContext, action);		
-		
+		var filterInfo = getFilters(controllerContext, action);
 		try
 		{
 			var authorizationContext = new AuthorizationContext(controllerContext, actionName, arguments);
 			for (filter in filterInfo.authorizationFilters)
-			{
 				filter.onAuthorization(authorizationContext);
-			}
 			
 			if(null != authorizationContext.result)
 			{
@@ -259,8 +257,9 @@ class ControllerActionInvoker implements IActionInvoker
 		var objects = Lambda.map({iterator: hash.keys}, function(key) {
 			var c = self.getAttributeClass(key);
 			if (c == null) return null;
-			
+			trace(c);
 			var instance = self.dependencyResolver.getService(c);
+			trace(instance);
 			var args = hash.get(key);
 			
 			//trace('Creating ' + Type.getClassName(c));

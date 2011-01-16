@@ -15,6 +15,7 @@ import ufront.web.mvc.attributes.TestResult2Attribute;
 
 import ufront.web.mvc.attributes.AuthFailAttribute;
 import ufront.web.mvc.attributes.HandleExceptionAttribute;
+import ufront.web.mvc.attributes.FilterAttribute;
 
 import utest.Assert;
 import utest.Runner;
