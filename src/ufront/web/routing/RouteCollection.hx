@@ -7,7 +7,7 @@ package ufront.web.routing;
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.IRouteConstraint;
 import thx.collections.HashList;     
-import thx.collections.UHash; 
+using thx.util.UDynamicT; 
 
 class RouteCollection
 {
@@ -23,15 +23,16 @@ class RouteCollection
 		_routes.push(route); 
 		var r : { private function setRoutes(routes : RouteCollection) : Void; } = route;
 		r.setRoutes(this);
+		return this;
 	}    
 	
 	public function addRoute(uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
 	{                                              
-		add(
+		return add(
 	   		new Route(
 		    	uri, 
 				new MvcRouteHandler(),
-				null == defaults ? null : UHash.createHash(defaults),
+				null == defaults ? null : defaults.toHash(),
 				constraints));
 	}   
 	

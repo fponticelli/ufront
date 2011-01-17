@@ -1,8 +1,11 @@
 package ufront.web.mvc.view;             
 import thx.error.Error;
 import thx.error.NullArgument;
-import thx.collections.UHash;
+import thx.util.UDynamicT;
 import ufront.web.routing.RequestContext;
+import ufront.web.routing.Route;
+
+using thx.type.UType;
 
 class UrlHelper
 {       
@@ -47,13 +50,13 @@ class UrlHelper
 		return StringTools.urlEncode(s);
 	}               
 	
-	public function action(name : String, data : Dynamic)
-	{           
+	public function action(name : String, data : Dynamic<String>)
+	{
 		NullArgument.throwIfNull(name, "name");
-		if(null == data)
-			data = {}; 
-		data.action = name;
-		return requestContext.routeData.route.getPath(requestContext.httpContext, UHash.createHash(data));
+		var route = requestContext.routeData.route.as(Route);
+		if (null == route)
+			throw new Error("action() method can't be used on this kind of route");
+		return controller(route.defaults.get("controller"), name, data);
 	} 
 	
 	public function controller(controllerName : String, ?action : String, ?data : Dynamic)
@@ -63,7 +66,7 @@ class UrlHelper
 		if(null == data)
 			hash = new Hash();
 		else if(!Std.is(data, Hash))
-			hash = UHash.createHash(data);
+			hash = UDynamicT.toHash(data);
 		else
 			hash = data;
 		

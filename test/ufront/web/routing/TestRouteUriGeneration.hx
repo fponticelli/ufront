@@ -1,7 +1,7 @@
 package ufront.web.routing;
 import haxe.PosInfos;
-import thx.collections.UHash;
 using thx.collections.UHash;
+using thx.util.UDynamicT;
 import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;
@@ -76,7 +76,7 @@ class TestRouteUriGeneration extends BaseTest
 		var context = createContext(src); // the param is not used so it doesn't matter
 		if(null == data)
 			data = {}; 
-	   	var params = UHash.createHash(data);
+	   	var params = data.toHash();
 		var routeData = route.getRouteData(context);
 		if(routeData == null)                                                           
 		{

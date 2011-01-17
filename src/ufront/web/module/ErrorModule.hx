@@ -11,7 +11,7 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.mvc.Controller;
 import ufront.web.HttpApplication;
 import ufront.web.IHttpModule;   
-using thx.collections.UHash;    
+using thx.util.UDynamicT;    
 using thx.text.UString;         
 using thx.type.UType;
 
@@ -48,7 +48,7 @@ class ErrorModule implements IHttpModule
 			{ 
 				action : action,
 				error : haxe.Serializer.run(httpError) 
-			}.createHash());
+			}.toHash());
 		
 		var requestContext : RequestContext = null;
 		

@@ -8,6 +8,7 @@ import thx.error.NullArgument;
 import ufront.web.routing.IRouteHandler;       
 import ufront.web.routing.RouteUriParser;   
 using thx.collections.UHash;
+using thx.util.UDynamicT;
 
 class LocalizedRoute extends Route
 {       
@@ -138,7 +139,7 @@ class LocalizedRoute extends Route
 				translator,
 		    	uri, 
 				new MvcRouteHandler(),
-				null == defaults ? null : UHash.createHash(defaults),
+				null == defaults ? null : defaults.toHash(),
 				constraints));
 	}
 }

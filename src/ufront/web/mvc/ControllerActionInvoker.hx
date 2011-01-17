@@ -256,9 +256,7 @@ class ControllerActionInvoker implements IActionInvoker
 			var c = self.getAttributeClass(key);
 			if (c == null) return null;
 
-			trace(c);
 			var instance = self.dependencyResolver.getService(c);
-			trace(instance);
 			var args = hash.get(key);
 			
 			//trace('Creating ' + Type.getClassName(c));

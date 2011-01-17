@@ -1,7 +1,7 @@
 package ufront.external.mvc;
 import ufront.web.mvc.DefaultDependencyResolver;
 import ufront.web.mvc.IDependencyResolver;
-import thx.util.Injector;
+import thx.type.Factory;
 import thx.error.NullArgument;
 
 /**
@@ -11,19 +11,19 @@ import thx.error.NullArgument;
 
 class ThxDependencyResolver implements IDependencyResolver
 {
-	public var injector(default, null) : Injector;
+	public var factory(default, null) : Factory;
 	public var defaultResolver : IDependencyResolver;
 	
-	public function new(injector : Injector)
+	public function new(factory : Factory)
 	{
-		NullArgument.throwIfNull(injector, "injector");
-		this.injector = injector;
+		NullArgument.throwIfNull(factory, "factory");
+		this.factory = factory;
 		this.defaultResolver = new DefaultDependencyResolver();
 	}
 	
 	public function getService<T>(serviceType:Class<T>):T 
 	{
-		var o = injector.get(serviceType);
+		var o = factory.get(serviceType);
 		if (null == o)
 			return defaultResolver.getService(serviceType);
 		else

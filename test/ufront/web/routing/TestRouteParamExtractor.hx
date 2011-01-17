@@ -1,6 +1,6 @@
 package ufront.web.routing;
 import haxe.PosInfos;
-import thx.collections.UHash;
+using thx.util.UDynamicT;
 import thx.collections.Set;    
 import utest.Runner;
 import utest.ui.Report;
@@ -25,7 +25,7 @@ class TestRouteParamExtractor
 	
 	function assert(expected : Dynamic<String>, result : Hash<String>, ?pos : PosInfos)
 	{                                         
-		Assert.same(UHash.createHash(expected), result, pos);
+		Assert.same(expected.toHash(), result, pos);
 	}
      
 	public function testRoot() 
