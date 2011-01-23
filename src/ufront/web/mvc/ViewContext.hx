@@ -23,9 +23,9 @@ class ViewContext
 	public var response(default, null) : HttpResponse;
 	public var session(default, null) : IHttpSessionState; 
 	public var viewEngine(default, null) : IViewEngine;  
-	public var viewHelpers(default, null) : Array<{ name : String, helper : Dynamic }>;
+	public var viewHelpers(default, null) : Array<IViewHelper>;
 
-	public function new(controllerContext:ControllerContext, view:IView, viewEngine : IViewEngine, viewData:Hash<Dynamic>, viewHelpers : Array<{ name : String, helper : Dynamic }>)
+	public function new(controllerContext:ControllerContext, view:IView, viewEngine : IViewEngine, viewData:Hash<Dynamic>, viewHelpers : Array<IViewHelper>)
 	{       
 		this.controllerContext = controllerContext;                                  
 		this.controller = controllerContext.controller;

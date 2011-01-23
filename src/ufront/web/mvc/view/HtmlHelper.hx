@@ -1,20 +1,32 @@
 package ufront.web.mvc.view;
-import ufront.web.mvc.view.HTemplateData;
 import ufront.web.mvc.ViewContext;    
 using StringTools;
+import ufront.web.mvc.view.UrlHelper;
 
-class HtmlHelper
-{       
-	public var viewContext(default, null) : ViewContext;
-	public var templateData(default, null) : HTemplateData;  
-	public var urlHelper(default, null) : UrlHelper; 
-	public function new(viewContext : ViewContext, templateData : HTemplateData, urlHelper : UrlHelper)
+class HtmlHelper implements ufront.web.mvc.IViewHelper
+{
+	public var name(default, null) : String;
+	public var urlHelper(default, null) : UrlHelperInst; 
+	public function new(name = "Html", urlHelper : UrlHelperInst)
 	{
-		this.viewContext = viewContext;   
-		this.templateData = templateData;     
-		this.urlHelper = urlHelper;                             
+		this.name = name;
+		this.urlHelper = urlHelper;
 	}                         
-	     
+
+	public function register(data : Hash<Dynamic>)
+	{
+		data.set(name, new HtmlHelperInst(urlHelper));
+	}
+}
+
+class HtmlHelperInst
+{
+	var __url : UrlHelperInst; 
+	public function new(urlHelper : UrlHelperInst)
+	{
+		__url = urlHelper;                             
+	}
+	
 	public function encode(s : String)
 	{
 		return StringTools.htmlEscape(s);
@@ -52,24 +64,19 @@ class HtmlHelper
 			attrs = {};
 		attrs.href = url;
 	   	return open("a", attrs) + text + close("a");
-	}   
-	
-	public function action(text : String, name : String, ?data : Dynamic, ?attrs : Dynamic)
-	{           
-		return link(text, urlHelper.action(name, data), attrs);
 	}
-	
-	public function controller(text : String, controllerName : String, ?action : String, ?data : Dynamic, ?attrs : Dynamic)
+
+	public function route(text : String, controllerName : String, ?action : String, ?data : Dynamic, ?attrs : Dynamic)
 	{           
-		return link(text, urlHelper.controller(controllerName, action, data), attrs);
+		return link(text, __url.route(controllerName, action, data), attrs);
 	} 
 	
-	public function linkornot(text : String, url : String, ?test : String, ?attrs : Dynamic)
+	public function linkif(text : String, url : String, ?test : String, ?attrs : Dynamic)
 	{
 		if(null == attrs)
 			attrs = {}; 
 		if(null == test)
-		    test = urlHelper.current();
+		    test = __url.current();
 		if(url == test)
 		{
 			return open("span", attrs) + text + close("span");
@@ -77,19 +84,14 @@ class HtmlHelper
 			attrs.href = url; 
 	   		return open("a", attrs) + text + close("a");
    		}
-	}   
-	
-	public function actionornot(text : String, name : String, ?test : String, ?data : Dynamic, ?attrs : Dynamic)
-	{           
-		return linkornot(text, urlHelper.action(name, data), test, attrs);
 	}
-	                                                                                   
+
 	/**
-	 *  @todo fix issues with more than 5 argumetns (couple controllerName with action)
+	 *  TODO fix issues with more than 5 argumetns (couple controllerName with action)
 	 */
-	public function controllerornot(text : String, controllerName : String, ?action : String, ?test : String, ?data : Dynamic/*, ?attrs : Dynamic*/)
+	public function routeif(text : String, controllerName : String, ?action : String, ?test : String, ?data : Dynamic)
 	{           
-		return linkornot(text, urlHelper.controller(controllerName, action, data), test, null /*attrs*/);
+		return linkif(text, __url.route(controllerName, action, data), test, null);
 	}
 	
 	public function open(name : String, attrs : Dynamic)
@@ -101,7 +103,7 @@ class HtmlHelper
 	{
 		return "</" + name + ">";
 	}
-	       
+
 	public function tag(name : String, attrs : Dynamic)
 	{
 		return "<" + name + _attrs(attrs) + ">";

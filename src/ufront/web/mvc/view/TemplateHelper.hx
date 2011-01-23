@@ -1,19 +1,15 @@
 package ufront.web.mvc.view;
 import thx.error.NullArgument;
 import thx.error.Error;
-import ufront.web.mvc.view.HTemplateViewEngine;
 import ufront.web.mvc.ViewContext;
-import htemplate.Template;                            
 
-class HTemplateData 
+class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 {       
-	var data : Hash<Dynamic>;   
 	var context : ViewContext;    
-	var template : HTemplateView;
-	public function new(context : ViewContext, template : HTemplateView)
+	var template : ITemplateView<Template>;
+	public function new(context : ViewContext, template : ITemplateView<Template>)
 	{
 		this.context = context;
-		this.data = context.viewData;
 		this.template = template;
 	}      
 	
@@ -21,56 +17,58 @@ class HTemplateData
 	{                                               
 		if(null == alt)
 			alt = "";
-		return data.exists(key) ? data.get(key) : alt;
+		var hash = template.data();
+		return hash.exists(key) ? hash.get(key) : alt;
 	}
 	
 	public function exists(key : String) 
 	{
-		return data.exists(key);
+		return template.data().exists(key);
 	}                           
-	
+
 	public function set(key : String, value : Dynamic) 
 	{
-		data.set(key, value);
+		template.data().set(key, value);
 	}
-	
-	
+
 	public function has(value : Dynamic, key : String)
 	{
 		return Reflect.hasField(value, key);
 	} 
 	        
-	public function notempty(key : String)
+	public function notempty(key : String) : Bool
 	{
-		var v = data.get(key);  
+		var v = template.data().get(key);  
 		if(v == null || v == "")
 			return false;
 		else if(Std.is(v, Array))
 			return v.length > 0;
 		else if(Std.is(v, Bool))
-			return v;
+			return cast v;
 		else
 			return true;
 	}
 	
 	public function push(varname : String, element : Dynamic)
 	{
-		var arr = data.get(varname);
+		var hash = template.data();
+		var arr = hash.get(varname);
 		if(null == arr)
 		{
 			arr = [];
-			data.set(varname, arr);
+			hash.set(varname, arr);
 		}
 		arr.push(element);
 	} 
 	
 	public function unshift(varname : String, element : Dynamic)
 	{
-		var arr = data.get(varname);
+		var hash = template.data();
+		var arr = hash.get(varname);
 		if(null == arr)
 		{
 			arr = [];
-			data.set(varname, arr);
+			hash.set(varname, arr);
 		}
 		arr.unshift(element);
 	}
@@ -78,9 +76,9 @@ class HTemplateData
 	public function wrap(templatepath : String, ?contentvar : String)
 	{
 		if(null == contentvar)   
-			contentvar = "content";   
+			contentvar = "layoutContent";   
 		
-		var engine : HTemplateViewEngine = cast context.viewEngine;
+		var engine : ITemplateViewEngine<Template> = cast context.viewEngine;
 			
 		var t = engine.getTemplate(context.controllerContext, templatepath);
 		if(null == t)
@@ -92,34 +90,24 @@ class HTemplateData
 	
 	public function include(templatepath : String)
 	{
-		var engine : HTemplateViewEngine = cast context.viewEngine;
+		var engine : ITemplateViewEngine<Template> = cast context.viewEngine;
 			
 		var t = engine.getTemplate(context.controllerContext, templatepath);
 		if(null == t)
 			throw new Error("the include template '{0}' does not exist", templatepath);
-		
-		return t.execute(template.templateVars);
-	}                                           
+		return template.executeTemplate(t, template.data());
+	}
 	
-	// slot() // should call a controller action and embed its ViewResult
-	
-	public function register()
-	{           
-		var h = template.templateVars;
-		h.set("get",      get);
-		h.set("set",      set);
-		h.set("exists",   exists); 
-		h.set("has",      has); 
-		h.set("include",  include);
-		h.set("notempty", notempty);
-		h.set("push",     push); 
-		h.set("unshift",  unshift); 
-		h.set("wrap",     wrap);
-	}   
-	
-	public function registerHelper(name : String, helperInstance : Dynamic)
-	{           
-	    NullArgument.throwIfNull(name, "name");
-		template.templateVars.set(name, helperInstance);
+	public function register(data : Hash<Dynamic>)
+	{
+		data.set("get",      get);
+		data.set("set",      set);
+		data.set("exists",   exists); 
+		data.set("has",      has); 
+		data.set("include",  include);
+		data.set("notempty", notempty);
+		data.set("push",     push); 
+		data.set("unshift",  unshift); 
+		data.set("wrap",     wrap);   
 	}
 }

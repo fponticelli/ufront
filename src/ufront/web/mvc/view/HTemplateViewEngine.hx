@@ -11,13 +11,10 @@ import ufront.web.mvc.ControllerContext;
 import ufront.web.mvc.IViewEngine;    
 import thx.sys.FileSystem;                                              
 
-class HTemplateViewEngine implements IViewEngine 
-{   
+class HTemplateViewEngine implements ITemplateViewEngine<Template>
+{
 	public static var DEFAULT_EXTENSION = ".html";
-	public function new()
-	{
-		
-	}
+	public function new();
                                 
 	public function getTemplatesDirectory(controllerContext : ControllerContext)
 	{
@@ -53,9 +50,9 @@ class HTemplateViewEngine implements IViewEngine
 	}
 	
 	/**
-	 *  @todo find a sync function in node.js for file exists
+	 *  TODO find a sync function in node.js for file exists
 	 */
-	public function getTemplate(controllerContext : ControllerContext, path : String) 
+	public function getTemplate(controllerContext : ControllerContext, path : String) : Template
 	{            
 	   	var fullpath = _templatePath(controllerContext, path);
 #if (neko || php)

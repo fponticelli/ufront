@@ -2,5 +2,6 @@ package ufront.web.mvc;
 
 interface IView 
 {
-	public function render(viewContext : ViewContext) : String;
+	// TODO outputData should be removed if not needed anymore after HtmlViewResult has been moved to filter
+	public function render(viewContext : ViewContext, outputData : Hash<Dynamic>) : String;
 }

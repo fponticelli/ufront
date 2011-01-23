@@ -30,10 +30,10 @@ using thx.collections.UArray;
 class HtmlViewResult extends ViewResult
 {
 	public var version : HtmlVersion;
-	public var charset(getCharset, setCharset) : String;
-	public var language(getLanguage, setLanguage) : String;
+//	public var charset(getCharset, setCharset) : String;
+//	public var language(getLanguage, setLanguage) : String;
 	public var autoformat : Bool;
-	public var title(getTitle, setTitle) : String;
+//	public var title(getTitle, setTitle) : String;
 	public var agentSensitiveOutput : Bool;
 	
 	var _scripts : Array<Script>;
@@ -44,8 +44,8 @@ class HtmlViewResult extends ViewResult
 	{
 		super(data);
 		this.version = null == version ? Html5 : version;
-		this.language = language;
-		this.charset = charset;
+		setLanguage(language);
+		setCharset(charset);
 		this.autoformat = true;
 		this.agentSensitiveOutput = true;
 		_scripts = [];
@@ -60,7 +60,7 @@ class HtmlViewResult extends ViewResult
 		super.executeResult(context);
 	}
 	
-	override function writeResponse(context : ControllerContext, content : String)
+	override function writeResponse(context : ControllerContext, content : String, data : Hash<Dynamic>)
 	{
 		var template = Html.getTemplate(version);
 		var result : String = null;
@@ -69,18 +69,18 @@ class HtmlViewResult extends ViewResult
 		{
 			var body = template.replace("</body>", content + "</body>");
 			var dom = parser(body);
-			handleDom(dom, context);
+			handleDom(dom, context, data);
 			result = Html.getFormatter(version).format(dom);
 		} else {
 			var dom = parser(template);
-			handleDom(dom, context);
+			handleDom(dom, context, data);
 			result = Html.getFormatter(version).format(dom);
 			result = result.replace("</body>", "\n" + content + "\n</body>");
 		}
 		context.response.write(result);
 	}
 	
-	function handleDom(dom : Xml, context : ControllerContext)
+	function handleDom(dom : Xml, context : ControllerContext, data : Hash<Dynamic>)
 	{       
 		var html  = dom.firstElement();
 		var head  = html.firstElement();
@@ -88,12 +88,12 @@ class HtmlViewResult extends ViewResult
 		var body  = html.elementsNamed("body").next();
 		
 		// title
-		var t = getTitle();
+		var t = getTitle(data);
 		if(null != t)
 			title.addChild(Xml.createPCData(t));
 		
 		// language
-		var l = getLanguage();
+		var l = getLanguage(data);
 		if(null != l)
 		{
 			html.set("lang", l);
@@ -107,7 +107,7 @@ class HtmlViewResult extends ViewResult
 		}
 		
 		// encoding
-		var c = getCharset();
+		var c = getCharset(data);
 		if(null != c)
 		{
 		 	switch(version)
@@ -127,7 +127,7 @@ class HtmlViewResult extends ViewResult
 		var httpContext = context.httpContext;
 		
 		// scripts
-		var scripts = getScripts();
+		var scripts = getScripts(data);
 		for (script in scripts)
 		{
 			var node = Xml.createElement("script");
@@ -147,7 +147,7 @@ class HtmlViewResult extends ViewResult
 		}
 
 		// styleSheets 
-		var styleSheets = getStyleSheets();
+		var styleSheets = getStyleSheets(data);
 		for (css in styleSheets)
 		{
 			var node : Xml;
@@ -185,10 +185,10 @@ class HtmlViewResult extends ViewResult
 		}
 	}
 	
-	function getScripts() : Array<Script>
+	function getScripts(data : Hash<Dynamic>) : Array<Script>
 	{
 		var scripts = _scripts.copy();
-		var tscripts : Array<Dynamic> = viewData.get("scripts");
+		var tscripts : Array<Dynamic> = data.get("scripts");
 		if (null != tscripts)
 			for (script in tscripts)
 				scripts.push(scriptFromTemplate(script));
@@ -307,10 +307,10 @@ class HtmlViewResult extends ViewResult
 		_scripts.push(script);
 	}
 	
-	function getStyleSheets() : Array<StyleSheet>
+	function getStyleSheets(data : Hash<Dynamic>) : Array<StyleSheet>
 	{
 		var styleSheets = _styleSheets.copy();
-		var tstyleSheets : Array<Dynamic> = viewData.get("styleSheets");
+		var tstyleSheets : Array<Dynamic> = data.get("styleSheets");
 		if (null != tstyleSheets)
 			for (styleSheet in tstyleSheets)
 				styleSheets.push(styleSheetsFromTemplate(styleSheet));
@@ -352,33 +352,36 @@ class HtmlViewResult extends ViewResult
 		_styleSheets.push(styleSheet);
 	}
 	
+	var title : String;
 	function setTitle(v) return title = v
-	function getTitle()
+	function getTitle(data : Hash<Dynamic>)
 	{
 		if(null != title)
 			return title;
 		else
-			return viewData.get("title");
+			return data.get("title");
 	}
 	
+	var language : String;
 	function setLanguage(v) return language = v
-	function getLanguage()
+	function getLanguage(data : Hash<Dynamic>)
 	{
 		if(null != language)
 			return language;
-		else if(viewData.exists("language"))
-			return viewData.get("language");
+		else if(data.exists("language"))
+			return data.get("language");
 		else
-			return viewData.get("lang");
+			return data.get("lang");
 	}
 	
+	var charset : String;
 	function setCharset(v) return charset = v
-	function getCharset()
+	function getCharset(data : Hash<Dynamic>)
 	{
 		if(null != charset)
 			return charset;
 		else
-			return viewData.get("charset");
+			return data.get("charset");
 	}
 	
 	static function styleSheetsFromTemplate(v : Dynamic)

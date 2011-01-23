@@ -7,30 +7,42 @@ import ufront.web.routing.Route;
 
 using thx.type.UType;
 
-class UrlHelper
-{       
-	public var requestContext(default, null) : RequestContext; 
+class UrlHelper implements IViewHelper
+{   
+    public var name(default, null) : String; 
+	public var requestContext(default, null) : RequestContext;
+	public var inst(default, null) : UrlHelperInst;
+	public function new(name = "Url", requestContext : RequestContext)
+	{
+		this.name = name;
+		this.requestContext = requestContext;   
+		this.inst = new UrlHelperInst(requestContext);
+	}
+    
+	public function register(data : Hash<Dynamic>)
+	{
+		data.set(name, inst);
+	}
+}
+
+class UrlHelperInst
+{
+	var __req : RequestContext;
 	public function new(requestContext : RequestContext)
 	{
-		this.requestContext = requestContext;   
-	}    
-	   
-	// TODO: base, base application url
-	// TODO: current, calling context url
+		__req = requestContext;   
+	}
 	
 	public function base(?uri : String)
 	{                                 
 		if(null == uri)
 			uri = "/";
-		return requestContext.httpContext.generateUri(uri);
+		return __req.httpContext.generateUri(uri);
 	}
 	                        
-	/**  
-	*  @todo ad support for extra params
-	*  */
 	public function current(?params : Dynamic) 
 	{                                    
-		var url = requestContext.httpContext.getRequestUri();  
+		var url = __req.httpContext.getRequestUri();  
 		if(null != params)
 		{       
 			var qs = [];
@@ -42,25 +54,23 @@ class UrlHelper
 			if(qs.length > 0)
 				url += (url.indexOf("?") >= 0 ? "&" : "?") + qs.join("&");
 		}
-		return requestContext.httpContext.generateUri(url);
+		return __req.httpContext.generateUri(url);
 	}
 	
 	public function encode(s : String)
 	{
 		return StringTools.urlEncode(s);
 	}               
-	
-	public function action(name : String, data : Dynamic<String>)
+
+	public function route(?controllerName : String, ?action : String, ?data : Dynamic)
 	{
-		NullArgument.throwIfNull(name, "name");
-		var route = requestContext.routeData.route.as(Route);
-		if (null == route)
-			throw new Error("action() method can't be used on this kind of route");
-		return controller(route.defaults.get("controller"), name, data);
-	} 
-	
-	public function controller(controllerName : String, ?action : String, ?data : Dynamic)
-	{
+		if (null == controllerName)
+		{
+			var route = __req.routeData.route.as(Route);
+			if (null == route)
+				throw new Error("action() method can't be used on this kind of route");
+			controllerName = route.defaults.get("controller");
+		}
 		NullArgument.throwIfNull(controllerName, "controllerName");
 		var hash = null;
 		if(null == data)
@@ -74,9 +84,9 @@ class UrlHelper
 		if(null != action)
 			hash.set("action", action);      
         
-		for(route in requestContext.routeData.route.routes.iterator())
+		for(route in __req.routeData.route.routes.iterator())
 		{                  
-			var url = route.getPath(requestContext.httpContext, hash);       
+			var url = route.getPath(__req.httpContext, hash);       
 			if(null != url)
 				return url;
 		}

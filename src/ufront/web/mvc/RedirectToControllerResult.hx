@@ -23,9 +23,7 @@ class RedirectToControllerResult extends ActionResult
 	{
 		NullArgument.throwIfNull(controllerContext, "controllerContext");
 		
-		var helper = new UrlHelper(controllerContext.requestContext);
-		
-		var url = helper.controller(controllerName, actionName, params);       
+		var url = new UrlHelperInst(controllerContext.requestContext).route(controllerName, actionName, params);       
 		var redirect = new RedirectResult(url, false);
 		redirect.executeResult(controllerContext);
 	}

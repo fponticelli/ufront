@@ -32,6 +32,9 @@ class ViewEngines
 		if(null == engines) 
 		{
 			engines = new ViewEngines();
+#if erazor
+			engines.add(new ufront.web.mvc.view.ErazorViewEngine());
+#end
 #if htemplate   
     		engines.add(new ufront.web.mvc.view.HTemplateViewEngine());
 #end

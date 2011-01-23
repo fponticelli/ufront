@@ -1,6 +1,16 @@
 package ufront.web.mvc.view;
 
+import ufront.web.mvc.view.HtmlHelper;
+
 class XHtmlHelper extends HtmlHelper
+{
+	override public function register(data : Hash<Dynamic>)
+	{
+		data.set(name, new XHtmlHelperInst(urlHelper));
+	}
+}
+
+class XHtmlHelperInst extends HtmlHelperInst
 {
 	override function open(name : String, attrs : Dynamic)
 	{

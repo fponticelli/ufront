@@ -10,12 +10,10 @@ class ViewResult extends ActionResult
 	public var viewData : Hash<Dynamic>;
 //	public var viewEngine :  ViewEngine;
 	public var viewName : String;
-//	public var viewTempData : Hash<Dynamic>;
         
-	public function new(?data : Hash<Dynamic>/*, ?tempData : Hash<Dynamic>*/)
+	public function new(?data : Hash<Dynamic>)
 	{
 		viewData = null == data ? new Hash() : data;
-//		viewTempData = null == tempData ? new Hash() : tempData;
 	}
 	
 	function createContext(result : ViewEngineResult, controllerContext : ControllerContext)
@@ -38,19 +36,19 @@ class ViewResult extends ActionResult
             this.view = result.view;
 		}   
 		var viewContext = createContext(result, context);
-		
+		var data = new Hash();
 		var r = null;
 		try {
-			r = view.render(viewContext);
+			r = view.render(viewContext, data);
 		} catch(e : Dynamic) {
 			throw new Error("error in the template processing: {0}", Std.string(e));
 		}
-		writeResponse(context, r);
+		writeResponse(context, r, data);
 		if(null != result)
 			result.viewEngine.releaseView(context, view);
 	}
 	
-	function writeResponse(context : ControllerContext, content : String)
+	function writeResponse(context : ControllerContext, content : String, data : Hash<Dynamic>)
 	{
 		context.response.write(content);
 	}
