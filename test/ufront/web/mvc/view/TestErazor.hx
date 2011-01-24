@@ -75,8 +75,8 @@ class TestErazor
 		dic.addDomain("it", hxculture.languages.It.language);
 		var helper = new TranslationHelper(dic);
 		
-		var t = getTemplateData("@t._('o')");  
-		t.viewContext.viewData.set("t", helper);
+		var t = getTemplateData("@_('o')");
+		helper.register(t.viewContext.viewData);
 		Assert.equals("o", t.view.render(t.viewContext, new Hash()));
     }
 #end

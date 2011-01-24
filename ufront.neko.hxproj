@@ -18,6 +18,7 @@
     <class path="..\core\src" />
     <class path="..\htemplate\src" />
     <class path="..\utest\src" />
+    <class path="..\erazor\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -51,6 +52,6 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Custom" />
-    <option testMovieCommand="neko bin\index.n" />
+    <option testMovieCommand="run.bat" />
   </options>
 </project>
