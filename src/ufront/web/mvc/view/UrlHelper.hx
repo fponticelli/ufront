@@ -2,6 +2,7 @@ package ufront.web.mvc.view;
 import thx.error.Error;
 import thx.error.NullArgument;
 import thx.util.UDynamicT;
+import ufront.web.mvc.IViewHelper;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.Route;
 
