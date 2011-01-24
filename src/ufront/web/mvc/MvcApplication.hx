@@ -1,6 +1,5 @@
 package ufront.web.mvc;
 
-import thx.collections.UHash;
 import ufront.web.HttpApplication;
 import ufront.web.HttpContext;
 import ufront.web.PathInfoUrlFilter;
@@ -9,6 +8,7 @@ import ufront.web.routing.RouteBase;
 import ufront.web.routing.RouteCollection;
 import ufront.web.routing.UrlRoutingModule;
 import ufront.web.AppConfiguration;
+using thx.util.UDynamicT;
 
 /**
  * ...
@@ -20,7 +20,7 @@ class MvcApplication extends HttpApplication
 	public static var defaultRoute : RouteBase = new Route(
 		"/{controller}/{action}/{?id}", 
 		new MvcRouteHandler(),
-		UHash.createHash({ controller: "Home", action: "index" }),
+		{ controller: "Home", action: "index" }.toHash(),
 		null
 	);
 	
@@ -52,12 +52,12 @@ class MvcApplication extends HttpApplication
 		
 		for (pack in configuration.controllerPackages)
 		{
-			ControllerBuilder.current.addPackage(pack);
+			ControllerBuilder.current.packages.add(pack);
 		}
 		
 		for (pack in configuration.attributePackages)
 		{
-			ControllerBuilder.current.addAttributePackage(pack);
+			ControllerBuilder.current.packages.add(pack);
 		}
 	}	
 }

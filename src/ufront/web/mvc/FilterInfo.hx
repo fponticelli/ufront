@@ -46,7 +46,7 @@ class FilterInfo
 			exceptionFilters.push(cast attribute);
 	}
 	
-	public function mergeControllerFilters(controller : ControllerBase) : Void 
+	public function mergeControllerFilters(controller : IController) : Void 
 	{
 		if (Std.is(controller, IAuthorizationFilter))
 			authorizationFilters.unshift(cast controller);
