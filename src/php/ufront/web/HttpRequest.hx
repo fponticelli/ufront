@@ -24,6 +24,11 @@ class HttpRequest extends ufront.web.HttpRequest
 	
 	public function new()
 	{
+		/*
+		php.Lib.print("<pre>");
+		php.Lib.dump(untyped __var__("_ENV") );
+		php.Lib.print("</pre>");
+		*/
 		_uploadHandler = new EmptyUploadHandler();
 	}
 	
@@ -40,16 +45,12 @@ class HttpRequest extends ufront.web.HttpRequest
 			return "";
 		if (null == postString)
 		{
-			var h = untyped __call__("fopen", "php://input", "r");
-			var bsize = 8192;
-			var max = 32;
-			postString = null;
-			var counter = 0;
-			while (!untyped __call__("feof", h) && counter < max) {
-				postString += untyped __call__("fread", h, bsize);
-				counter++;
+			if (untyped __call__("isset", __var__('GLOBALS', 'HTTP_RAW_POST_DATA')))
+			{
+				postString = untyped __var__('GLOBALS', 'HTTP_RAW_POST_DATA');
+			} else {
+				postString = untyped __call__("file_get_contents", "php://input");
 			}
-			untyped __call__("fclose", h);
 			if (null == postString)
 				postString = "";
 		}
@@ -65,14 +66,6 @@ class HttpRequest extends ufront.web.HttpRequest
 		_parsed = true;
 		var post = getPost();
 		var handler = _uploadHandler;
-		untyped if (__call__("isset", __php__("$_POST")))
-		{
-			var na : php.NativeArray = __call__("array");
-			__php__("foreach($_POST as $k => $v) { $na[urldecode($k)] = $v; }");
-			var h = php.Lib.hashOfAssociativeArray(na);
-			for (k in h.keys())
-				post.set(k, h.get(k));
-		}
 		if(!untyped __call__("isset", __php__("$_FILES"))) return;
 		var parts : Array<String> = untyped __call__("new _hx_array",__call__("array_keys", __php__("$_FILES")));
 		untyped for(part in parts) {
@@ -125,7 +118,9 @@ class HttpRequest extends ufront.web.HttpRequest
 	override function getQuery()
 	{
 		if (null == query)
+		{
 			query = getHashFromString(queryString);
+		}
 		return query;
 	}
 	
@@ -137,7 +132,25 @@ class HttpRequest extends ufront.web.HttpRequest
 		{
 			post = getHashFromString(postString);
 			if (!post.iterator().hasNext())
-				_parseMultipart();
+			{
+				untyped if (__call__("isset", __php__("$_POST")))
+				{
+					var na : php.NativeArray = __call__("array");
+					__php__("foreach($_POST as $k => $v) { $na[urldecode($k)] = $v; }");
+					var h = php.Lib.hashOfAssociativeArray(na);
+					for (k in h.keys())
+						post.set(k, h.get(k));
+				}
+			}
+			if (untyped __call__("isset", __php__("$_FILES")))
+			{
+				var parts : Array<String> = untyped __call__("new _hx_array",__call__("array_keys", __php__("$_FILES")));
+				untyped for (part in parts) {
+					var file : String = __php__("$_FILES[$part]['name']");
+					var name = StringTools.urldecode(part);
+					post.set(name, file);
+				}
+			}
 		}
 		return post;
 	}

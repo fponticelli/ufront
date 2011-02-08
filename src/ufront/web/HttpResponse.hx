@@ -4,6 +4,7 @@
  */
 
 package ufront.web;
+import haxe.io.Bytes;
 import haxe.io.BytesOutput;
 import haxe.io.Output;
 import thx.collections.HashList;
@@ -90,6 +91,11 @@ class HttpResponse
 	public function writeChar(c : Int)
 	{
 		_buff.addChar(c);
+	}
+	
+	public function writeBytes(b : Bytes)
+	{
+		_buff.add(b.readString(0, b.length));
 	}
 	
 	public function setHeader(name : String, value : String)

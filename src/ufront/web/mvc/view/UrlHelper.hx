@@ -1,11 +1,12 @@
 package ufront.web.mvc.view;             
 import thx.error.Error;
 import thx.error.NullArgument;
-import thx.util.UDynamicT;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.Route;
-
+import thx.util.UDynamicT;
 using thx.type.UType;
+import thx.collections.UHash;
+using thx.collections.UHash;
 
 class UrlHelper implements IViewHelper
 {   
@@ -49,7 +50,7 @@ class UrlHelperInst
 			for(field in Reflect.fields(params))
 			{   
 				var value = Reflect.field(params, field);
-				qs.push(field + "=" + StringTools.urlEncode(value));
+				qs.push(field + "=" + encode(value));
 			}                                                                              
 			if(qs.length > 0)
 				url += (url.indexOf("?") >= 0 ? "&" : "?") + qs.join("&");
@@ -62,31 +63,28 @@ class UrlHelperInst
 		return StringTools.urlEncode(s);
 	}               
 
-	public function route(?controllerName : String, ?action : String, ?data : Dynamic)
+	public function route(?data : Dynamic)
 	{
-		if (null == controllerName)
-		{
-			var route = __req.routeData.route.as(Route);
-			if (null == route)
-				throw new Error("action() method can't be used on this kind of route");
-			controllerName = route.defaults.get("controller");
-		}
-		NullArgument.throwIfNull(controllerName, "controllerName");
 		var hash = null;
 		if(null == data)
 			hash = new Hash();
-		else if(!Std.is(data, Hash))
-			hash = UDynamicT.toHash(data);
+		else if (Std.is(data, Hash))
+			hash = UHash.clone(data);
 		else
-			hash = data;
+			hash = UDynamicT.toHash(data);
 		
-		hash.set("controller", controllerName);
-		if(null != action)
-			hash.set("action", action);      
-        
+		if (null == hash.get("controller"))
+		{
+			var route = __req.routeData.route.as(Route);
+			if (null == route)
+				throw new Error("unable to find a suitable route for {0}", Std.string(hash));
+			hash.set("controller", route.defaults.get("controller"));
+			NullArgument.throwIfNull(hash.get("controller"), "controller");
+		}
+		
 		for(route in __req.routeData.route.routes.iterator())
 		{                  
-			var url = route.getPath(__req.httpContext, hash);       
+			var url = route.getPath(__req.httpContext, hash.clone());
 			if(null != url)
 				return url;
 		}
