@@ -66,12 +66,12 @@ class HtmlHelperInst
 	   	return open("a", attrs) + text + close("a");
 	}
 
-	public function route(text : String, controllerName : String, ?action : String, ?data : Dynamic, ?attrs : Dynamic)
+	public function route(text : String, ?data : Dynamic, ?attrs : Dynamic)
 	{           
-		return link(text, __url.route(controllerName, action, data), attrs);
+		return link(text, __url.route(data), attrs);
 	} 
 	
-	public function linkif(text : String, url : String, ?test : String, ?attrs : Dynamic)
+	public function linkif(test : String, text : String, url : String, ?attrs : Dynamic)
 	{
 		if(null == attrs)
 			attrs = {}; 
@@ -86,12 +86,9 @@ class HtmlHelperInst
    		}
 	}
 
-	/**
-	 *  TODO fix issues with more than 5 argumetns (couple controllerName with action)
-	 */
-	public function routeif(text : String, controllerName : String, ?action : String, ?test : String, ?data : Dynamic)
+	public function routeif(test : String, text : String, ?data : Dynamic, ?attrs : Dynamic)
 	{           
-		return linkif(text, __url.route(controllerName, action, data), test, null);
+		return linkif(test, text, __url.route(data), attrs);
 	}
 	
 	public function open(name : String, attrs : Dynamic)

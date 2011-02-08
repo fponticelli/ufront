@@ -27,7 +27,7 @@ class HttpResponse extends ufront.web.HttpResponse
 		var k = null, v = null;
 		
 		// set status
-		untyped __call__('header', 'X-Powered-By: ', true);
+		untyped __call__('header', 'X-Powered-By: ufront', true);
 		untyped __call__('header', "HTTP/1.1 " + statusDescription(status), true, status);
 		
 		try {
