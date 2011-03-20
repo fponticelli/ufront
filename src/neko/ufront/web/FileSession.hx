@@ -33,7 +33,7 @@ class FileSession implements IHttpSessionState
 	}
 
 	public function get(name : String) : Dynamic
-	{                                          
+	{
 		return NekoSession.get(name);
 	}
 
@@ -50,5 +50,10 @@ class FileSession implements IHttpSessionState
 	public function remove(name : String) : Void
 	{
 		NekoSession.remove(name);
+	}
+	
+	public function id() : String
+	{
+		return NekoSession.id;
 	}
 }

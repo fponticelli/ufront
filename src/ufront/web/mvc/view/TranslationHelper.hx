@@ -3,12 +3,12 @@ import hxculture.ITranslation;
 import ufront.web.mvc.IViewHelper;
 
 class TranslationHelper implements IViewHelper
-{                      
+{
 	public var translator : ITranslation;
 	public function new(translator : ITranslation)
-	{                
+	{
 		this.translator = translator;
-	}        
+	}
 
 	public function register(data : Hash<Dynamic>)
 	{

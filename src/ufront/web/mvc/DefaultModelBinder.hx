@@ -20,8 +20,8 @@ class DefaultModelBinder implements IModelBinder
 		if (value == null || value.rawValue == null)
 		{
 			//trace("Key '" + bindingContext.modelName + "' (" + typeName + ") not found in valueprovider.");
-		} 
-				
+		}
+		
 		if (isSimpleType(typeName))
 		{
 			if (value == null) return null;
@@ -46,6 +46,7 @@ class DefaultModelBinder implements IModelBinder
 		
 		// TODO: Binding for Enums
 		var classType = Type.resolveClass(typeName);
+		trace(classType);
 		
 		if (classType == null) throw new Error("Could not bind to class " + typeName);
 		

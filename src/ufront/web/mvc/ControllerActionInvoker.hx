@@ -51,7 +51,7 @@ class ControllerActionInvoker implements IActionInvoker
 		return binders.getBinder(parameter.type);
 	}
 	
-	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>) : HashList<Dynamic>
+	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>, typeParameters : Hash<CType>) : HashList<Dynamic>
 	{
 		// TODO: ActionDescriptor, ControllerDescriptor
 		
@@ -60,7 +60,14 @@ class ControllerActionInvoker implements IActionInvoker
 		for(info in argsinfo)
 		{
 			// URtti.typeName is always called with false since the ValueProviderResult doesn't care about nullable.
-			var parameter = new ParameterDescriptor(info.name, URtti.typeName(info.t, false), info.t);
+			var tname = URtti.typeName(info.t, false);
+			var t = info.t;
+			if (typeParameters.exists(tname))
+			{
+				t = typeParameters.get(tname);
+				tname = URtti.typeName(t, false);
+			}
+			var parameter = new ParameterDescriptor(info.name, tname, t);
 			var value = getParameterValue(controllerContext, parameter);
 			if(null == value)
 			{
@@ -107,11 +114,12 @@ class ControllerActionInvoker implements IActionInvoker
 	public function invokeAction(controllerContext : ControllerContext, actionName : String, async : hxevents.Async) : Void
 	{      
 		var controller = controllerContext.controller;
-		var fields = URtti.getClassFields(Type.getClass(controller));
+		var cls = Type.getClass(controller);
+		var fields = URtti.getClassFields(cls);
 		var method = fields.get(actionName); 
 		var arguments : HashList<Dynamic>;
 		var isasync = isAsync(method); 
-		
+
 		try
 		{
 			if(null == method)
@@ -126,7 +134,7 @@ class ControllerActionInvoker implements IActionInvoker
 
 			if(isasync)
 				argsinfo.pop();
-			arguments = getParameters(controllerContext, argsinfo);
+			arguments = getParameters(controllerContext, argsinfo, URtti.typeParametersMap(cls));
 		}
 		catch (e : Error)
 		{   

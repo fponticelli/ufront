@@ -6,13 +6,16 @@
 package php.ufront.web;
 import ufront.web.IHttpSessionState;
 
-import thx.sys.Lib;    
-import php.Session; 
+import thx.sys.Lib;
+import php.Session;
 
 class FileSession implements IHttpSessionState
 {
 	public function new(savePath : String)
 	{
+//		Session.setCacheLimiter(PrivateNoExpire);
+		Session.setCacheExpire(60 * 24 * 10);
+		
 		Session.setSavePath(savePath);
 	}
 
@@ -50,5 +53,10 @@ class FileSession implements IHttpSessionState
 	public function remove(name : String) : Void
 	{
 		Session.remove(name);
+	}
+	
+	public function id() : String
+	{
+		return Session.getId();
 	}
 }

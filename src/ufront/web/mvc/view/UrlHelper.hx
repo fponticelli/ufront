@@ -78,7 +78,7 @@ class UrlHelperInst
 		{
 			var route = __req.routeData.route.as(Route);
 			if (null == route)
-				throw new Error("unable to find a suitable route for {0}", Std.string(hash));
+				throw new Error("unable to find a controller for {0}", Std.string(hash));
 			hash.set("controller", route.defaults.get("controller"));
 			NullArgument.throwIfNull(hash.get("controller"), "controller");
 		}

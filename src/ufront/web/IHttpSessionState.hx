@@ -13,4 +13,5 @@ interface IHttpSessionState
 	public function set(name : String, value : Dynamic) : Void;
 	public function exists(name : String) : Bool;
 	public function remove(name : String) : Void;
+	public function id() : String;
 }

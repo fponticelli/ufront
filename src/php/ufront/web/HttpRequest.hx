@@ -7,8 +7,8 @@ package php.ufront.web;
 
 import haxe.io.Bytes;
 import thx.error.Error;
-import thx.sys.Lib;  
-import ufront.web.IHttpHandler;    
+import thx.sys.Lib;
+import ufront.web.IHttpHandler;
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;
 import ufront.web.UserAgent;
@@ -24,11 +24,6 @@ class HttpRequest extends ufront.web.HttpRequest
 	
 	public function new()
 	{
-		/*
-		php.Lib.print("<pre>");
-		php.Lib.dump(untyped __var__("_ENV") );
-		php.Lib.print("</pre>");
-		*/
 		_uploadHandler = new EmptyUploadHandler();
 	}
 	
@@ -223,7 +218,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	{
 		if (null == scriptDirectory)
 		{
-			scriptDirectory =  untyped __php__('dirname($_SERVER["SCRIPT_FILENAME"])') + "/";    
+			scriptDirectory =  untyped __php__('dirname($_SERVER["SCRIPT_FILENAME"])') + "/";
 		}
 		return scriptDirectory;
 	}

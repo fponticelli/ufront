@@ -91,7 +91,7 @@ class Route extends RouteBase
 	override function getPath(httpContext : HttpContext, data : Hash<String>)
 	{             
 	    var params = null == data ? new Hash() : data;
-		if(!processConstraints(httpContext, data, UrlDirection.UrlGeneration))
+		if(!processConstraints(httpContext, params, UrlDirection.UrlGeneration))
 			return null;
 		else {
 			if(null == builder)
