@@ -4,10 +4,10 @@ import thx.error.NullArgument;
 import ufront.web.mvc.IViewHelper;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.Route;
-import thx.util.UDynamicT;
-using thx.type.UType;
-import thx.collections.UHash;
-using thx.collections.UHash;
+import thx.util.DynamicsT;
+using thx.type.Types;
+import thx.collections.Hashes;
+using thx.collections.Hashes;
 
 class UrlHelper implements IViewHelper
 {   
@@ -70,9 +70,9 @@ class UrlHelperInst
 		if(null == data)
 			hash = new Hash();
 		else if (Std.is(data, Hash))
-			hash = UHash.clone(data);
+			hash = Hashes.clone(data);
 		else
-			hash = UDynamicT.toHash(data);
+			hash = DynamicsT.toHash(data);
 		
 		if (null == hash.get("controller"))
 		{

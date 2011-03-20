@@ -38,4 +38,9 @@ class HttpSessionStateMock implements IHttpSessionState
 	{
 		_h.remove(name);
 	}
+	
+	public function id() : String
+	{
+		return "mock";
+	}
 }

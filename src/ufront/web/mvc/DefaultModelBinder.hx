@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 import thx.error.Error;
-import thx.type.URtti;
-import thx.type.UType;
+import thx.type.Rttis;
+import thx.type.Types;
 
 /**
  * ...
@@ -60,16 +60,16 @@ class DefaultModelBinder implements IModelBinder
 					return v;
 			} catch(e : Dynamic){ }
 		}
-		if (!URtti.hasInfo(classType)) return null;
+		if (!Rttis.hasInfo(classType)) return null;
 		
 		var model = Type.createInstance(classType, []);
-		var fields = URtti.getClassFields(classType);
+		var fields = Rttis.getClassFields(classType);
 		
 		for (f in fields)
 		{
-			if (URtti.isMethod(f)) continue;
+			if (Rttis.isMethod(f)) continue;
 			
-			var typeName = URtti.typeName(f.type, false);
+			var typeName = Rttis.typeName(f.type, false);
 			var context = new ModelBindingContext(f.name, typeName, bindingContext.valueProvider, f.type);
 			
 			Reflect.setField(model, f.name, bindModel(controllerContext, context));

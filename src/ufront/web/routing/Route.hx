@@ -5,11 +5,11 @@
 
 package ufront.web.routing;
 import ufront.web.UrlDirection;
-import thx.collections.UHash;
+import thx.collections.Hashes;
 import ufront.web.routing.RouteParamExtractor;
 import ufront.web.routing.RouteData; 
 import ufront.web.UrlDirection;
-using thx.collections.UHash;
+using thx.collections.Hashes;
 import thx.error.Error;
 import ufront.web.HttpContext;
 import thx.error.NullArgument;

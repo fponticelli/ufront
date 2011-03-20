@@ -12,7 +12,7 @@ import ufront.web.IHttpHandler;
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;
 import ufront.web.UserAgent;
-using thx.text.UString;
+using thx.text.Strings;
 using StringTools;
 
 class HttpRequest extends ufront.web.HttpRequest

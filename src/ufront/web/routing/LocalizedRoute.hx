@@ -1,14 +1,14 @@
 package ufront.web.routing;
 import ufront.web.routing.RouteCollection;
 import ufront.web.HttpContext;
-import thx.collections.UHash;
+import thx.collections.Hashes;
 import ufront.web.mvc.MvcRouteHandler;
 import hxculture.ITranslation;
 import thx.error.NullArgument;
 import ufront.web.routing.IRouteHandler;       
 import ufront.web.routing.RouteUriParser;   
-using thx.collections.UHash;
-using thx.util.UDynamicT;
+using thx.collections.Hashes;
+using thx.util.DynamicsT;
 
 class LocalizedRoute extends Route
 {       

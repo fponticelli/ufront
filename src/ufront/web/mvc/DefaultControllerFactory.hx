@@ -1,6 +1,6 @@
 package ufront.web.mvc;
-import thx.text.UString;
-import thx.type.UType;
+import thx.text.Strings;
+import thx.type.Types;
 import ufront.web.routing.RequestContext;
 import thx.error.AbstractMethod;
 import thx.error.Error;
@@ -21,7 +21,7 @@ class DefaultControllerFactory implements IControllerFactory {
 	
 	public function createController(requestContext : RequestContext, controllerName : String) : IController
 	{
-	    var cls = UString.ucfirst(controllerName) + "Controller";
+	    var cls = Strings.ucfirst(controllerName) + "Controller";
 		for (pack in _controllerBuilder.packages)
 		{
 			var fullname = pack + "." + cls;

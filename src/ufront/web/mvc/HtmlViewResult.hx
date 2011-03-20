@@ -1,12 +1,13 @@
-package ufront.web.mvc;     
+package ufront.web.mvc;
 import thx.error.Error;
 import thx.html.XHtmlFormat;
 import thx.html.Html;
+import thx.html.HtmlVersion;
 import thx.html.HtmlDocumentFormat;
 import ufront.web.mvc.view.UrlHelper;
 import ufront.web.UserAgent;
 using StringTools;
-using thx.collections.UArray;
+using thx.collections.Arrays;
 
 // add script
 // add styleSheets
@@ -18,7 +19,7 @@ using thx.collections.UArray;
 // DOCTYPE should be lowercase
 // remove extra Newlines
 // add favicon
-// fix doctype parsing for XHtml 
+// fix doctype parsing for XHtml
 // add chrome compatibility
 
 // add agent specific things:
@@ -81,10 +82,10 @@ class HtmlViewResult extends ViewResult
 	}
 	
 	function handleDom(dom : Xml, context : ControllerContext, data : Hash<Dynamic>)
-	{       
+	{
 		var html  = dom.firstElement();
 		var head  = html.firstElement();
-		var title = head.elementsNamed("title").next();  
+		var title = head.elementsNamed("title").next();
 		var body  = html.elementsNamed("body").next();
 		
 		// title
@@ -99,7 +100,7 @@ class HtmlViewResult extends ViewResult
 			html.set("lang", l);
 			switch(version)
 			{
-				case XHtml10Transitional, XHtml10Frameset, XHtml10Strict, XHtml11: 
+				case XHtml10Transitional, XHtml10Frameset, XHtml10Strict, XHtml11:
 					html.set("xml:lang", l);
 				default:
 				//
@@ -121,7 +122,7 @@ class HtmlViewResult extends ViewResult
 					var meta = Xml.createElement("meta");
 					meta.set("charset", c);
 					head.insertChild(meta, 0);
-			}   
+			}
 		}
 		
 		var httpContext = context.httpContext;
@@ -146,7 +147,7 @@ class HtmlViewResult extends ViewResult
 			conditionallyWrapNode(head, node, script.browser);
 		}
 
-		// styleSheets 
+		// styleSheets
 		var styleSheets = getStyleSheets(data);
 		for (css in styleSheets)
 		{
@@ -386,7 +387,7 @@ class HtmlViewResult extends ViewResult
 	
 	static function styleSheetsFromTemplate(v : Dynamic)
 	{
-		return { 
+		return {
 			href    : Reflect.field(v, "href"),
 			media   : Reflect.field(v, "media"),
 			title   : Reflect.field(v, "title"),
@@ -399,7 +400,7 @@ class HtmlViewResult extends ViewResult
 	
 	static function scriptFromTemplate(v : Dynamic)
 	{
-		return { 
+		return {
 			src     : Reflect.field(v, "src"),
 			charset : Reflect.field(v, "charset"),
 			defer   : Reflect.field(v, "defer"),

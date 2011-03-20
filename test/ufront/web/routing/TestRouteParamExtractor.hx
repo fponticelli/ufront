@@ -1,6 +1,6 @@
 package ufront.web.routing;
 import haxe.PosInfos;
-using thx.util.UDynamicT;
+using thx.util.DynamicsT;
 import thx.collections.Set;    
 import utest.Runner;
 import utest.ui.Report;

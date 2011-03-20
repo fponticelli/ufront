@@ -4,7 +4,7 @@ import utest.Assert;
 import utest.Runner;
 import utest.ui.Report; 
 import ufront.acl.Acl;
-using thx.collections.UIterator;
+using thx.collections.Iterators;
 
 class TestAcl
 {   

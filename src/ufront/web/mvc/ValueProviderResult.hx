@@ -2,7 +2,7 @@ package ufront.web.mvc;
 
 import haxe.rtti.CType;
 import thx.collections.Set;
-import thx.type.URtti;
+import thx.type.Rttis;
 
 /**
  * ...
@@ -157,9 +157,9 @@ class ValueProviderResult
 	
 	public static function convertSimpleTypeRtti(value : String, t : CType, ?unserialize = false) : Dynamic
 	{
-		//trace("SimpleTypeRtti converting " + value + " to " + URtti.typeName(t, false));
+		//trace("SimpleTypeRtti converting " + value + " to " + Rttis.typeName(t, false));
 		
-		var juggler = getTypeJuggler(URtti.typeName(t, false));
+		var juggler = getTypeJuggler(Rttis.typeName(t, false));
 		
 		if(juggler == null)
 		{

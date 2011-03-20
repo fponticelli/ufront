@@ -2,7 +2,7 @@ package ufront.acl;
 import thx.collections.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
-using thx.collections.UIterator;
+using thx.collections.Iterators;
 
 class Registry
 {   

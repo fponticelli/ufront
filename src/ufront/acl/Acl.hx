@@ -1,20 +1,20 @@
 package ufront.acl;
 import thx.error.NullArgument;
-import thx.error.Error;         
+import thx.error.Error;
 import thx.collections.Set;
-using thx.collections.UIterator;
+using thx.collections.Iterators;
 
 /**
 *  @todo remove loops over keys for removal
 */
 
 typedef Combo = {
-	type : AccessType, 
+	type : AccessType,
 	assert : Null<Acl -> String -> String -> String -> Bool>
 }
 
 class Acl
-{   
+{
 	var _registry : Registry;
 	var _resources : Hash<{
 		resource : String,
@@ -29,7 +29,7 @@ class Acl
 			},
 			byRoleId : Hash<{ byPrivilegeId : Hash<Combo>, allPrivileges : Combo }>
 		},
-		byResourceId : Hash<{                                                      
+		byResourceId : Hash<{
 			allRoles : {
 				allPrivileges : Combo,
 				byPrivilegeId : Hash<Combo>
@@ -86,7 +86,7 @@ class Acl
 	{
 		if(!_registry.remove(role))
 			return false;
-        
+
 		for(key in _rules.allResources.byRoleId.keys())
 		{
 			if(role == key)
@@ -129,7 +129,7 @@ class Acl
 	public function addResource(resource : String, ?parent : String)
 	{
 		NullArgument.throwIfNull(resource, "resource");
-		if(existsResource(resource)) 
+		if(existsResource(resource))
 			throw new Error("Resource '{0}' already exists in the ACL", resource);
 		if(null != parent)
 		{
@@ -147,7 +147,7 @@ class Acl
 	}
 	
 	public function existsResource(resource : String)
-	{   
+	{
 		return _resources.exists(resource);
 	}
 	
@@ -155,10 +155,10 @@ class Acl
 	{
 		NullArgument.throwIfNull(resource, "resource");
 		NullArgument.throwIfNull(inherit, "inherit");
-	   
+	
 	 	var r = _resources.get(resource);
 		if(null == r)
-			throw new Error("Resource '{0}' does not exist in the registry", resource);	
+			throw new Error("Resource '{0}' does not exist in the registry", resource);
 		
 		if(r.parent == inherit)
 			return true;
@@ -175,13 +175,13 @@ class Acl
 		}
 		return false;
 	}
- 
+
 	public function removeResource(resource : String)
 	{
 		NullArgument.throwIfNull(resource, "resource");
 		if(!existsResource(resource))
-			return false;                
-	    
+			return false;
+	
 		var removed = [resource];
 		var p = _resources.get(resource);
 		if(null != p.parent)
@@ -205,7 +205,7 @@ class Acl
 		
 		_resources.remove(resource);
 		
-		return true;	
+		return true;
 	}
 
 	public function removeAll()
@@ -294,7 +294,7 @@ class Acl
 									rules.byPrivilegeId = new Hash();
 								}
 								continue;
-							}          
+							}
 							
 							if(Type.enumEq(type, rules.allPrivileges.type))
 							{
@@ -344,7 +344,7 @@ class Acl
 					if(null != type)
 						return Type.enumEq(Allow, type);
 				}
-				resource = _resources.get(resource).parent;				
+				resource = _resources.get(resource).parent;
 			} while(true);
 		} else {
 			_isAllowedPrivilege = privilege;
@@ -376,7 +376,7 @@ class Acl
             visited : new Set(),
             stack   : []
         };
-                      
+
 		var result = _roleDFSVisitAllPrivileges(role, resource, dfs);
 		if(null != result)
 			return result;
@@ -394,7 +394,7 @@ class Acl
     }
 	
 	function _roleDFSVisitAllPrivileges(role : String, resource: String, dfs) : Null<Bool>
-    {       
+    {
 		var rules = _getRules(resource, role);
 		if(null != rules)
 		{
@@ -431,7 +431,7 @@ class Acl
 		if(null != result)
 			return result;
 		
-		var r;		
+		var r;
 		while(null != (r = dfs.stack.pop()))
 		{
 			if(!dfs.visited.exists(r))
@@ -448,7 +448,7 @@ class Acl
     function _roleDFSVisitOnePrivilege(role : String, resource : String, privilege : String, dfs) : Null<Bool>
     {
         NullArgument.throwIfNull(privilege, "privilege");
-        
+
 		var result = _getRuleType(resource, role, privilege);
 		if(null != result)
 			return Type.enumEq(Allow, result);
@@ -467,11 +467,11 @@ class Acl
     }
 
     function _getRuleType(resource : String, role : String, privilege : String)
-    {       
+    {
 		var rules = _getRules(resource, role);
 		if(null == rules) // todo, can this ever happen?
 			return null;
-        
+
 		var rule = null;
 
         if (null == privilege) {
@@ -484,7 +484,7 @@ class Acl
         } else {
 			rule = rules.byPrivilegeId.get(privilege);
         }
-        
+
 		var assertionValue = false;
         // check assertion first
         if (null != rule.assert) {
@@ -503,7 +503,7 @@ class Acl
     }
 
 	function _getRules(resource : String, role : String, create = false)
-	{   
+	{
 		var visitor = null;
 		if(null == resource)
 		{
@@ -513,9 +513,9 @@ class Acl
 			{
 				if(!create)
 					return null;
-				_rules.byResourceId.set(resource, 
-					{ 
-						byRoleId : new Hash<{ byPrivilegeId : Hash<Combo>, allPrivileges : Combo }>(), 
+				_rules.byResourceId.set(resource,
+					{
+						byRoleId : new Hash<{ byPrivilegeId : Hash<Combo>, allPrivileges : Combo }>(),
 						allRoles : {
 							allPrivileges : null,
 							byPrivilegeId : new Hash()
@@ -534,9 +534,9 @@ class Acl
 		{
 			if(!create)
 				return null;
-			visitor.byRoleId.set(role, { 
-				byPrivilegeId : new Hash<Combo>(), 
-				allPrivileges : null 
+			visitor.byRoleId.set(role, {
+				byPrivilegeId : new Hash<Combo>(),
+				allPrivileges : null
 			});
 		}
 		return visitor.byRoleId.get(role);
@@ -552,7 +552,7 @@ enum AccessType
 {
 	Allow;
 	Deny;
-}      
+}
 
 enum Operation
 {

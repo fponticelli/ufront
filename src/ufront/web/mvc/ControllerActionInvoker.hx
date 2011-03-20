@@ -5,14 +5,14 @@ import ufront.web.error.PageNotFoundError;
 
 import ufront.web.mvc.attributes.FilterAttribute;
 import ufront.web.mvc.ActionResult;
-import thx.type.UType;
+import thx.type.Types;
 import thx.error.Error;
-import thx.type.URtti;
+import thx.type.Rttis;
 import ufront.web.mvc.ControllerContext;
 import haxe.rtti.CType;         
 import thx.collections.Set;
-using thx.text.UString;
-using thx.collections.UIterable;  
+using thx.text.Strings;
+using thx.collections.Iterables;  
 
 class ControllerActionInvoker implements IActionInvoker
 {
@@ -59,19 +59,19 @@ class ControllerActionInvoker implements IActionInvoker
 		
 		for(info in argsinfo)
 		{
-			// URtti.typeName is always called with false since the ValueProviderResult doesn't care about nullable.
-			var tname = URtti.typeName(info.t, false);
+			// Rttis.typeName is always called with false since the ValueProviderResult doesn't care about nullable.
+			var tname = Rttis.typeName(info.t, false);
 			var t = info.t;
 			if (typeParameters.exists(tname))
 			{
 				t = typeParameters.get(tname);
-				tname = URtti.typeName(t, false);
+				tname = Rttis.typeName(t, false);
 			}
 			var parameter = new ParameterDescriptor(info.name, tname, t);
 			var value = getParameterValue(controllerContext, parameter);
 			if(null == value)
 			{
-				if(URtti.argumentAcceptNull(info))
+				if(Rttis.argumentAcceptNull(info))
 				{
 					arguments.set(info.name, null);
 				}
@@ -91,7 +91,7 @@ class ControllerActionInvoker implements IActionInvoker
 	
 	static function isAsync(method)
 	{
-		var arguments = URtti.methodArguments(method);
+		var arguments = Rttis.methodArguments(method);
 		if(0 == arguments.length)
 			return false;
 		var last = arguments.pop();
@@ -115,7 +115,7 @@ class ControllerActionInvoker implements IActionInvoker
 	{      
 		var controller = controllerContext.controller;
 		var cls = Type.getClass(controller);
-		var fields = URtti.getClassFields(cls);
+		var fields = Rttis.getClassFields(cls);
 		var method = fields.get(actionName); 
 		var arguments : HashList<Dynamic>;
 		var isasync = isAsync(method); 
@@ -128,13 +128,13 @@ class ControllerActionInvoker implements IActionInvoker
 			if(!method.isPublic)
 				throw new Error("action {0} must be a public method", actionName);
 			
-			var argsinfo = URtti.methodArguments(method);
+			var argsinfo = Rttis.methodArguments(method);
 			if(null == argsinfo)
 				throw new Error("action {0} is not a method", actionName); 
 
 			if(isasync)
 				argsinfo.pop();
-			arguments = getParameters(controllerContext, argsinfo, URtti.typeParametersMap(cls));
+			arguments = getParameters(controllerContext, argsinfo, Rttis.typeParametersMap(cls));
 		}
 		catch (e : Error)
 		{   
