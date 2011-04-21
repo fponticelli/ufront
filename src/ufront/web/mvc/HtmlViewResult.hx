@@ -7,7 +7,7 @@ import thx.html.HtmlDocumentFormat;
 import ufront.web.mvc.view.UrlHelper;
 import ufront.web.UserAgent;
 using StringTools;
-using thx.collections.Arrays;
+using Arrays;
 
 // add script
 // add styleSheets

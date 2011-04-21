@@ -1,5 +1,5 @@
 package ufront.web;
-using thx.collections.Iterables;
+using Iterables;
 import thx.error.NullArgument;
 import ufront.web.HttpRequest;
 import thx.error.Error;     

@@ -5,7 +5,7 @@ package ufront.web.mvc;
 import ufront.web.mvc.view.UrlHelper;
 import thx.error.NullArgument;
 import ufront.web.mvc.RedirectResult;
-using thx.collections.Hashes;
+using Hashes;
 
 class RedirectToControllerResult extends ActionResult
 {

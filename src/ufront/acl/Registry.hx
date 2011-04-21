@@ -2,10 +2,10 @@ package ufront.acl;
 import thx.collections.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
-using thx.collections.Iterators;
+using Iterators;
 
 class Registry
-{   
+{
 	var _roles : Hash<{ role : String, parents : Set<String>, children : Set<String> }>;
 	public function new()
 	{
@@ -13,7 +13,7 @@ class Registry
 	}
 	
 	public function add(role : String, ?parent : String, ?parents : Array<String>)
-	{   
+	{
 		if(exists(role))
 			throw new Error("Role {0} already exists in the registry", role);
 		parents = _parents(parent, parents);
@@ -57,10 +57,10 @@ class Registry
 	{
 		NullArgument.throwIfNull(role, "role");
 		NullArgument.throwIfNull(inherit, "inherit");
-	   
+	
 	 	var r = _roles.get(role);
 		if(null == r)
-			throw new Error("Role '{0}' does not exist in the registry", role);	
+			throw new Error("Role '{0}' does not exist in the registry", role);
 		
 		var i = r.parents.exists(inherit);
 		if(i || onlyParents)
@@ -84,7 +84,7 @@ class Registry
 			_roles.get(child).parents.remove(role);
 		for(parent in item.parents)
 			_roles.get(parent).children.remove(role);
-		_roles.remove(role);                         
+		_roles.remove(role);
 		
 		return true;
 	}

@@ -1,26 +1,24 @@
-package ufront.web.mvc.view;             
+package ufront.web.mvc.view;
 import thx.error.Error;
 import thx.error.NullArgument;
 import ufront.web.mvc.IViewHelper;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.Route;
-import thx.util.DynamicsT;
-using thx.type.Types;
-import thx.collections.Hashes;
-using thx.collections.Hashes;
+using Types;
+using Hashes;
 
 class UrlHelper implements IViewHelper
-{   
-    public var name(default, null) : String; 
+{
+    public var name(default, null) : String;
 	public var requestContext(default, null) : RequestContext;
 	public var inst(default, null) : UrlHelperInst;
 	public function new(name = "Url", requestContext : RequestContext)
 	{
 		this.name = name;
-		this.requestContext = requestContext;   
+		this.requestContext = requestContext;
 		this.inst = new UrlHelperInst(requestContext);
 	}
-    
+
 	public function register(data : Hash<Dynamic>)
 	{
 		data.set(name, inst);
@@ -32,27 +30,27 @@ class UrlHelperInst
 	var __req : RequestContext;
 	public function new(requestContext : RequestContext)
 	{
-		__req = requestContext;   
+		__req = requestContext;
 	}
 	
 	public function base(?uri : String)
-	{                                 
+	{
 		if(null == uri)
 			uri = "/";
 		return __req.httpContext.generateUri(uri);
 	}
-	                        
-	public function current(?params : Dynamic) 
-	{                                    
-		var url = __req.httpContext.getRequestUri();  
+	
+	public function current(?params : Dynamic)
+	{
+		var url = __req.httpContext.getRequestUri();
 		if(null != params)
-		{       
+		{
 			var qs = [];
 			for(field in Reflect.fields(params))
-			{   
+			{
 				var value = Reflect.field(params, field);
 				qs.push(field + "=" + encode(value));
-			}                                                                              
+			}
 			if(qs.length > 0)
 				url += (url.indexOf("?") >= 0 ? "&" : "?") + qs.join("&");
 		}
@@ -62,7 +60,7 @@ class UrlHelperInst
 	public function encode(s : String)
 	{
 		return StringTools.urlEncode(s);
-	}               
+	}
 
 	public function route(?data : Dynamic)
 	{
@@ -84,7 +82,7 @@ class UrlHelperInst
 		}
 		
 		for(route in __req.routeData.route.routes.iterator())
-		{                  
+		{
 			var url = route.getPath(__req.httpContext, hash.clone());
 			if(null != url)
 				return url;

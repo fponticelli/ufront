@@ -1,7 +1,6 @@
 package ufront.web.mvc;
 import thx.error.Error;
 import thx.type.Rttis;
-import thx.type.Types;
 
 /**
  * ...
@@ -52,8 +51,8 @@ class DefaultModelBinder implements IModelBinder
 		
 		// TODO: check this is correct
 		if (null != value && null != value.rawValue)
-		{                    
-			try 
+		{
+			try
 			{
 				var v = haxe.Unserializer.run(value.rawValue);
 				if(Std.is(v, classType))
@@ -75,7 +74,7 @@ class DefaultModelBinder implements IModelBinder
 			Reflect.setField(model, f.name, bindModel(controllerContext, context));
 		}
 		
-		return model; 
+		return model;
 	}
 	
 	function isSimpleType(typeName : String) : Bool

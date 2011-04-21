@@ -2,12 +2,12 @@ package ufront.acl;
 
 import utest.Assert;
 import utest.Runner;
-import utest.ui.Report; 
+import utest.ui.Report;
 import ufront.acl.Acl;
-using thx.collections.Iterators;
+using Iterators;
 
 class TestAcl
-{   
+{
 	public function testRoles()
 	{
 		var acl = new Acl();
@@ -33,9 +33,9 @@ class TestAcl
 		var resources = acl.getResources().array();
 		Assert.equals(3, resources.length);
 		Assert.isTrue(resources.remove("book"));
-		Assert.isTrue(resources.remove("chapter")); 
-		Assert.isTrue(resources.remove("page")); 
-		                                    
+		Assert.isTrue(resources.remove("chapter"));
+		Assert.isTrue(resources.remove("page"));
+		
 		Assert.isTrue(acl.existsResource("chapter"));
 		Assert.isTrue(acl.existsResource("page"));
 		
@@ -44,7 +44,7 @@ class TestAcl
 		
 		Assert.isFalse(acl.inheritsResource("page", "book", true));
 		Assert.isTrue(acl.inheritsResource("page", "book", false));
-		    
+		
 		Assert.isTrue(acl.removeResource("chapter"));
 		Assert.isFalse(acl.removeResource("chapter"));
 
@@ -66,21 +66,21 @@ class TestAcl
 			.addRole("undesired")
 			
 			.addResource("contents")
-		                                
+		
 			.allow(["guest"], ["contents"], ["view", "comment"])
 			.allow(["editor"], ["contents"], ["add", "remove"])
 			.deny (["limited"], ["contents"], ["remove"])
 			.deny (["undesired"])
 			.allow(["admin"])
 		;
-		            
+		
 		Assert.isFalse(acl.isAllowed("guest", "contents"));
 		Assert.isTrue (acl.isAllowed("guest", "contents", "view"));
 		Assert.isTrue (acl.isAllowed("guest", "contents", "comment"));
 		Assert.isFalse(acl.isAllowed("guest", "contents", "add"));
 		Assert.isFalse(acl.isAllowed("guest", "contents", "remove"));
-		                                                    
-		Assert.isFalse(acl.isAllowed("editor", "contents")); 
+		
+		Assert.isFalse(acl.isAllowed("editor", "contents"));
 		Assert.isTrue (acl.isAllowed("editor", "contents", "view"));
 		Assert.isTrue (acl.isAllowed("editor", "contents", "comment"));
 		Assert.isTrue (acl.isAllowed("editor", "contents", "add"));
@@ -90,14 +90,14 @@ class TestAcl
 		Assert.isTrue (acl.isAllowed("limited", "contents", "view"));
 		Assert.isTrue (acl.isAllowed("limited", "contents", "comment"));
 		Assert.isTrue (acl.isAllowed("limited", "contents", "add"));
-		Assert.isFalse(acl.isAllowed("limited", "contents", "remove")); 
+		Assert.isFalse(acl.isAllowed("limited", "contents", "remove"));
 		
  		Assert.isTrue (acl.isAllowed("admin", "contents"));
 		Assert.isTrue (acl.isAllowed("admin", "contents", "view"));
 		Assert.isTrue (acl.isAllowed("admin", "contents", "comment"));
 		Assert.isTrue (acl.isAllowed("admin", "contents", "add"));
 		Assert.isTrue (acl.isAllowed("admin", "contents", "remove"));
-		     
+		
 		Assert.isFalse(acl.isAllowed("undesired", "contents"));
 		Assert.isFalse(acl.isAllowed("undesired", "contents", "view"));
 		Assert.isFalse(acl.isAllowed("undesired", "contents", "comment"));
@@ -109,7 +109,7 @@ class TestAcl
 		Assert.isTrue(acl.isAllowed("editor", "contents", "add"));
 		Assert.isFalse(acl.isAllowed("editor", "contents", "remove"));
 	}
-	   
+	
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestAcl());

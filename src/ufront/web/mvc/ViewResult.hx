@@ -2,7 +2,7 @@ package ufront.web.mvc;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
-using thx.type.Types;
+using Types;
 
 class ViewResult extends ActionResult
 {   

@@ -7,9 +7,9 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.mvc.Controller;
 import ufront.web.HttpApplication;
 import ufront.web.IHttpModule;   
-using thx.collections.Hashes;    
-using thx.text.Strings;         
-using thx.type.Types;
+using Hashes;    
+using Strings;         
+using Types;
 
 class TraceModule implements IHttpModule 
 {     

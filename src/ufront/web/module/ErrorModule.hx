@@ -11,9 +11,9 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.mvc.Controller;
 import ufront.web.HttpApplication;
 import ufront.web.IHttpModule;   
-using thx.util.DynamicsT;    
-using thx.text.Strings;         
-using thx.type.Types;
+using DynamicsT;    
+using Strings;         
+using Types;
 
 class ErrorModule implements IHttpModule 
 {

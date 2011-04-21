@@ -7,7 +7,7 @@ package ufront.web.routing;
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.IRouteConstraint;
 import thx.collections.HashList;     
-using thx.util.DynamicsT; 
+using DynamicsT; 
 
 class RouteCollection
 {

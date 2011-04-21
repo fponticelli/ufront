@@ -1,6 +1,4 @@
 package ufront.web.mvc;
-import thx.text.Strings;
-import thx.type.Types;
 import ufront.web.routing.RequestContext;
 import thx.error.AbstractMethod;
 import thx.error.Error;

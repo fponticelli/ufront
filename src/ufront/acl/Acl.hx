@@ -2,7 +2,7 @@ package ufront.acl;
 import thx.error.NullArgument;
 import thx.error.Error;
 import thx.collections.Set;
-using thx.collections.Iterators;
+using Iterators;
 
 /**
 *  @todo remove loops over keys for removal

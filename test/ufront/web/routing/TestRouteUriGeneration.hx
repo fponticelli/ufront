@@ -1,7 +1,7 @@
 package ufront.web.routing;
 import haxe.PosInfos;
-using thx.collections.Hashes;
-using thx.util.DynamicsT;
+using Hashes;
+using DynamicsT;
 import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;

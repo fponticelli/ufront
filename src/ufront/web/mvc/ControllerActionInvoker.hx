@@ -5,14 +5,13 @@ import ufront.web.error.PageNotFoundError;
 
 import ufront.web.mvc.attributes.FilterAttribute;
 import ufront.web.mvc.ActionResult;
-import thx.type.Types;
 import thx.error.Error;
 import thx.type.Rttis;
 import ufront.web.mvc.ControllerContext;
-import haxe.rtti.CType;         
+import haxe.rtti.CType;
 import thx.collections.Set;
-using thx.text.Strings;
-using thx.collections.Iterables;  
+using Strings;
+using Iterables;
 
 class ControllerActionInvoker implements IActionInvoker
 {
@@ -22,21 +21,21 @@ class ControllerActionInvoker implements IActionInvoker
 		this.binders = binders;
 		this.controllerBuilder = controllerBuilder;
 		this.dependencyResolver = dependencyResolver;
-	} 
+	}
 	
 	public var controllerBuilder : ControllerBuilder;
 	public var binders : ModelBinderDictionary;
 	public var valueProvider : IValueProvider;
 	public var dependencyResolver : IDependencyResolver;
 	
-//	public var error(default, null) : Error;   
+//	public var error(default, null) : Error;
 	
 	function getParameterValue(controllerContext : ControllerContext, parameter : ParameterDescriptor) : Dynamic
 	{
 		var binder = getModelBinder(parameter);
 				
 		var bindingContext = new ModelBindingContext(
-			parameter.name, 
+			parameter.name,
 			parameter.type,
 			controllerContext.controller.valueProvider,
 			parameter.ctype
@@ -97,10 +96,10 @@ class ControllerActionInvoker implements IActionInvoker
 		var last = arguments.pop();
 		return switch(last.t)
 		{
-			case CFunction(args, ret): 
+			case CFunction(args, ret):
 				if(args.length != 1)
 					false;
-			    switch(ret) 
+			    switch(ret)
 				{
 					case CEnum(t, _):
 						t == "Void";
@@ -112,13 +111,13 @@ class ControllerActionInvoker implements IActionInvoker
 	}
 	
 	public function invokeAction(controllerContext : ControllerContext, actionName : String, async : hxevents.Async) : Void
-	{      
+	{
 		var controller = controllerContext.controller;
 		var cls = Type.getClass(controller);
 		var fields = Rttis.getClassFields(cls);
-		var method = fields.get(actionName); 
+		var method = fields.get(actionName);
 		var arguments : HashList<Dynamic>;
-		var isasync = isAsync(method); 
+		var isasync = isAsync(method);
 
 		try
 		{
@@ -130,14 +129,14 @@ class ControllerActionInvoker implements IActionInvoker
 			
 			var argsinfo = Rttis.methodArguments(method);
 			if(null == argsinfo)
-				throw new Error("action {0} is not a method", actionName); 
+				throw new Error("action {0} is not a method", actionName);
 
 			if(isasync)
 				argsinfo.pop();
 			arguments = getParameters(controllerContext, argsinfo, Rttis.typeParametersMap(cls));
 		}
 		catch (e : Error)
-		{   
+		{
 			_handleUnknownAction(actionName, async, e);
 			return;
 		}
@@ -146,7 +145,7 @@ class ControllerActionInvoker implements IActionInvoker
 #if php
     	if(_mapper.exists(actionName))
 			action = "h" + actionName;
-#end    
+#end
 		var filterInfo = getFilters(controllerContext, action);
 		try
 		{
@@ -159,8 +158,8 @@ class ControllerActionInvoker implements IActionInvoker
 				// No other filters should be called if an authorizationFilter is
 				// short-circuting the request.
 				authorizationContext.result.executeResult(controllerContext);
-			} 
-			else 
+			}
+			else
 			{
 				var executingContext = new ActionExecutingContext(controllerContext, actionName, arguments);
 				for (filter in filterInfo.actionFilters)
@@ -170,7 +169,7 @@ class ControllerActionInvoker implements IActionInvoker
 				
 				var value = createActionResult(Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array()));
 
-				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);				
+				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
 				for (filter in reverse(filterInfo.actionFilters))
 				{
 					filter.onActionExecuted(executedContext);
@@ -223,7 +222,7 @@ class ControllerActionInvoker implements IActionInvoker
 		var output = new FilterInfo(attributes);
 		
 		// Add controller filters to beginning of output, if they exist.
-		output.mergeControllerFilters(context.controller);		
+		output.mergeControllerFilters(context.controller);
 		return output;
 	}
 	
@@ -245,7 +244,7 @@ class ControllerActionInvoker implements IActionInvoker
 				var field = Reflect.field(meta, className);
 				//trace(field);
 				
-				// We only care about the first array element, since it's like a 
+				// We only care about the first array element, since it's like a
 				// configuration object for the filter class (property injection)
 				if (!Std.is(field, Array))
 					output.set(className, null);
@@ -290,7 +289,7 @@ class ControllerActionInvoker implements IActionInvoker
 	
 	function createClassTree(cls : Class<Dynamic>, ?array : Array<Class<Dynamic>>) : Array<Class<Dynamic>>
 	{
-		if (array == null) 
+		if (array == null)
 			array = new Array<Class<Dynamic>>();
 		
 		array.unshift(cls);
@@ -320,7 +319,7 @@ class ControllerActionInvoker implements IActionInvoker
 	{
 		var parent = Type.getSuperClass(c);
 		
-		if (parent == superClass) return true;		
+		if (parent == superClass) return true;
 		return parent == null ? false : inheritsFrom(parent, superClass);
 	}
 
@@ -336,14 +335,14 @@ class ControllerActionInvoker implements IActionInvoker
 	}
 	
 	function _handleUnknownAction(action : String, async : hxevents.Async, err : Dynamic)
-	{    
+	{
 		var error = new PageNotFoundError();
 		if (Std.is(err, Error))
 		{
 			error.setInner(err);
 		} else {
 			error.setInner(new Error("action can't be executed because {0}", Std.string(err)));
-		}   		
+		}
 		async.error(error);
 	}
 	
@@ -353,12 +352,12 @@ class ControllerActionInvoker implements IActionInvoker
 	{
 		var output = new Array<T>();
 		for(i in list) { output.unshift(i); }
-		return output; 
+		return output;
 	}
 
 	
 #if php
-	static var _mapper : Set<String>; 
+	static var _mapper : Set<String>;
     static function __init__()
 	{
 		_mapper = new Set();
@@ -400,7 +399,7 @@ class ControllerActionInvoker implements IActionInvoker
 		_mapper.add("__set");
 		_mapper.add("__get");
 		_mapper.add("__call");
-		_mapper.add("clone"); 
+		_mapper.add("clone");
 	}
 #end
 }

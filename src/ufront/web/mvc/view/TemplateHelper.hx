@@ -3,7 +3,7 @@ import thx.collections.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
-using thx.collections.Hashes;
+using Hashes;
 
 class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 {

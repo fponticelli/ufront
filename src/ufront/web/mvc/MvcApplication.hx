@@ -8,7 +8,7 @@ import ufront.web.routing.RouteBase;
 import ufront.web.routing.RouteCollection;
 import ufront.web.routing.UrlRoutingModule;
 import ufront.web.AppConfiguration;
-using thx.util.DynamicsT;
+using DynamicsT;
 
 /**
  * ...

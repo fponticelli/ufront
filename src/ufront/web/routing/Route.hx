@@ -5,27 +5,26 @@
 
 package ufront.web.routing;
 import ufront.web.UrlDirection;
-import thx.collections.Hashes;
 import ufront.web.routing.RouteParamExtractor;
-import ufront.web.routing.RouteData; 
+import ufront.web.routing.RouteData;
 import ufront.web.UrlDirection;
-using thx.collections.Hashes;
+using Hashes;
 import thx.error.Error;
 import ufront.web.HttpContext;
 import thx.error.NullArgument;
 import ufront.web.routing.RouteUriParser;
-using StringTools;       
+using StringTools;
 
 class Route extends RouteBase
-{	
-	public static var parser = new RouteUriParser();  
+{
+	public static var parser = new RouteUriParser();
 	
 	public var url(getUrl, null) : String;
 	public var handler(default, null) : IRouteHandler;
-	public var defaults(default, null) : Hash<String>;  
-	public var constraints(default, null) : Array<IRouteConstraint>;      
-	      
-	var extractor : RouteParamExtractor;    
+	public var defaults(default, null) : Hash<String>;
+	public var constraints(default, null) : Array<IRouteConstraint>;
+	
+	var extractor : RouteParamExtractor;
 	var builder : RouteUriBuilder;
 	/**
 	 *
@@ -61,7 +60,7 @@ class Route extends RouteBase
 		return _ast;
 	}
 	
-	override function getRouteData(httpContext : HttpContext) : RouteData 
+	override function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
 
@@ -69,7 +68,7 @@ class Route extends RouteBase
 			throw new Error("invalid requestUri '{0}'", requesturi);
 		
 		if(null == extractor)
-		{   
+		{
 			extractor = new RouteParamExtractor(getAst());
 		}
 		
@@ -85,56 +84,56 @@ class Route extends RouteBase
 				return null;
 			else
 				return new RouteData(this, handler, params);
-		}  
-	}   
+		}
+	}
 	
 	override function getPath(httpContext : HttpContext, data : Hash<String>)
-	{             
+	{
 	    var params = null == data ? new Hash() : data;
 		if(!processConstraints(httpContext, params, UrlDirection.UrlGeneration))
 			return null;
 		else {
 			if(null == builder)
-			{   
+			{
 				builder = new RouteUriBuilder(getAst());
-			}    
-			// drops defaults from data     
+			}
+			// drops defaults from data
 			for(key in defaults.keys())
 			{
 				if(data.get(key) == defaults.get(key))
 					data.remove(key);
-			}   
+			}
 
-			var url = builder.build(params); 
+			var url = builder.build(params);
 			// if controller/action param is not consumed than this is the wrong route
 			if(null == url || params.exists("controller") || params.exists("action"))
-			    return null;        
+			    return null;
 			
 			var qs = [];
 			for(key in params.keys())
 			{
 				qs.push(StringTools.urlEncode(key) + "=" + StringTools.urlEncode("" + params.get(key)));
-			}                                                                                           
+			}
 			if(qs.length > 0)
 			{
 				url += "?" + qs.join("&");
-			}                             
+			}
 			return httpContext.generateUri(url);
 		}
-	} 
+	}
 	
 	function getUrl()
 	{
 		return url;
 	}
-  
+
 	function processConstraints(httpContext : HttpContext, params : Hash<String>, direction : UrlDirection)
 	{
 		for(constraint in constraints)
 			if(!constraint.match(httpContext, this, params, direction))
 				return false;
 		return true;
-	}   
+	}
 	
 	
 	public function toString()
