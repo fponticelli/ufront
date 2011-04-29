@@ -45,7 +45,7 @@ class DefaultModelBinder implements IModelBinder
 		
 		// TODO: Binding for Enums
 		var classType = Type.resolveClass(typeName);
-		trace(classType);
+//		trace(classType);
 		
 		if (classType == null) throw new Error("Could not bind to class " + typeName);
 		

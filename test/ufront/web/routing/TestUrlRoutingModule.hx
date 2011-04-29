@@ -44,7 +44,7 @@ class TestUrlRoutingModule extends HttpApplication
 		var app = setupRequest("/", ["/"], httpHandler);
 		
 		// Run the app
-		app.init();
+		app.execute();
 		
 		httpHandler.verify("processRequest", Times.once());
 		Assert.isTrue(true);
@@ -54,7 +54,7 @@ class TestUrlRoutingModule extends HttpApplication
 	{
 		var app = setupRequest("/mismatch", ["/{controller}/{action}"], new Mock<IHttpHandler>(IHttpHandler));
 		
-		Assert.raises(function() { app.init(); }, ufront.web.error.PageNotFoundError);
+		Assert.raises(function() { app.execute(); }, ufront.web.error.PageNotFoundError);
 	}
 	
 	function setupRequest(url : String, routeStrings : Array<String>, httpHandler : Mock<IHttpHandler>) : HttpApplication

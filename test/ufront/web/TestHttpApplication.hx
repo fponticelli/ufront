@@ -37,7 +37,7 @@ class TestHttpApplication extends HttpApplication
 		
 		Assert.same([], mock.triggeredEvents);
 		
-		init();
+		execute();
 		
 		var eventChain = ["begin",
 						"resolvecache",
@@ -57,9 +57,9 @@ class TestHttpApplication extends HttpApplication
 						"end"];
 		
 		Assert.same(eventChain, mock.triggeredEvents);
-		Assert.isFalse(mock.disposed);
+//		Assert.isFalse(mock.disposed);
 		
-		dispose();
+//		dispose();
 		Assert.isTrue(mock.disposed);
 	}
 	
@@ -67,7 +67,7 @@ class TestHttpApplication extends HttpApplication
 	{
 		var mock = new MockEventsModule(true);
 		modules.add(mock);
-		init();
+		execute();
 		Assert.same(["begin", "resolvecache", "afterresolvecache", "handler", "end"], mock.triggeredEvents);
 	}	
 }

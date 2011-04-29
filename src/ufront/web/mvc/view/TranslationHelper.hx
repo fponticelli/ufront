@@ -1,5 +1,5 @@
 package ufront.web.mvc.view;
-import hxculture.ITranslation;
+import thx.translation.ITranslation;
 import ufront.web.mvc.IViewHelper;
 
 class TranslationHelper implements IViewHelper

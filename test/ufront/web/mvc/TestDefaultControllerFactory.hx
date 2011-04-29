@@ -40,7 +40,7 @@ class TestDefaultControllerFactory
 		var factory = new DefaultControllerFactory(builder, new DefaultDependencyResolver());
 		
 		// Note that "Controller" is auto-appended.
-		var controller = factory.createController(TestAll.getRequestContext(), "Mock");
+		var controller = factory.createController(TestAll.getRequestContext(), "MockController");
 		Assert.notNull(controller);
 		Assert.is(controller, ufront.web.mvc.MockController);
 	}
@@ -52,7 +52,7 @@ class TestDefaultControllerFactory
 		builder.packages.add("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder, new DefaultDependencyResolver());
 		
-		var controller = factory.createController(TestAll.getRequestContext(), "Mock");
+		var controller = factory.createController(TestAll.getRequestContext(), "MockController");
 		Assert.notNull(controller);
 		Assert.is(controller, ufront.web.mvc.test.MockController);
 	}
@@ -63,7 +63,7 @@ class TestDefaultControllerFactory
 		builder.packages.add("ufront.web.mvc");
 		var factory = new DefaultControllerFactory(builder, new DefaultDependencyResolver());
 		
-		var controller = cast(factory.createController(TestAll.getRequestContext(), "Mock"), ufront.web.mvc.MockController);
+		var controller = cast(factory.createController(TestAll.getRequestContext(), "MockController"), ufront.web.mvc.MockController);
 		Assert.isFalse(controller.disposed);
 		factory.releaseController(controller);
 		Assert.isTrue(controller.disposed);		
@@ -78,7 +78,7 @@ class TestDefaultControllerFactory
 		builder.packages.add("ufront.web.mvc.test");
 		var factory = new DefaultControllerFactory(builder, new DefaultDependencyResolver());
 		
-		var controller = cast(factory.createController(TestAll.getRequestContext(), "Mock"), ufront.web.mvc.test.MockController);
+		var controller = cast(factory.createController(TestAll.getRequestContext(), "MockController"), ufront.web.mvc.test.MockController);
 		Assert.isFalse(controller.disposed);
 		factory.releaseController(controller);
 		Assert.isFalse(controller.disposed);		

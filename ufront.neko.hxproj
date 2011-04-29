@@ -31,7 +31,6 @@
   <!-- haxelib libraries -->
   <haxelib>
     <library name="hxevents" />
-    <library name="hxculture" />
     <library name="hscript" />
     <library name="umock" />
     <library name="unject" />
