@@ -93,18 +93,17 @@ class TestHTemplate
 		Assert.equals("X", t.view.render(t.viewContext, new Hash()));
 	}
    
-#if hxculture
     public function testRegisterTranslationHelper()
 	{
-    	var dic = new hxculture.translation.DictionaryTranslation();
-		dic.addDomain("it", hxculture.languages.It.language);
+    	var dic = new thx.translation.DictionaryTranslation();
+		dic.addDomain("it", thx.languages.It.language);
 		var helper = new TranslationHelper(dic);
 		
 		var t = getTemplateData("{:_('o')}");
 		helper.register(t.viewContext.viewData);
 		Assert.equals("o", t.view.render(t.viewContext, new Hash()));
     }
-#end
+
 	public static function getTemplateData(templateString : String = "")
 	{
 		var controller = new MockController();                                                
