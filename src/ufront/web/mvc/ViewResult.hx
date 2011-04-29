@@ -8,7 +8,6 @@ class ViewResult extends ActionResult
 {   
 	public var view : IView;
 	public var viewData : Hash<Dynamic>;
-//	public var viewEngine :  ViewEngine;
 	public var viewName : String;
         
 	public function new(?data : Hash<Dynamic>)
@@ -32,7 +31,7 @@ class ViewResult extends ActionResult
 		{          
 			result = findView(context, viewName);
 			if(null == result)
-				throw new Error("unable to find a view/engine for '{0}'", context.controller.typeName() + "/" + viewName);   
+				throw new Error("unable to find a view for '{0}'", context.controller.typeName() + "/" + viewName);   
             this.view = result.view;
 		}   
 		var viewContext = createContext(result, context);
@@ -51,12 +50,7 @@ class ViewResult extends ActionResult
 	function writeResponse(context : ControllerContext, content : String, data : Hash<Dynamic>)
 	{
 		context.response.write(content);
-	}
-	
-//	function findEngine() : ViewEngine
-//	{
-//		return throw new NotImplemented();
-//	}                  
+	}             
 	
 	function findView(context : ControllerContext, viewName : String) : ViewEngineResult
 	{         

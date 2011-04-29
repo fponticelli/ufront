@@ -194,7 +194,7 @@ class HttpApplication
 		_logDispatched = true;
 	}
 	
-	public function init()
+	public function execute()
 	{	
 		_flushed = _logDispatched = false;	
 		// wire modules
@@ -226,6 +226,7 @@ class HttpApplication
 		_flush();                                 
 		// this event is always dispatched no matter what
 		_dispatchEnd();
+		_dispose();
 	}
 	
 	function _flush()
@@ -315,7 +316,7 @@ class HttpApplication
 	}
 	
 	
-	public function dispose()
+	function _dispose()
 	{
 		for (module in modules)
 			module.dispose();

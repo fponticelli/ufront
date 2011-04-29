@@ -63,7 +63,6 @@ class Route extends RouteBase
 	override function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
-
 		if(!requesturi.startsWith("/"))
 			throw new Error("invalid requestUri '{0}'", requesturi);
 		
@@ -73,7 +72,6 @@ class Route extends RouteBase
 		}
 		
 		var params = extractor.extract(requesturi);
-				
 		if(null == params)
 			return null;
 	    else

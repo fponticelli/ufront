@@ -1,5 +1,6 @@
 package ufront.web.mvc;
 
+import ufront.web.DirectoryUrlFilter;
 import ufront.web.HttpApplication;
 import ufront.web.HttpContext;
 import ufront.web.PathInfoUrlFilter;
@@ -8,21 +9,29 @@ import ufront.web.routing.RouteBase;
 import ufront.web.routing.RouteCollection;
 import ufront.web.routing.UrlRoutingModule;
 import ufront.web.AppConfiguration;
+import ufront.web.module.ErrorModule;
+import ufront.web.module.TraceModule;
 using DynamicsT;
 
 /**
  * ...
  * @author Andreas Soderlund
+ * @author Franco Ponticelli
  */
 
 class MvcApplication extends HttpApplication
 {
-	public static var defaultRoute : RouteBase = new Route(
-		"/{controller}/{action}/{?id}", 
-		new MvcRouteHandler(),
-		{ controller: "Home", action: "index" }.toHash(),
-		null
-	);
+	public static var defaultRoutes : Array<Route> = [
+		new Route(
+			"/", 
+			new MvcRouteHandler(),
+			{ controller: "home", action: "index" }.toHash(), null
+		), new Route(
+			"/{controller}/{action}/{?id}", 
+			new MvcRouteHandler(), null, null
+		)];
+	
+	public var routeModule(default, null) : UrlRoutingModule;
 	
 	/**
 	 * Initializes a new instance of the MvcApplication class.
@@ -36,10 +45,16 @@ class MvcApplication extends HttpApplication
 		if (configuration == null)
 			configuration = new AppConfiguration();
 		
+	
 		if (httpContext == null)
 		{
 			httpContext = HttpContext.createWebContext();
 
+			// if base path is different from "/" than work in a subfolder
+			var path = Strings.trim(configuration.basePath, "/");
+			if (path.length > 0)
+				httpContext.addUrlFilter(new DirectoryUrlFilter(path));
+			
 			// Unless mod_rewrite is used, filter out index.php/index.n from the urls.
 			if(configuration.modRewrite != true)
 				httpContext.addUrlFilter(new PathInfoUrlFilter());
@@ -48,7 +63,7 @@ class MvcApplication extends HttpApplication
 		super(httpContext);
 		
 		// Add a UrlRoutingModule to the application, to set up the routing.
-		modules.add(new UrlRoutingModule(routes == null ? new RouteCollection([defaultRoute]) : routes));
+		modules.add(routeModule = new UrlRoutingModule(routes == null ? new RouteCollection(defaultRoutes) : routes));
 		
 		for (pack in configuration.controllerPackages)
 		{
@@ -59,5 +74,9 @@ class MvcApplication extends HttpApplication
 		{
 			ControllerBuilder.current.packages.add(pack);
 		}
+		
+		// add debugging modules
+		modules.add(new ErrorModule());
+		modules.add(new TraceModule());
 	}	
 }

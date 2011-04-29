@@ -44,11 +44,10 @@ class ErazorViewEngine implements ITemplateViewEngine<Template>
 		{
 			var parts = controllerContext.controller.fullName().split(".");
 			parts
-				.removeR("controller")
-				.removeR("controllers");
+				.delete("controller")
+				.delete("controllers");
 			
 			parts[parts.length-1] = parts[parts.length-1].lcfirst();
-			
 			var controllerPath =  parts.join("/");
 			if(controllerPath.substr(-10).toLowerCase() == "controller")
 				controllerPath = controllerPath.substr(0, -10);	

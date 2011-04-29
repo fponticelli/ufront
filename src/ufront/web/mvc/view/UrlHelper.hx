@@ -80,7 +80,7 @@ class UrlHelperInst
 			hash.set("controller", route.defaults.get("controller"));
 			NullArgument.throwIfNull(hash.get("controller"), "controller");
 		}
-		
+
 		for(route in __req.routeData.route.routes.iterator())
 		{
 			var url = route.getPath(__req.httpContext, hash.clone());

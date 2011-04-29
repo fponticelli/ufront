@@ -2,7 +2,7 @@ package ufront.web.routing;
 import ufront.web.routing.RouteCollection;
 import ufront.web.HttpContext;
 import ufront.web.mvc.MvcRouteHandler;
-import hxculture.ITranslation;
+import thx.translation.ITranslation;
 import thx.error.NullArgument;
 import ufront.web.routing.IRouteHandler;
 import ufront.web.routing.RouteUriParser;

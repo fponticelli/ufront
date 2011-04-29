@@ -13,9 +13,12 @@ class RouteCollection
 {
 	var _routes : Array<RouteBase>;
 	
-	public function new(?routes : Array<RouteBase>)
+	public function new(?routes : Iterable<RouteBase>)
 	{
-		_routes = (routes == null) ? [] : routes;
+		_routes = [];
+		if(null != routes)
+			for (route in routes)
+				add(route);
 	}
 
 	public function add(route : RouteBase)
