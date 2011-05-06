@@ -39,9 +39,7 @@ class Controller extends ControllerBase, implements IActionFilter, implements IA
 		
 		if(null == action)
 			throw new Error("No 'action' data found on route.");
-	 //   if(!
 		invoker.invokeAction(controllerContext, action, async);
-	 //   	_handleUnknownAction(action, async);
 	}
 	
 	public function onActionExecuting(filterContext : ActionExecutingContext);

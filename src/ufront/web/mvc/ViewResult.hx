@@ -10,9 +10,14 @@ class ViewResult extends ActionResult
 	public var viewData : Hash<Dynamic>;
 	public var viewName : String;
         
-	public function new(?data : Hash<Dynamic>)
+	public function new(?data : Hash<Dynamic>, ?dataObj : {})
 	{
-		viewData = null == data ? new Hash() : data;
+		if (null == data)
+			viewData = new Hash();
+		else
+			viewData = data;
+		if (null != dataObj)
+			Hashes.importObject(viewData, dataObj);
 	}
 	
 	function createContext(result : ViewEngineResult, controllerContext : ControllerContext)

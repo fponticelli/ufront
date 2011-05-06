@@ -157,5 +157,6 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		data.set("wrap",		wrap);
 		data.set("routeData",	routeData);
 		data.set("merge",		merge);
+		data.set("now",			Date.now());
 	}
 }

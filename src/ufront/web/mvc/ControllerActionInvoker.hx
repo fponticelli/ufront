@@ -28,8 +28,6 @@ class ControllerActionInvoker implements IActionInvoker
 	public var valueProvider : IValueProvider;
 	public var dependencyResolver : IDependencyResolver;
 	
-//	public var error(default, null) : Error;
-	
 	function getParameterValue(controllerContext : ControllerContext, parameter : ParameterDescriptor) : Dynamic
 	{
 		var binder = getModelBinder(parameter);
@@ -53,7 +51,6 @@ class ControllerActionInvoker implements IActionInvoker
 	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>, typeParameters : Hash<CType>) : HashList<Dynamic>
 	{
 		// TODO: ActionDescriptor, ControllerDescriptor
-		
 		var arguments = new HashList<Dynamic>();
 		
 		for(info in argsinfo)
@@ -167,15 +164,34 @@ class ControllerActionInvoker implements IActionInvoker
 					filter.onActionExecuting(executingContext);
 				}
 				
-				var value = createActionResult(Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array()));
-
-				var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
-				for (filter in reverse(filterInfo.actionFilters))
+				if (null != executingContext.result || !isasync)
 				{
-					filter.onActionExecuted(executedContext);
+					if (null == executingContext.result)
+						executingContext.result = Reflect.callMethod(controller, Reflect.field(controller, action), arguments.array());
+					var value = createActionResult(executingContext.result);
+					
+					var executedContext = new ActionExecutedContext(controllerContext, actionName, value);
+					for (filter in reverse(filterInfo.actionFilters))
+					{
+						filter.onActionExecuted(executedContext);
+					}
+					processContent(value, controllerContext, filterInfo);
+					async.completed();
+				} else {
+					var me = this;
+					var handler = function(value) {
+						var executedContext = new ActionExecutedContext(controllerContext, actionName, createActionResult(value));
+						for (filter in reverse(filterInfo.actionFilters))
+						{
+							filter.onActionExecuted(executedContext);
+						}
+						me.processContent(value, controllerContext, filterInfo);
+						async.completed();
+					}
+					var args = arguments.array();
+					args.push(handler);
+					Reflect.callMethod(controller, Reflect.field(controller, action), args);
 				}
-
-				processContent(value, controllerContext, filterInfo);
 			}
 		}
 		catch(e : Dynamic)
@@ -191,8 +207,11 @@ class ControllerActionInvoker implements IActionInvoker
 			
 			createActionResult(exceptionContext.result).executeResult(controllerContext);
 		}
+	}
+	
+	function handleExecution(value : Dynamic)
+	{
 		
-		async.completed();
 	}
 
 	function processContent(result : ActionResult, controllerContext : ControllerContext, filters : FilterInfo)
@@ -348,10 +367,10 @@ class ControllerActionInvoker implements IActionInvoker
 	
 	///// Other /////////////////////////////////////////////////////
 	
-	function reverse<T>(list : Array<T>)
+	static function reverse<T>(list : Array<T>)
 	{
-		var output = new Array<T>();
-		for(i in list) { output.unshift(i); }
+		var output = list.copy();
+		output.reverse();
 		return output;
 	}
 

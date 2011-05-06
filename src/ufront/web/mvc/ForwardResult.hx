@@ -7,7 +7,7 @@ import thx.error.NullArgument;
 import ufront.web.mvc.RedirectResult;
 using Hashes;
 
-class RedirectToControllerResult extends ActionResult
+class ForwardResult extends ActionResult
 {
 	var params : Hash<Dynamic>;
 	public function new(?params : Hash<String>, ?o : Dynamic<String>)

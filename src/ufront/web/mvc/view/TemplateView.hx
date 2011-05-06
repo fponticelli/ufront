@@ -28,9 +28,14 @@ class TemplateView<Template> implements ITemplateView<Template>
 	{
 		var helpers = viewContext.viewHelpers.copy();
 		
+#if uform
+		helpers.push(new UFormHelper());
+#end
+		
 		var urlHelper = new UrlHelper(viewContext.requestContext);		
 		helpers.push(urlHelper);
 		helpers.push(new TemplateHelper(viewContext, this));
+		helpers.push(new FormatHelper());
 		switch(viewContext.response.contentType)
 		{           
 			case "application/xhtml+xml":

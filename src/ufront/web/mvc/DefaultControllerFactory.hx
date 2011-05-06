@@ -20,10 +20,12 @@ class DefaultControllerFactory implements IControllerFactory {
 	public function createController(requestContext : RequestContext, controllerName : String) : IController
 	{
 	    var cls = Strings.ucfirst(controllerName);
+		var names = [cls, cls + "Controller"];
 		for (pack in _controllerBuilder.packages)
 		{
-			var fullname = pack + "." + cls;
-			var type = Type.resolveClass(fullname);
+			var type = null;
+			while(null == type && names.length > 0)
+				type = Type.resolveClass(pack + "." + names.pop());
 			
 			if (type != null)
 			{

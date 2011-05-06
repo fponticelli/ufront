@@ -199,6 +199,8 @@ class HttpRequest extends ufront.web.HttpRequest
 					clientHeaders.set(k.substr(5).toLowerCase().replace("_", "-").ucwords(), h.get(k));
 				}
 			}
+			if (h.exists("CONTENT_TYPE"))
+				clientHeaders.set("Content-Type", h.get("CONTENT_TYPE"));
 		}
 		return clientHeaders;
 	}

@@ -66,14 +66,10 @@ class MvcApplication extends HttpApplication
 		modules.add(routeModule = new UrlRoutingModule(routes == null ? new RouteCollection(defaultRoutes) : routes));
 		
 		for (pack in configuration.controllerPackages)
-		{
 			ControllerBuilder.current.packages.add(pack);
-		}
 		
 		for (pack in configuration.attributePackages)
-		{
 			ControllerBuilder.current.packages.add(pack);
-		}
 		
 		// add debugging modules
 		modules.add(new ErrorModule());
