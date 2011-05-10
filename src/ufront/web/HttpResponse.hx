@@ -93,9 +93,9 @@ class HttpResponse
 		_buff.addChar(c);
 	}
 	
-	public function writeBytes(b : Bytes)
+	public function writeBytes(b : Bytes, pos : Int, len : Int)
 	{
-		_buff.add(b.readString(0, b.length));
+		_buff.add(b.readString(pos, len));
 	}
 	
 	public function setHeader(name : String, value : String)

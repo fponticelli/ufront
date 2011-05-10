@@ -1,4 +1,6 @@
 package ufront.web.mvc.view;
+
+#if htemplate
 import thx.error.NotImplemented;
 import thx.sys.io.File;
 import htemplate.Template;
@@ -74,3 +76,4 @@ class HTemplateViewEngine implements ITemplateViewEngine<Template>
 	
 	public function releaseView(controllerContext : ControllerContext, view : IView) : Void;
 }
+#end

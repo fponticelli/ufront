@@ -1,4 +1,7 @@
 package ufront.external.mvc;
+
+#if unject
+
 import ufront.web.mvc.IDependencyResolver;
 import unject.IKernel;
 import unject.StandardKernel;
@@ -25,3 +28,4 @@ class UnjectDependencyResolver implements IDependencyResolver
 		return kernel.get(serviceType);
 	}
 }
+#end

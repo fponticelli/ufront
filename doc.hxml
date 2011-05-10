@@ -1,0 +1,28 @@
+# Neko
+-neko _
+-lib thx
+-lib hxevents
+-lib erazor
+-lib hscript
+-cp src
+-xml doc/doc.neko.xml
+# --no-output
+--macro include('ufront', true, null, ['src'])
+#--macro include('neko', true, null, ['src'])
+--next
+# PHP
+-php _
+-lib thx
+-lib hxevents
+-lib erazor
+-lib hscript
+-cp src
+-xml doc/doc.php.xml
+--no-output
+--macro include('ufront', true, null, ['src'])
+#--macro include('php', true, null, ['src'])
+--next
+# HAXEDOC.XML
+-cmd del _
+-cmd copy doc\doc.neko.xml haxedoc.xml
+-cmd PAUSE

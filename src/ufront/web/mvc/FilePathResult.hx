@@ -1,9 +1,12 @@
 package ufront.web.mvc;
                            
-import thx.neutral.io.File;
+import haxe.io.Bytes;
+import haxe.io.Eof;
+import thx.sys.io.File;
 
-class FilePathResult extends FileContent
+class FilePathResult extends FileResult
 {     
+	static var BUF_SIZE = 4096;
 	public var fileName : String;
 	public function new(?fileName : String, ?contentType : String, ?fileDownloadName)
 	{      
@@ -13,8 +16,16 @@ class FilePathResult extends FileContent
 	
 	override function executeResult(controllerContext : ControllerContext)
 	{   
-		super(controllerContext);
-		if(null != fileName)
-			controllerContext.response.write(File.getContent(fileName));
+		super.executeResult(controllerContext);
+		if (null != fileName)
+		{
+			var reader = File.read(fileName, true);
+			try
+			{
+				var buf = Bytes.alloc(BUF_SIZE);
+				var size = reader.readBytes(buf, 0, BUF_SIZE);
+				controllerContext.response.writeBytes(buf, 0, size);
+			} catch (e : Eof) { }
+		}
 	}
 }

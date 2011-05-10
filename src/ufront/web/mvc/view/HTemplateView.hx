@@ -1,5 +1,6 @@
-package ufront.web.mvc.view;     
+package ufront.web.mvc.view;
 
+#if htemplate
 import htemplate.Template;
 
 class HTemplateView extends TemplateView<htemplate.Template>
@@ -14,3 +15,4 @@ class HTemplateView extends TemplateView<htemplate.Template>
 		return template.variables;
 	}
 }
+#end

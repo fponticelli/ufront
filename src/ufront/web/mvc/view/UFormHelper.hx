@@ -1,4 +1,6 @@
 package ufront.web.mvc.view;
+
+#if uform
 import uform.model.core.Model;
 import uform.ui.comp.Form;
 import uform.ui.build.html5.Html5Builder;
@@ -54,3 +56,4 @@ class UFormHelper implements IViewHelper
 		});
 	}
 }
+#end

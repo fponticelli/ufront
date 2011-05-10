@@ -1,8 +1,6 @@
 package ufront.web.mvc;
 import ufront.web.routing.RouteCollection;
-import ufront.web.mvc.view.TestHTemplate;
 import ufront.web.mvc.view.TestErazor;
-                       
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.Route;
 import ufront.web.routing.RouteData;
@@ -19,7 +17,9 @@ class TestAll
 		TestControllerBindings.addTests(runner);
 		TestDefaultControllerFactory.addTests(runner); 
 		TestViewResult.addTests(runner); 
-		TestHTemplate.addTests(runner);
+#if htemplate
+		ufront.web.mvc.view.TestHTemplate.addTests(runner);
+#end
 		TestErazor.addTests(runner);
 		TestValueProviders.addTests(runner);
 		TestIActionFilter.addTests(runner);

@@ -1,8 +1,8 @@
-<project name="ufront" url="http://code.google.com/p/ufront/" license="MIT">
+<project name="ufront" url="http://code.google.com/p/ufront/" license="BSD">
     <user name="fponticelli"/>
     <tag v="neko"/>
 	<tag v="php"/>
 	<tag v="mvc"/>
     <description>MVC Framework for server-side development</description>
-    <version name="0.1.0">Initial release</version>
+    <version name="0.1.0">initial release</version>
 </project>

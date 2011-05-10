@@ -19,4 +19,9 @@ class HttpMethodConstraint implements IRouteConstraint
 			
 		this.methods = methods;
 	}
+	
+	public function match(context : HttpContext, route : Route, params : Hash<String>, direction : UrlDirection) : Bool
+	{
+		return throw new thx.error.NotImplemented();
+	}
 }

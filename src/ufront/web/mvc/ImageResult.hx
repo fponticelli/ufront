@@ -1,5 +1,6 @@
 package ufront.web.mvc;
 
+#if uimage
 import thx.error.NullArgument;
 import uimage.IImage<Dynamic>;
 
@@ -50,3 +51,5 @@ enum ImageFormat
 	Png;
 	Gif;
 }
+
+#end

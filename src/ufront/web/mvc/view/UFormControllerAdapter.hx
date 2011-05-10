@@ -1,4 +1,6 @@
 package ufront.web.mvc.view;
+
+#if uform
 import uform.ui.comp.Form;
 import ufront.web.mvc.Controller;
 import uform.ui.comp.Control;
@@ -73,3 +75,4 @@ class UFormControllerAdapter
 		}
 	}
 }
+#end

@@ -15,14 +15,10 @@
   <classpaths>
     <class path="src" />
     <class path="test" />
-    <class path="..\core\src" />
-    <class path="..\htemplate\src" />
-    <class path="..\utest\src" />
-    <class path="..\erazor\src" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="htemplate" />
+    <option directives="" />
     <option flashStrict="False" />
     <option mainClass="TestAll" />
     <option enabledebug="False" />
@@ -34,6 +30,9 @@
     <library name="hscript" />
     <library name="umock" />
     <library name="unject" />
+    <library name="thx" />
+    <library name="utest" />
+    <library name="erazor" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
