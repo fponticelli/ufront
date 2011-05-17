@@ -34,7 +34,7 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 		return _valueProvider;
 	}
 			
-	public function new();
+	public function new(){}
 
 	private function executeCore(async : hxevents.Async) { throw "executeCore() must be overridden in subclass."; }
 	

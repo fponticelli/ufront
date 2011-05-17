@@ -30,7 +30,7 @@ class TestDefaultControllerFactory
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 	
 	public function testControllerInst1()
 	{

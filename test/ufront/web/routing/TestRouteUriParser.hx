@@ -22,7 +22,7 @@ class TestRouteUriParser
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 	
 	var parser : RouteUriParser;
 	var set : Set<String>;

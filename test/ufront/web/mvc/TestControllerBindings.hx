@@ -16,7 +16,7 @@ import ufront.web.mvc.Controller;
 
 class SpecialDateBinder implements IModelBinder
 {
-	public function new();
+	public function new(){}
 	
 	public function bindModel(controllerContext : ControllerContext, bindingContext : ModelBindingContext) : Dynamic
 	{
@@ -29,7 +29,7 @@ class SpecialDateBinder implements IModelBinder
 
 class DataModel implements Infos
 {
-	public function new();
+	public function new(){}
 	
 	public var id : Int;
 	public var name : String;

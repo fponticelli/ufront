@@ -21,7 +21,7 @@ class TestRouteParamExtractor
 		runner.run();
 	}
 	
-	public function new();      
+	public function new(){}      
 	
 	function assert(expected : Dynamic<String>, result : Hash<String>, ?pos : PosInfos)
 	{                                         

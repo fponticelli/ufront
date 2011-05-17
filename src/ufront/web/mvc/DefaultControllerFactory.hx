@@ -24,8 +24,13 @@ class DefaultControllerFactory implements IControllerFactory {
 		for (pack in _controllerBuilder.packages)
 		{
 			var type = null;
-			while(null == type && names.length > 0)
-				type = Type.resolveClass(pack + "." + names.pop());
+			for (name in names)
+			{
+				var fullpath = pack + "." + name;
+				type = Type.resolveClass(fullpath);
+				if (null != type)
+					break;
+			}
 			
 			if (type != null)
 			{
@@ -33,7 +38,7 @@ class DefaultControllerFactory implements IControllerFactory {
 				if (Std.is(controller, IController)) return controller;
 			}
 		}
-		return throw new Error("unable to find a class for the controller {0}", controllerName);
+		return throw new Error("unable to find a class for the controller '{0}'", controllerName);
 	}
 	
 	public function releaseController(controller : IController)

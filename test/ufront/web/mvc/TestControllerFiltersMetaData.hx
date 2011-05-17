@@ -243,7 +243,7 @@ class TestControllerFiltersMetaData
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 
 	var controller : BaseTestController;
 	var context : RequestContext;

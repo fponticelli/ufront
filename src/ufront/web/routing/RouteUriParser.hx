@@ -7,7 +7,7 @@ class RouteUriParser
 {      
 	static var constPattern = ~/^([^{]+)/;
 	static var paramPattern = ~/^\{([?$])?([*])?([a-z0-9_]+)(\?)?\}/;
-	public function new();
+	public function new(){}
 	
 	var restUsed : Bool;
 	

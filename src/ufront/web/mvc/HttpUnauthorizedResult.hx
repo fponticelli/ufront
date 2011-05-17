@@ -7,7 +7,7 @@ package ufront.web.mvc;
 
 class HttpUnauthorizedResult extends ActionResult
 {
-	public function new();
+	public function new(){}
 	
 	override function executeResult(context : ControllerContext)
 	{

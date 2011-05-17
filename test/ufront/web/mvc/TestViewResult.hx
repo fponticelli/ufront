@@ -27,7 +27,7 @@ class TestViewResult
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 
 
 	static public function createControllerContext()

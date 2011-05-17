@@ -6,7 +6,7 @@ import ufront.web.mvc.MvcRouteHandler;
 
 class BaseTest
 {
-	public function new(); 
+	public function new(){} 
 	
 	public function createRoute(url : String, ?constraint : IRouteConstraint, ?constraints : Array<IRouteConstraint>)
 	{                                                                                                                

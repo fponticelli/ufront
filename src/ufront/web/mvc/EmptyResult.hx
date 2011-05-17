@@ -7,7 +7,7 @@ package ufront.web.mvc;
 
 class EmptyResult extends ActionResult
 {
-	public function new();
+	public function new(){}
 	
-	override public function executeResult(controllerContext : ControllerContext);
+	override public function executeResult(controllerContext : ControllerContext){}
 }

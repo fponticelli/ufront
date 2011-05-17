@@ -9,7 +9,7 @@ import thx.culture.FormatNumber;
 
 class FormatHelper implements IViewHelper
 {
-	public function new();
+	public function new(){}
 	
 	public function register(data : Hash<Dynamic>)
 	{

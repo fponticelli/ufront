@@ -42,10 +42,10 @@ class Controller extends ControllerBase, implements IActionFilter, implements IA
 		invoker.invokeAction(controllerContext, action, async);
 	}
 	
-	public function onActionExecuting(filterContext : ActionExecutingContext);
-	public function onActionExecuted(filterContext : ActionExecutedContext);
-	public function onAuthorization(filterContext : AuthorizationContext);
-	public function onException(filterContext : ExceptionContext);
-	public function onResultExecuted(filterContext : ResultExecutedContext);
-	public function onResultExecuting(filterContext : ResultExecutingContext);
+	public function onActionExecuting(filterContext : ActionExecutingContext){}
+	public function onActionExecuted(filterContext : ActionExecutedContext){}
+	public function onAuthorization(filterContext : AuthorizationContext){}
+	public function onException(filterContext : ExceptionContext){}
+	public function onResultExecuted(filterContext : ResultExecutedContext){}
+	public function onResultExecuting(filterContext : ResultExecutingContext){}
 }

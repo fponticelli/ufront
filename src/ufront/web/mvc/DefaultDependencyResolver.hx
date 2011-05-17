@@ -8,7 +8,7 @@ import thx.error.Error;
 
 class DefaultDependencyResolver implements IDependencyResolver
 {
-	public function new();
+	public function new(){}
 	
     public function getService<T>(type : Class<T>) : T
 	{

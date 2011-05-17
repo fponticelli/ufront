@@ -17,7 +17,7 @@ import thx.sys.FileSystem;
 class HTemplateViewEngine implements ITemplateViewEngine<Template>
 {
 	public static var DEFAULT_EXTENSION = ".html";
-	public function new();
+	public function new(){}
 
 	public function getTemplatesDirectory(controllerContext : ControllerContext)
 	{
@@ -74,6 +74,6 @@ class HTemplateViewEngine implements ITemplateViewEngine<Template>
 #end
 	}
 	
-	public function releaseView(controllerContext : ControllerContext, view : IView) : Void;
+	public function releaseView(controllerContext : ControllerContext, view : IView) : Void{}
 }
 #end

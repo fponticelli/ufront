@@ -5,5 +5,5 @@ interface IAuthStorage<T>
 	public function isEmpty() : Bool;
 	public function read() : T;
 	public function write(contents : T) : Void;
-	public function clear() : Void; 
+	public function clear() : Void;
 }

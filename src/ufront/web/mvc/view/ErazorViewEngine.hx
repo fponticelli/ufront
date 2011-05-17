@@ -15,7 +15,7 @@ import thx.sys.FileSystem;
 class ErazorViewEngine implements ITemplateViewEngine<Template>
 {
 	public static var DEFAULT_EXTENSION = ".html";
-	public function new();
+	public function new(){}
                                 
 	public function getTemplatesDirectory(controllerContext : ControllerContext)
 	{
@@ -74,5 +74,5 @@ class ErazorViewEngine implements ITemplateViewEngine<Template>
 	}   
 	
 	
-	public function releaseView(controllerContext : ControllerContext, view : IView) : Void;
+	public function releaseView(controllerContext : ControllerContext, view : IView) : Void{}
 }

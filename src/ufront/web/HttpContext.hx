@@ -66,7 +66,7 @@ class HttpContext
 		_urlFilters = [];
 	}
 	
-	public function dispose() : Void;
+	public function dispose() : Void{}
 	
 	function getRequest() return throw new AbstractMethod()
 	function getResponse() return throw new AbstractMethod()

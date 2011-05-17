@@ -4,7 +4,7 @@ import ufront.web.routing.RequestContext;
 import ufront.web.routing.IRouteHandler;
 
 class MvcRouteHandler implements IRouteHandler {
-	public function new();
+	public function new(){}
 	
 	public function getHttpHandler(requestContext : RequestContext) : IHttpHandler 
 	{            

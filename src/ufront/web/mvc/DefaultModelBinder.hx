@@ -9,7 +9,7 @@ import thx.type.Rttis;
 
 class DefaultModelBinder implements IModelBinder
 {
-	public function new();
+	public function new(){}
 	
 	public function bindModel(controllerContext : ControllerContext, bindingContext : ModelBindingContext) : Dynamic
 	{

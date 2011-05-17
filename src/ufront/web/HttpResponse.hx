@@ -59,7 +59,7 @@ class HttpResponse
 		status = DEFAULT_STATUS;
 	}
 	
-	public function flush() : Void;
+	public function flush() : Void{}
 	public function clear()
 	{
 		clearCookies();
