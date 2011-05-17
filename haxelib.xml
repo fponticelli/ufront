@@ -7,5 +7,5 @@
 	<depends name="hxevents" version="0.3.3"/>
 	<depends name="erazor" version="0.1.1"/>
     <description>MVC Framework for server-side development</description>
-    <version name="0.1.1">initial release</version>
+    <version name="0.1.1">fixes for haxe svn</version>
 </project>
