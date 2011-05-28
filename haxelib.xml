@@ -3,7 +3,7 @@
     <tag v="neko"/>
 	<tag v="php"/>
 	<tag v="mvc"/>
-	<depends name="thx" version="0.1.5"/>
+	<depends name="thx" version="0.2.0"/>
 	<depends name="hxevents" version="0.3.3"/>
 	<depends name="erazor" version="0.1.1"/>
     <description>MVC Framework for server-side development</description>
