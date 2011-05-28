@@ -16,9 +16,9 @@ class PatternConstraint implements IRouteConstraint
 	var validateDefault : Bool;
 	public function new(parametername : String, pattern : String, options = "", validatedefault = false)
 	{
-		NullArgument.throwIfNull(parametername, "parametername");
-		NullArgument.throwIfNull(pattern, "pattern");
-		NullArgument.throwIfNull(options, "options");
+		NullArgument.throwIfNull(parametername);
+		NullArgument.throwIfNull(pattern);
+		NullArgument.throwIfNull(options);
 		this.parameterName = parametername;        
 		this.pattern = new EReg(pattern, options);
 		this.validateDefault = validatedefault;

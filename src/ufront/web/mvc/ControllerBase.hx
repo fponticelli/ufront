@@ -40,7 +40,7 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 	
 	public function execute(requestContext : RequestContext, async : hxevents.Async) : Void
 	{
-		NullArgument.throwIfNull(requestContext, "requestContext");
+		NullArgument.throwIfNull(requestContext);
 		if(controllerContext == null)
 			controllerContext = new ControllerContext(this, requestContext);
 

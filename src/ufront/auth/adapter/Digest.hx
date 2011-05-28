@@ -27,10 +27,10 @@ class Digest implements IAuthAdapter<Identity>
 	
 	public function authenticate()
 	{
-		NullArgument.throwIfNull(filename, "filename");
-		NullArgument.throwIfNull(realm, "realm");
-		NullArgument.throwIfNull(username, "username");
-		NullArgument.throwIfNull(password, "password");
+		NullArgument.throwIfNull(filename);
+		NullArgument.throwIfNull(realm);
+		NullArgument.throwIfNull(username);
+		NullArgument.throwIfNull(password);
 		if(!FileSystem.exists(filename))
 			throw new Error("authentication file '{0}' does not exists", filename);
 		

@@ -19,19 +19,19 @@ class HttpContextImpl extends HttpContext
 	
 	public function setRequest(request : HttpRequest)
 	{
-		NullArgument.throwIfNull(request, "request");
+		NullArgument.throwIfNull(request);
 		this.request = request;
 	}
 	
 	public function setResponse(response : HttpResponse)
 	{
-		NullArgument.throwIfNull(response, "response");
+		NullArgument.throwIfNull(response);
 		this.response = response;
 	}
 	
 	public function setSession(session : IHttpSessionState)
 	{
-		NullArgument.throwIfNull(session, "session");
+		NullArgument.throwIfNull(session);
 		this.session = session;
 	}
 	

@@ -1,4 +1,5 @@
 package ufront.acl;
+
 import thx.collections.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
@@ -55,8 +56,8 @@ class Registry
 	
 	public function inherits(role : String, inherit : String, onlyParents = false)
 	{
-		NullArgument.throwIfNull(role, "role");
-		NullArgument.throwIfNull(inherit, "inherit");
+		NullArgument.throwIfNull(role);
+		NullArgument.throwIfNull(inherit);
 	
 	 	var r = _roles.get(role);
 		if(null == r)

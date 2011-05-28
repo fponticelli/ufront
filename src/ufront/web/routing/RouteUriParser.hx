@@ -13,7 +13,7 @@ class RouteUriParser
 	
 	public function parse(uri : String, implicitOptionals : Set<String>) : UriSegments
 	{                          
-		NullArgument.throwIfNull(uri, "uri");
+		NullArgument.throwIfNull(uri);
 		var segments = uri.split("/");
 		if(segments.length <= 1)
 			throw new Error("a uri must start with a slash");          

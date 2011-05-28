@@ -27,7 +27,7 @@ class ViewResult extends ActionResult
 	
 	override function executeResult(context : ControllerContext)
 	{
-		NullArgument.throwIfNull(context, "context");
+		NullArgument.throwIfNull(context);
 		                                   
 		if(null == viewName || "" == viewName)
 			viewName = context.routeData.getRequired("action");   		   
@@ -59,7 +59,7 @@ class ViewResult extends ActionResult
 	
 	function findView(context : ControllerContext, viewName : String) : ViewEngineResult
 	{         
-		NullArgument.throwIfNull(viewName, "viewName");
+		NullArgument.throwIfNull(viewName);
 		for(engine in ViewEngines.engines)
 		{
 			var result = engine.findView(context, viewName);

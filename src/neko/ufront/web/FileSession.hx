@@ -1,9 +1,10 @@
+package neko.ufront.web;
+
 /**
  * ...
  * @author Andreas Söderlund
  */
 
-package neko.ufront.web;
 import ufront.web.IHttpSessionState;
 
 import thx.sys.Lib;

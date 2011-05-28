@@ -10,7 +10,7 @@ class DirectoryUrlFilter implements IUrlFilter
 	public var directory(default, null) : String;
 	public function new(directory : String)
 	{
-     	NullArgument.throwIfNull(directory, "directory");
+     	NullArgument.throwIfNull(directory);
 		if(directory.endsWith("/"))
 			directory = directory.substr(0, directory.length-1);
 		this.directory = directory;

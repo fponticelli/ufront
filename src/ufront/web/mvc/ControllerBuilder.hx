@@ -28,7 +28,7 @@ class ControllerBuilder
 	
 	public function setControllerFactory(controllerFactory : IControllerFactory)
 	{
-		NullArgument.throwIfNull(controllerFactory, "controllerFactory");
+		NullArgument.throwIfNull(controllerFactory);
 		this._controllerFactory = controllerFactory;
 		
 		return controllerFactory;

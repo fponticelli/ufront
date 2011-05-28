@@ -1,12 +1,13 @@
 package ufront.web.mvc;
-import thx.error.NullArgument;
-import ufront.web.mvc.ControllerContext;
-import ufront.web.mvc.IValueProvider;
 
 /**
  * ...
  * @author Andreas Soderlund
  */
+
+import thx.error.NullArgument;
+import ufront.web.mvc.ControllerContext;
+import ufront.web.mvc.IValueProvider;
 
 class FormValueProviderFactory extends ValueProviderFactory
 {
@@ -17,7 +18,7 @@ class FormValueProviderFactory extends ValueProviderFactory
 	
 	override public function getValueProvider(controllerContext : ControllerContext) : IValueProvider 
 	{
-		NullArgument.throwIfNull(controllerContext, "controllerContext");		
+		NullArgument.throwIfNull(controllerContext);		
 		return new FormValueProvider(controllerContext);
 	}
 }

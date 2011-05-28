@@ -14,13 +14,13 @@ class RouteParamExtractor
 	var data : Hash<String>;
 	public function new(ast : UriSegments)
 	{
-		NullArgument.throwIfNull(ast, "ast");
+		NullArgument.throwIfNull(ast);
 		this.ast = ast;
 	}
 	
 	public function extract(uri : String) : Hash<String>
 	{
-		NullArgument.throwIfNull(uri, "uri");
+		NullArgument.throwIfNull(uri);
 		var segments = uri.split("/");
 		
 		if(segments.length <= 1)

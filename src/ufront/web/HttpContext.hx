@@ -54,7 +54,7 @@ class HttpContext
 	
 	public function addUrlFilter(filter : IUrlFilter)
 	{                            
-		NullArgument.throwIfNull(filter, "filter");
+		NullArgument.throwIfNull(filter);
 		_requestUri = null;
 		_urlFilters.push(filter);  
 		return this;

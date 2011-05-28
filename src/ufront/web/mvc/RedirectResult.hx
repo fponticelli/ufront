@@ -10,14 +10,14 @@ class RedirectResult extends ActionResult
 
 	public function new(url : String, permanentRedirect = false)
 	{
-		NullArgument.throwIfNull(url, "url");
+		NullArgument.throwIfNull(url);
 		this.url = url;
 		this.permanentRedirect = permanentRedirect;
 	}
 
 	override function executeResult(controllerContext : ControllerContext)
 	{
-		NullArgument.throwIfNull(controllerContext, "controllerContext");
+		NullArgument.throwIfNull(controllerContext);
 		controllerContext.response.clear();
         if(permanentRedirect)
 			controllerContext.response.permanentRedirect(url);

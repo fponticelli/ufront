@@ -11,7 +11,7 @@ class DefaultControllerFactory implements IControllerFactory {
 	// TODO: IControllerActivator as ControllerBuilder
 	public function new(controllerBuilder : ControllerBuilder, dependencyResolver : IDependencyResolver)
 	{
-		NullArgument.throwIfNull(controllerBuilder, "controllerBuilder");
+		NullArgument.throwIfNull(controllerBuilder);
 		
 		_controllerBuilder = controllerBuilder;
 		_dependencyResolver = dependencyResolver;

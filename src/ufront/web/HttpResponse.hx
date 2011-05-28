@@ -100,8 +100,8 @@ class HttpResponse
 	
 	public function setHeader(name : String, value : String)
 	{
-		NullArgument.throwIfNull(name, "name");
-		NullArgument.throwIfNull(value, "value");
+		NullArgument.throwIfNull(name);
+		NullArgument.throwIfNull(value);
 		_headers.set(name, value);
 	}
 	

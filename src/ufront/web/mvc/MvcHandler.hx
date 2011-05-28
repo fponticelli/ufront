@@ -12,7 +12,7 @@ class MvcHandler implements IHttpHandler {
 	public var controllerBuilder(getControllerBuilder, setControllerBuilder) : ControllerBuilder;
 	public function new(requestContext : RequestContext)
 	{                            
-		NullArgument.throwIfNull(requestContext, "requestContext");
+		NullArgument.throwIfNull(requestContext);
     	this.requestContext = requestContext;
 	}
 	

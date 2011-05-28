@@ -1,12 +1,13 @@
 package ufront.acl;
-import thx.error.NullArgument;
-import thx.error.Error;
-import thx.collections.Set;
-using Iterators;
 
 /**
 *  @todo remove loops over keys for removal
 */
+
+import thx.error.NullArgument;
+import thx.error.Error;
+import thx.collections.Set;
+using Iterators;
 
 typedef Combo = {
 	type : AccessType,
@@ -128,7 +129,7 @@ class Acl
 	
 	public function addResource(resource : String, ?parent : String)
 	{
-		NullArgument.throwIfNull(resource, "resource");
+		NullArgument.throwIfNull(resource);
 		if(existsResource(resource))
 			throw new Error("Resource '{0}' already exists in the ACL", resource);
 		if(null != parent)
@@ -153,8 +154,8 @@ class Acl
 	
 	public function inheritsResource(resource : String, inherit : String, onlyParent = false)
 	{
-		NullArgument.throwIfNull(resource, "resource");
-		NullArgument.throwIfNull(inherit, "inherit");
+		NullArgument.throwIfNull(resource);
+		NullArgument.throwIfNull(inherit);
 	
 	 	var r = _resources.get(resource);
 		if(null == r)
@@ -178,7 +179,7 @@ class Acl
 
 	public function removeResource(resource : String)
 	{
-		NullArgument.throwIfNull(resource, "resource");
+		NullArgument.throwIfNull(resource);
 		if(!existsResource(resource))
 			return false;
 	
@@ -420,7 +421,7 @@ class Acl
 
     function _roleDFSOnePrivilege(role : String, resource : String, privilege : String) : Null<Bool>
     {
-		NullArgument.throwIfNull(privilege, "privilege");
+		NullArgument.throwIfNull(privilege);
 
 		var dfs = {
 			visited : new Set(),
@@ -447,7 +448,7 @@ class Acl
 
     function _roleDFSVisitOnePrivilege(role : String, resource : String, privilege : String, dfs) : Null<Bool>
     {
-        NullArgument.throwIfNull(privilege, "privilege");
+        NullArgument.throwIfNull(privilege);
 
 		var result = _getRuleType(resource, role, privilege);
 		if(null != result)

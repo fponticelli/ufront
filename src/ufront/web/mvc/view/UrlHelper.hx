@@ -1,6 +1,5 @@
 package ufront.web.mvc.view;
 import thx.error.Error;
-import thx.error.NullArgument;
 import ufront.web.mvc.IViewHelper;
 import ufront.web.routing.RequestContext;
 import ufront.web.routing.Route;
@@ -78,7 +77,8 @@ class UrlHelperInst
 			if (null == route)
 				throw new Error("unable to find a controller for {0}", Std.string(hash));
 			hash.set("controller", route.defaults.get("controller"));
-			NullArgument.throwIfNull(hash.get("controller"), "controller");
+			if (null == hash.get("controller"))
+				throw new Error("the routed data doesn't include the 'controller' parameter");
 		}
 
 		for(route in __req.routeData.route.routes.iterator())

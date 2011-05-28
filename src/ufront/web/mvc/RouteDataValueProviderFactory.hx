@@ -17,7 +17,7 @@ class RouteDataValueProviderFactory extends ValueProviderFactory
 	
 	override public function getValueProvider(controllerContext : ControllerContext) : IValueProvider 
 	{
-		NullArgument.throwIfNull(controllerContext, "controllerContext");
+		NullArgument.throwIfNull(controllerContext);
 		return new RouteDataValueProvider(controllerContext);
 	}
 }

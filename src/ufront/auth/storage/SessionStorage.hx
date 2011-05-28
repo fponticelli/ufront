@@ -10,7 +10,7 @@ class SessionStorage<T> implements IAuthStorage<T>
 	var _session : IHttpSessionState;
 	public function new(session : IHttpSessionState, ?name : String)
 	{
-		NullArgument.throwIfNull(session, "session");
+		NullArgument.throwIfNull(session);
 		_session = session;
 		if(null == name)
 			_name = DEFAULT_VARIABLE_NAME;

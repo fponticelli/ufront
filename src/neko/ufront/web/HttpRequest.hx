@@ -1,9 +1,9 @@
+package neko.ufront.web;
+
 /**
  * ...
  * @author Franco Ponticelli
  */
-
-package neko.ufront.web;
 
 import haxe.io.Bytes;
 import thx.error.Error;

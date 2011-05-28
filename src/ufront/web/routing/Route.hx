@@ -36,11 +36,11 @@ class Route extends RouteBase
 	 */
 	public function new(url : String, handler : IRouteHandler, ?defaults : Hash<String>, ?constraints : Array<IRouteConstraint>)
 	{
-		NullArgument.throwIfNull(url, "url");
+		NullArgument.throwIfNull(url);
 		if (!url.startsWith("/"))
 			throw new Error("invalid route url '{0}'; url must begin with '/'", url);
 		this.url = url;
-		NullArgument.throwIfNull(handler, "handler");
+		NullArgument.throwIfNull(handler);
 		this.handler = handler;
 		if (null == defaults)
 			this.defaults = new Hash();
