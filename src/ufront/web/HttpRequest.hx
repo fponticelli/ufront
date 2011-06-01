@@ -21,8 +21,6 @@ class HttpRequest
         	instance = new php.ufront.web.HttpRequest();
 #elseif neko
             instance = new neko.ufront.web.HttpRequest();
-#elseif nodejs
-			instance = null;
 #else
     	NOT IMPLEMENTED PLATFORM
 #end

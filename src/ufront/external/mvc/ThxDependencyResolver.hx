@@ -16,7 +16,7 @@ class ThxDependencyResolver implements IDependencyResolver
 	
 	public function new(locator : TypeServiceLocator)
 	{
-		NullArgument.throwIfNull(locator, "locator");
+		NullArgument.throwIfNull(locator);
 		this.locator = locator;
 		this.defaultResolver = new DefaultDependencyResolver();
 	}

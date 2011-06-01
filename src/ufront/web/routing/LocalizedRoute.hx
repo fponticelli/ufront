@@ -18,7 +18,7 @@ class LocalizedRoute extends Route
 	{
 		super(url, handler, defaults, constraints);
 		_asts = new Hash();
-		NullArgument.throwIfNull(translator, "translator");
+		NullArgument.throwIfNull(translator);
 		this.translator = translator;
 		currentLanguage = null;
 		paramName = "lang";

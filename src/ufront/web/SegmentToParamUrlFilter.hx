@@ -14,8 +14,8 @@ class SegmentToParamUrlFilter implements IUrlFilter
 	
 	public function new(paramName : String, allowedValues : Array<String>, ?defaultValue : String)
 	{   
-		NullArgument.throwIfNull(paramName, "paramName");                                       
-		NullArgument.throwIfNull(allowedValues, "allowedValues");
+		NullArgument.throwIfNull(paramName);                                       
+		NullArgument.throwIfNull(allowedValues);
 		this.paramName = paramName;    	
 		this.defaultValue = defaultValue;
 		this.allowedValues = allowedValues; 
