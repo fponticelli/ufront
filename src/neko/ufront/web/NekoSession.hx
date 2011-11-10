@@ -164,7 +164,7 @@ class NekoSession
 		}
 
 		var file : String;
-		var fileData : String;
+		var fileData : Bytes;
 		
 		if( id!=null )
 		{
@@ -175,7 +175,7 @@ class NekoSession
 				id = null;
 			else
 			{
-				fileData = try neko.io.File.getContent(file) catch ( e:Dynamic ) null;
+				fileData = try neko.io.File.getBytes(file) catch ( e:Dynamic ) null;
 				if( fileData == null )
 				{
 					id = null;
