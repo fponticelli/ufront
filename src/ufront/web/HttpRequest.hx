@@ -4,18 +4,18 @@
  */
 
 package ufront.web;
-import thx.collections.CascadeHash;
+import thx.collection.CascadeHash;
 import thx.error.AbstractMethod;
 import haxe.io.Bytes;
 
 /**
-* @todo remove the singleton 
+* @todo remove the singleton
 */
 class HttpRequest
-{    
+{
   public static var instance(getInstance, null) : HttpRequest;
-	static function getInstance() : HttpRequest 
-	{  
+	static function getInstance() : HttpRequest
+	{
 		if(null == instance)
 #if php
         	instance = new php.ufront.web.HttpRequest();
@@ -26,12 +26,12 @@ class HttpRequest
 #end
 		return instance;
 	}
-	
+
 	/**
-	 * The parameters are collected in the following order:                    
+	 * The parameters are collected in the following order:
 	 * - query-string parameters
 	 * - post values
-	 * - cookies                    
+	 * - cookies
 	 */
  	public var params(getParams, null) : CascadeHash<String>;
  	function getParams()
@@ -67,7 +67,7 @@ class HttpRequest
 
  	public var clientHeaders(getClientHeaders, null) : Hash<String>;
  	function getClientHeaders() return throw new AbstractMethod()
-	
+
 	public var userAgent(getUserAgent, null) : UserAgent;
  	function getUserAgent() return throw new AbstractMethod()
 
@@ -81,11 +81,11 @@ class HttpRequest
  	function getAuthorization() return throw new AbstractMethod()
 
  	public function setUploadHandler(handler : IHttpUploadHandler) throw new AbstractMethod()
-	
+
 	// urlReferrrer
 	//public var acceptTypes(getAcceptTypes, null) : Array<String>;
 	//public var sessionId(getSessionId, null) : String;
-	
+
 	/**
 	 * never has trailing slash. If the application is in the server root the path will be emppty ""
 	 */
@@ -103,7 +103,7 @@ class HttpRequest
 	 */
 	//public var isLocal(getIsLocal, null) : String;
 	//public var isSecure(getIsSecure, null) : String;
-	
+
 	//public var userAgent(getUserAgent, null) : String;
 	//public var userHostAddress(getUserHostAddress, null) : String;
 	//public var userHostName(getUserHostName, null) : String;

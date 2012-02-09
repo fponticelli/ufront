@@ -18,26 +18,26 @@ using Types;
 class UFormHelper implements IViewHelper
 {
 	static inline var CSS_VAR = "styleSheets";
-	
+
 	public var cssPath(default, null) : Null<String>;
 	public function new(csspath = "~/css/uform.css")
 	{
 		cssPath = csspath;
 	}
-	
+
 	public function injectCss(data : Hash<Dynamic>)
 	{
 		if (null == cssPath)
 			return;
 		data.get("push")(CSS_VAR, { href : cssPath } );
 	}
-	
+
 	public function register(data : Hash<Dynamic>)
 	{
 		var me = this;
 		data.set("uform", function(form : Form, ?t : String -> String -> String, ?lang : String) {
 			me.injectCss(data);
-			
+
 			if (null == t)
 			{
 				t = data.get("_");

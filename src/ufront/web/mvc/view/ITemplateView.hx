@@ -1,6 +1,6 @@
 package ufront.web.mvc.view;
 
-import thx.collections.HashList;
+import thx.collection.HashList;
 
 /**
  * ...

@@ -16,14 +16,14 @@ import thx.error.NullArgument;
 class UnjectDependencyResolver implements IDependencyResolver
 {
 	public var kernel(default, null) : IKernel;
-	
+
 	public function new(kernel : IKernel)
 	{
 		NullArgument.throwIfNull(kernel, "kernel");
 		this.kernel = kernel;
 	}
-	
-	public function getService<T>(serviceType:Class<T>):T 
+
+	public function getService<T>(serviceType:Class<T>):T
 	{
 		return kernel.get(serviceType);
 	}

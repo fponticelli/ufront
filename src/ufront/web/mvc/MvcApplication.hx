@@ -23,16 +23,16 @@ class MvcApplication extends HttpApplication
 {
 	public static var defaultRoutes : Array<Route> = [
 		new Route(
-			"/", 
+			"/",
 			new MvcRouteHandler(),
 			{ controller: "home", action: "index" }.toHash(), null
 		), new Route(
-			"/{controller}/{action}/{?id}", 
+			"/{controller}/{action}/{?id}",
 			new MvcRouteHandler(), null, null
 		)];
-	
+
 	public var routeModule(default, null) : UrlRoutingModule;
-	
+
 	/**
 	 * Initializes a new instance of the MvcApplication class.
 	 * @param	?routes				 Routes for the application. If null, the default /{controller}/{action}/{?id} route will be used.
@@ -44,8 +44,8 @@ class MvcApplication extends HttpApplication
 	{
 		if (configuration == null)
 			configuration = new AppConfiguration();
-		
-	
+
+
 		if (httpContext == null)
 		{
 			httpContext = HttpContext.createWebContext();
@@ -54,25 +54,25 @@ class MvcApplication extends HttpApplication
 			var path = Strings.trim(configuration.basePath, "/");
 			if (path.length > 0)
 				httpContext.addUrlFilter(new DirectoryUrlFilter(path));
-			
+
 			// Unless mod_rewrite is used, filter out index.php/index.n from the urls.
 			if(configuration.modRewrite != true)
 				httpContext.addUrlFilter(new PathInfoUrlFilter());
 		}
-		
+
 		super(httpContext);
-		
+
 		// Add a UrlRoutingModule to the application, to set up the routing.
 		modules.add(routeModule = new UrlRoutingModule(routes == null ? new RouteCollection(defaultRoutes) : routes));
-		
+
 		for (pack in configuration.controllerPackages)
 			ControllerBuilder.current.packages.add(pack);
-		
+
 		for (pack in configuration.attributePackages)
 			ControllerBuilder.current.packages.add(pack);
-		
+
 		// add debugging modules
 		modules.add(new ErrorModule());
 		modules.add(new TraceModule());
-	}	
+	}
 }

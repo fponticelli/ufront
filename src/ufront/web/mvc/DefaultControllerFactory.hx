@@ -7,16 +7,16 @@ import thx.error.NullArgument;
 class DefaultControllerFactory implements IControllerFactory {
 	var _controllerBuilder : ControllerBuilder;
 	var _dependencyResolver : IDependencyResolver;
-	
+
 	// TODO: IControllerActivator as ControllerBuilder
 	public function new(controllerBuilder : ControllerBuilder, dependencyResolver : IDependencyResolver)
 	{
 		NullArgument.throwIfNull(controllerBuilder);
-		
+
 		_controllerBuilder = controllerBuilder;
 		_dependencyResolver = dependencyResolver;
 	}
-	
+
 	public function createController(requestContext : RequestContext, controllerName : String) : IController
 	{
 	    var cls = Strings.ucfirst(controllerName);
@@ -31,7 +31,7 @@ class DefaultControllerFactory implements IControllerFactory {
 				if (null != type)
 					break;
 			}
-			
+
 			if (type != null)
 			{
 				var controller = _dependencyResolver.getService(type);
@@ -40,7 +40,7 @@ class DefaultControllerFactory implements IControllerFactory {
 		}
 		return throw new Error("unable to find a class for the controller '{0}'", controllerName);
 	}
-	
+
 	public function releaseController(controller : IController)
 	{
 		var f = Reflect.field(controller, "dispose");

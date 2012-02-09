@@ -5,7 +5,7 @@
 
 package ufront.web;
 import haxe.io.Bytes;
-import thx.collections.HashList;
+import thx.collection.HashList;
 import thx.sys.io.FileOutput;
 import thx.sys.io.File;
 
@@ -30,13 +30,13 @@ class SaveToDirectoryUploadHandler implements IHttpUploadHandler
 		uploadedFilesInfo.set(name, _current);
 		_output = File.write(_directory + filename, true);
 	}
-	
+
 	public function uploadProgress(bytes : Bytes, pos : Int, len : Int) : Void
 	{
 		_current.size += len;
 		_output.writeBytes(bytes, pos, len);
 	}
-	
+
 	public function uploadEnd() : Void
 	{
 		_output.close();

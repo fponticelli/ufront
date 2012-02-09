@@ -1,5 +1,5 @@
 package ufront.web.mvc.view;
-import thx.collections.Set;
+import thx.collection.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
@@ -14,7 +14,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		this.context = context;
 		this.template = template;
 	}
-	
+
 	public function get(key : String, ?alt : Dynamic)
 	{
 		if(null == alt)
@@ -22,12 +22,12 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		var hash = template.data();
 		return hash.exists(key) ? hash.get(key) : alt;
 	}
-	
+
 	public function routeData()
 	{
 		return context.routeData.data.toDynamic();
 	}
-	
+
 	public function exists(key : String)
 	{
 		return template.data().exists(key);
@@ -42,7 +42,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 	{
 		return Reflect.hasField(value, key);
 	}
-	
+
 	public function notempty(key : String) : Bool
 	{
 		var v = template.data().get(key);
@@ -55,7 +55,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		else
 			return true;
 	}
-	
+
 	public function push(varname : String, element : Dynamic)
 	{
 		var hash = template.data();
@@ -67,7 +67,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		}
 		arr.push(element);
 	}
-	
+
 	public function unshift(varname : String, element : Dynamic)
 	{
 		var hash = template.data();
@@ -79,26 +79,26 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		}
 		arr.unshift(element);
 	}
-	
+
 	public function wrap(templatepath : String, ?contentvar : String)
 	{
 		if(null == contentvar)
 			contentvar = "layoutContent";
-		
+
 		var engine : ITemplateViewEngine<Template> = cast context.viewEngine;
-			
+
 		var t = engine.getTemplate(context.controllerContext, templatepath);
 		if(null == t)
 			throw new Error("the wrap template '{0}' does not exist", templatepath);
-			
+
 		template.wrappers.set(contentvar, t);
 		return "";
 	}
-	
+
 	public function include(templatepath : String, ?data : Dynamic)
 	{
 		var engine : ITemplateViewEngine<Template> = cast context.viewEngine;
-			
+
 		var t = engine.getTemplate(context.controllerContext, templatepath);
 		if(null == t)
 			throw new Error("the include template '{0}' does not exist", templatepath);
@@ -107,7 +107,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		{
 			var old = new Hash<Dynamic>();
 			var toremove = new Set();
-			
+
 			var fields = Reflect.fields(data);
 			for (field in fields)
 			{
@@ -118,7 +118,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 					toremove.add(field);
 				variables.set(field, Reflect.field(data, field));
 			}
-			
+
 			function() {
 				for (key in toremove)
 					variables.remove(key);
@@ -128,12 +128,12 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		} else {
 			function() { };
 		}
-		
+
 		var result = template.executeTemplate(t, variables);
 		restore();
 		return result;
 	}
-	
+
 	public function merge<T>(dst : Dynamic<T>, ?src : Dynamic<T>) : Dynamic<T>
 	{
 		if (null == src)
@@ -143,7 +143,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 				Reflect.setField(dst, key, Reflect.field(src, key));
 		return dst;
 	}
-	
+
 	public function register(data : Hash<Dynamic>)
 	{
 		data.set("get",			get);

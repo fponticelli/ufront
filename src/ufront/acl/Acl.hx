@@ -6,7 +6,7 @@ package ufront.acl;
 
 import thx.error.NullArgument;
 import thx.error.Error;
-import thx.collections.Set;
+import thx.collection.Set;
 using Iterators;
 
 typedef Combo = {

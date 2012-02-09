@@ -31,14 +31,14 @@ class UrlHelperInst
 	{
 		__req = requestContext;
 	}
-	
+
 	public function base(?uri : String)
 	{
 		if(null == uri)
 			uri = "/";
 		return __req.httpContext.generateUri(uri);
 	}
-	
+
 	public function current(?params : Dynamic)
 	{
 		var url = __req.httpContext.getRequestUri();
@@ -55,7 +55,7 @@ class UrlHelperInst
 		}
 		return __req.httpContext.generateUri(url);
 	}
-	
+
 	public function encode(s : String)
 	{
 		return StringTools.urlEncode(s);
@@ -70,7 +70,7 @@ class UrlHelperInst
 			hash = Hashes.clone(data);
 		else
 			hash = DynamicsT.toHash(data);
-		
+
 		if (null == hash.get("controller"))
 		{
 			var route = __req.routeData.route.as(Route);

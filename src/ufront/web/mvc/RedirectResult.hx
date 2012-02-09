@@ -4,7 +4,7 @@ package ufront.web.mvc;
 import thx.error.NullArgument;
 
 class RedirectResult extends ActionResult
-{   
+{
 	public var url : String;
 	public var permanentRedirect : Bool;
 
@@ -23,6 +23,6 @@ class RedirectResult extends ActionResult
 			controllerContext.response.permanentRedirect(url);
 		else
 			controllerContext.response.redirect(url);
-		trace("redirect to " + controllerContext.response.isRedirect() + " " + controllerContext.response.redirectLocation);
+//		trace("redirect to " + controllerContext.response.isRedirect() + " " + controllerContext.response.redirectLocation);
 	}
 }

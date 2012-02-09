@@ -5,10 +5,10 @@ import ufront.web.routing.IRouteHandler;
 
 class MvcRouteHandler implements IRouteHandler {
 	public function new(){}
-	
-	public function getHttpHandler(requestContext : RequestContext) : IHttpHandler 
-	{            
+
+	public function getHttpHandler(requestContext : RequestContext) : IHttpHandler
+	{
 		return new MvcHandler(requestContext);
 	}
-	
+
 }

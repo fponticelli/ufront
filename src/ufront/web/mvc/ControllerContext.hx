@@ -12,7 +12,7 @@ class ControllerContext
 	public var controller : ControllerBase;
 	public var requestContext : RequestContext;
 	public var httpContext : HttpContext;
-	public var routeData : RouteData; 
+	public var routeData : RouteData;
 	public var request : HttpRequest;
 	public var response : HttpResponse;
 	public var session : IHttpSessionState;
@@ -20,12 +20,12 @@ class ControllerContext
 	public function new(controller : ControllerBase, requestContext : RequestContext)
 	{
 		this.controller = controller;
-		this.requestContext = requestContext;                                   
-		this.httpContext = requestContext.httpContext; 
-		this.routeData = requestContext.routeData;     
-		
+		this.requestContext = requestContext;
+		this.httpContext = requestContext.httpContext;
+		this.routeData = requestContext.routeData;
+
 		this.request = httpContext.request;
-		this.response = httpContext.response;        
+		this.response = httpContext.response;
 		this.session = httpContext.session;
 	}
 }

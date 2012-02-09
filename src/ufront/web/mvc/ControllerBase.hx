@@ -13,7 +13,7 @@ import ufront.events.ReverseDispatcher;
  */
 
 class ControllerBase implements IController, implements haxe.rtti.Infos
-{	
+{
 	/**
 	 * If null, this value is automatically created in execute().
 	 */
@@ -25,19 +25,19 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 	{
 		if (_valueProvider == null)
 			_valueProvider = ValueProviderFactories.factories.getValueProvider(controllerContext);
-			
-		return _valueProvider;			
+
+		return _valueProvider;
 	}
 	private function setValueProvider(valueProvider : IValueProvider)
 	{
 		_valueProvider = valueProvider;
 		return _valueProvider;
 	}
-			
+
 	public function new(){}
 
 	private function executeCore(async : hxevents.Async) { throw "executeCore() must be overridden in subclass."; }
-	
+
 	public function execute(requestContext : RequestContext, async : hxevents.Async) : Void
 	{
 		NullArgument.throwIfNull(requestContext);
@@ -46,7 +46,7 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 
 		executeCore(async);
 	}
-	
+
 	public function getViewHelpers() : Array<IViewHelper>
 	{
 		return [];

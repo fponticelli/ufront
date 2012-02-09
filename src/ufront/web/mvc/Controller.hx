@@ -1,4 +1,4 @@
-package ufront.web.mvc;              
+package ufront.web.mvc;
 import ufront.web.error.PageNotFoundError;
 import ufront.web.HttpContext;
 import thx.error.Error;
@@ -16,7 +16,7 @@ class Controller extends ControllerBase, implements IActionFilter, implements IA
 	{
 		if (_invoker == null)
 			_invoker = new ControllerActionInvoker(ModelBinders.binders, ControllerBuilder.current, DependencyResolver.current);
-			
+
 		return _invoker;
 	}
 	private function setInvoker(i : IActionInvoker)
@@ -24,24 +24,24 @@ class Controller extends ControllerBase, implements IActionFilter, implements IA
 		_invoker = i;
 		return _invoker;
 	}
-	
+
 	public function new()
 	{
 		super();
 	}
-	
+
 	override function executeCore(async : hxevents.Async)
-	{ 
+	{
 		if(invoker == null)
 			throw new Error("No IActionInvoker set on controller '" + Type.getClassName(Type.getClass(this)) + "'");
-		
+
 		var action = controllerContext.routeData.get("action");
-		
+
 		if(null == action)
 			throw new Error("No 'action' data found on route.");
 		invoker.invokeAction(controllerContext, action, async);
 	}
-	
+
 	public function onActionExecuting(filterContext : ActionExecutingContext){}
 	public function onActionExecuted(filterContext : ActionExecutedContext){}
 	public function onAuthorization(filterContext : AuthorizationContext){}

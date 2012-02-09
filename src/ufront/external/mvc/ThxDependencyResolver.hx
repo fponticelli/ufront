@@ -13,15 +13,15 @@ class ThxDependencyResolver implements IDependencyResolver
 {
 	public var locator(default, null) : TypeServiceLocator;
 	public var defaultResolver : IDependencyResolver;
-	
+
 	public function new(locator : TypeServiceLocator)
 	{
 		NullArgument.throwIfNull(locator);
 		this.locator = locator;
-		this.defaultResolver = new DefaultDependencyResolver();
+		this.defaultResolver = new DefaultDependencyResolver(this);
 	}
-	
-	public function getService<T>(serviceType:Class<T>):T 
+
+	public function getService<T>(serviceType:Class<T>):T
 	{
 		var o = locator.get(serviceType);
 		if (null == o)

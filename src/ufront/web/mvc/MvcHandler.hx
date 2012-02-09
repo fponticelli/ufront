@@ -11,14 +11,14 @@ class MvcHandler implements IHttpHandler {
 	public var requestContext(default, null) : RequestContext;
 	public var controllerBuilder(getControllerBuilder, setControllerBuilder) : ControllerBuilder;
 	public function new(requestContext : RequestContext)
-	{                            
+	{
 		NullArgument.throwIfNull(requestContext);
     	this.requestContext = requestContext;
 	}
-	
+
 	public function processRequest(httpContext : HttpContext, async : hxevents.Async)
-	{                      
-		var controllerName = requestContext.routeData.getRequired("controller");  
+	{
+		var controllerName = requestContext.routeData.getRequired("controller");
 		var factory = controllerBuilder.getControllerFactory();
 		var controller = factory.createController(requestContext, controllerName);
 		if(null == controller)
@@ -32,7 +32,7 @@ class MvcHandler implements IHttpHandler {
 		}
 		factory.releaseController(controller);
 	}
-	
+
 	function getControllerBuilder() : ControllerBuilder
 	{
 		if(null == controllerBuilder)
@@ -40,7 +40,7 @@ class MvcHandler implements IHttpHandler {
 		else
 			return controllerBuilder;
 	}
-	
+
 	function setControllerBuilder(v : ControllerBuilder)
 	{
 		return controllerBuilder = v;

@@ -5,7 +5,7 @@ import haxe.rtti.CType;
  * ...
  * @author Andreas Soderlund
  */
-class ModelBindingContext 
+class ModelBindingContext
 {
 	public var modelName : String;
 	public var modelType : String;
@@ -18,5 +18,5 @@ class ModelBindingContext
 		this.modelType = modelType;
 		this.valueProvider = valueProvider;
 		this.ctype = ctype;
-	}	
+	}
 }

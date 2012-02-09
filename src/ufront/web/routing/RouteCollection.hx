@@ -6,13 +6,13 @@
 package ufront.web.routing;
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.routing.IRouteConstraint;
-import thx.collections.HashList;     
-using DynamicsT; 
+import thx.collection.HashList;
+using DynamicsT;
 
 class RouteCollection
 {
 	var _routes : Array<RouteBase>;
-	
+
 	public function new(?routes : Iterable<RouteBase>)
 	{
 		_routes = [];
@@ -23,22 +23,22 @@ class RouteCollection
 
 	public function add(route : RouteBase)
 	{
-		_routes.push(route); 
+		_routes.push(route);
 		var r : { private function setRoutes(routes : RouteCollection) : Void; } = route;
 		r.setRoutes(this);
 		return this;
-	}    
-	
+	}
+
 	public function addRoute(uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
-	{                                              
+	{
 		return add(
 	   		new Route(
-		    	uri, 
+		    	uri,
 				new MvcRouteHandler(),
 				null == defaults ? null : defaults.toHash(),
 				constraints));
-	}   
-	
+	}
+
 	public function iterator()
 	{
 		return _routes.iterator();

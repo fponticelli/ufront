@@ -36,11 +36,11 @@ class HtmlViewResult extends ViewResult
 	public var autoformat : Bool;
 //	public var title(getTitle, setTitle) : String;
 	public var agentSensitiveOutput : Bool;
-	
+
 	var _scripts : Array<Script>;
 	var _styleSheets : Array<StyleSheet>;
 	var _agent : UserAgent;
-	
+
 	public function new(?data : Hash<Dynamic>, ?version : HtmlVersion, language = "en", charset = "UTF-8")
 	{
 		super(data);
@@ -52,7 +52,7 @@ class HtmlViewResult extends ViewResult
 		_scripts = [];
 		_styleSheets = [];
 	}
-	
+
 	override function executeResult(context : ControllerContext)
 	{
 		_agent = context.request.userAgent;
@@ -60,7 +60,7 @@ class HtmlViewResult extends ViewResult
 			context.response.contentType = getContentType(version);
 		super.executeResult(context);
 	}
-	
+
 	override function writeResponse(context : ControllerContext, content : String, data : Hash<Dynamic>)
 	{
 		var template = Html.getTemplate(version);
@@ -80,19 +80,19 @@ class HtmlViewResult extends ViewResult
 		}
 		context.response.write(result);
 	}
-	
+
 	function handleDom(dom : Xml, context : ControllerContext, data : Hash<Dynamic>)
 	{
 		var html  = dom.firstElement();
 		var head  = html.firstElement();
 		var title = head.elementsNamed("title").next();
 		var body  = html.elementsNamed("body").next();
-		
+
 		// title
 		var t = getTitle(data);
 		if(null != t)
 			title.addChild(Xml.createPCData(t));
-		
+
 		// language
 		var l = getLanguage(data);
 		if(null != l)
@@ -106,7 +106,7 @@ class HtmlViewResult extends ViewResult
 				//
 			}
 		}
-		
+
 		// encoding
 		var c = getCharset(data);
 		if(null != c)
@@ -124,9 +124,9 @@ class HtmlViewResult extends ViewResult
 					head.insertChild(meta, 0);
 			}
 		}
-		
+
 		var httpContext = context.httpContext;
-		
+
 		// scripts
 		var scripts = getScripts(data);
 		for (script in scripts)
@@ -172,7 +172,7 @@ class HtmlViewResult extends ViewResult
 			conditionallyWrapNode(head, node, css.browser);
 		}
 	}
-	
+
 	function conditionallyWrapNode(head : Xml, node : Xml, browser : String)
 	{
 		if (!agentSensitiveOutput && null != browser && browser.indexOf("IE") >= 0)
@@ -180,12 +180,12 @@ class HtmlViewResult extends ViewResult
 			head.addChild(Xml.createPCData("<!--[if " + browser + "]>"));
 			head.addChild(node);
 			head.addChild(Xml.createPCData("<![endif]-->"));
-			
+
 		} else {
 			head.addChild(node);
 		}
 	}
-	
+
 	function getScripts(data : Hash<Dynamic>) : Array<Script>
 	{
 		var scripts = _scripts.copy();
@@ -217,7 +217,7 @@ class HtmlViewResult extends ViewResult
 		else
 			return result;
 	}
-	
+
 	function isAgentCompliant(info : { browser : Null<String> } ) : Bool
 	{
 		if (null == info.browser)
@@ -241,13 +241,13 @@ class HtmlViewResult extends ViewResult
 				return true;
 		}
 	}
-	
+
 	static function extractCondition(s : String) : { browser : String, majorVersion : Null<Int>, minorVersion : Null<Int>, operator : Null<String> }
 	{
 		var parts = (~/\s+/g).split(StringTools.trim(s));
 		if (parts.length == 0)
 			return null;
-			
+
 		var browser = null;
 		var majorVersion = null;
 		var minorVersion = null;
@@ -267,10 +267,10 @@ class HtmlViewResult extends ViewResult
 			if (null != re.matched(2))
 				minorVersion = Std.parseInt(re.matched(2));
 		}
-		
+
 		if (browser == "IE")
 			browser = "Explorer";
-		
+
 		return {
 			browser : browser.toLowerCase(),
 			majorVersion : majorVersion,
@@ -278,7 +278,7 @@ class HtmlViewResult extends ViewResult
 			operator : operator
 		};
 	}
-	
+
 	public function addScriptLink(src : String, ?browser : String, ?charset : String, ?defer : Bool)
 	{
 		addScript({
@@ -290,7 +290,7 @@ class HtmlViewResult extends ViewResult
 		});
 		return this;
 	}
-	
+
 	public function addScriptCode(code : String, ?browser : String, ?charset : String, ?defer : Bool)
 	{
 		addScript({
@@ -302,12 +302,12 @@ class HtmlViewResult extends ViewResult
 		});
 		return this;
 	}
-	
+
 	public function addScript(script : Script)
 	{
 		_scripts.push(script);
 	}
-	
+
 	function getStyleSheets(data : Hash<Dynamic>) : Array<StyleSheet>
 	{
 		var styleSheets = _styleSheets.copy();
@@ -315,7 +315,7 @@ class HtmlViewResult extends ViewResult
 		if (null != tstyleSheets)
 			for (styleSheet in tstyleSheets)
 				styleSheets.push(styleSheetsFromTemplate(styleSheet));
-		
+
 		var result : Array<StyleSheet> = [];
 		for (input in styleSheets)
 		{
@@ -347,12 +347,12 @@ class HtmlViewResult extends ViewResult
 		else
 			return result;
 	}
-	
+
 	public function addStyleSheet(styleSheet : StyleSheet)
 	{
 		_styleSheets.push(styleSheet);
 	}
-	
+
 	var title : String;
 	function setTitle(v) return title = v
 	function getTitle(data : Hash<Dynamic>)
@@ -362,7 +362,7 @@ class HtmlViewResult extends ViewResult
 		else
 			return data.get("title");
 	}
-	
+
 	var language : String;
 	function setLanguage(v) return language = v
 	function getLanguage(data : Hash<Dynamic>)
@@ -374,7 +374,7 @@ class HtmlViewResult extends ViewResult
 		else
 			return data.get("lang");
 	}
-	
+
 	var charset : String;
 	function setCharset(v) return charset = v
 	function getCharset(data : Hash<Dynamic>)
@@ -384,7 +384,7 @@ class HtmlViewResult extends ViewResult
 		else
 			return data.get("charset");
 	}
-	
+
 	static function styleSheetsFromTemplate(v : Dynamic)
 	{
 		return {
@@ -397,7 +397,7 @@ class HtmlViewResult extends ViewResult
 			browser : Reflect.field(v, "browser"),
 		};
 	}
-	
+
 	static function scriptFromTemplate(v : Dynamic)
 	{
 		return {
@@ -408,7 +408,7 @@ class HtmlViewResult extends ViewResult
 			browser : Reflect.field(v, "browser"),
 		};
 	}
-	
+
 	static function getContentType(version) : String
 	{
 		switch(version)

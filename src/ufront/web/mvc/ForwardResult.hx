@@ -22,7 +22,7 @@ class ForwardResult extends ActionResult
 	override function executeResult(controllerContext : ControllerContext)
 	{
 		NullArgument.throwIfNull(controllerContext);
-		
+
 		var url = new UrlHelperInst(controllerContext.requestContext).route(params);
 		var redirect = new RedirectResult(url, false);
 		redirect.executeResult(controllerContext);

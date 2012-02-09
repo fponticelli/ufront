@@ -1,4 +1,4 @@
-package ufront.web.mvc.view;     
+package ufront.web.mvc.view;
 
 import erazor.Template;
 
@@ -8,7 +8,7 @@ class ErazorView extends TemplateView<erazor.Template>
 	{
 		return template.execute(data);
 	}
-	
+
 	override public function data()
 	{
 		return template.variables;

@@ -1,4 +1,4 @@
-package ufront.web.module;            
+package ufront.web.module;
 import ufront.web.routing.UrlRoutingModule;
 import ufront.web.routing.RouteCollection;
 import thx.error.Error;
@@ -10,26 +10,26 @@ import ufront.web.routing.RouteData;
 import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.mvc.Controller;
 import ufront.web.HttpApplication;
-import ufront.web.IHttpModule;   
-using DynamicsT;    
-using Strings;         
+import ufront.web.IHttpModule;
+using DynamicsT;
+using Strings;
 using Types;
 
-class ErrorModule implements IHttpModule 
+class ErrorModule implements IHttpModule
 {
 	public function new(){
-		
+
 	}
 	public function init(application : HttpApplication)
 	{
 		application.onApplicationError.addAsync(_onError);
-	}                                     
+	}
 	/**
-	* TODO: add discrimination about the kind of error  
+	* TODO: add discrimination about the kind of error
 	*/
 	public function _onError(e : { application : HttpApplication, error : Error }, async)
 	{
-		var controller = getErrorController();                                                      
+		var controller = getErrorController();
 		var httpError : HttpError;
 		if(Std.is(e.error, HttpError))
 		{
@@ -37,21 +37,21 @@ class ErrorModule implements IHttpModule
 		} else {
 			httpError = new InternalServerError();
 			httpError.setInner(e.error);
-		} 
-		
+		}
+
 		var action = httpError.className().lcfirst();
 		if("httpError" == action)
 			action = "internalServerError";
-		
+
 		var routeData = new RouteData(
-			EmptyRoute.instance, new MvcRouteHandler(), 
-			{ 
+			EmptyRoute.instance, new MvcRouteHandler(),
+			{
 				action : action,
-				error : haxe.Serializer.run(httpError) 
+				error : haxe.Serializer.run(httpError)
 			}.toHash());
-		
+
 		var requestContext : RequestContext = null;
-		
+
 		for(module in e.application.modules)
 		{
 			if(Std.is(module, UrlRoutingModule))
@@ -60,20 +60,20 @@ class ErrorModule implements IHttpModule
 				requestContext = new RequestContext(e.application.httpContext, routeData, umodule.routeCollection);
 				break;
 			}
-		} 
+		}
 		if(null == requestContext)
 			requestContext = new RequestContext(e.application.httpContext, routeData, new RouteCollection());
 
 		controller.execute(requestContext, async);
 	}
-	     
+
 	public function getErrorController() : Controller
 	{
 		return new ErrorController();
 	}
-	
+
 	public function dispose()
 	{
-		
+
 	}
 }
