@@ -10,8 +10,9 @@ class AppConfiguration
 	public var controllerPackages : Array<String>;
 	public var attributePackages : Array<String>;
 	public var basePath : String;
+	public var logFile : Null<String>;
 
-	public function new(?controllerPackage : String, ?modRewrite : Bool, ?basePath = "/")
+	public function new(?controllerPackage : String, ?modRewrite : Bool, ?basePath = "/", ?logFile : String)
 	{
 		this.modRewrite = modRewrite == null ? false : modRewrite;
 		this.basePath = basePath;
@@ -19,5 +20,6 @@ class AppConfiguration
 
 		Imports.pack("ufront.web.mvc.attributes", true);
 		this.attributePackages = ["ufront.web.mvc.attributes"];
+		this.logFile = logFile;
 	}
 }

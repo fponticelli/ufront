@@ -10,7 +10,10 @@ import ufront.web.routing.RouteCollection;
 import ufront.web.routing.UrlRoutingModule;
 import ufront.web.AppConfiguration;
 import ufront.web.module.ErrorModule;
-import ufront.web.module.TraceModule;
+import ufront.web.module.ITraceModule;
+import ufront.web.module.TraceCompositeModule;
+import ufront.web.module.TraceToBrowserModule;
+import ufront.web.module.TraceToFileModule;
 using DynamicsT;
 
 /**
@@ -73,6 +76,16 @@ class MvcApplication extends HttpApplication
 
 		// add debugging modules
 		modules.add(new ErrorModule());
-		modules.add(new TraceModule());
+		var tracemod : ITraceModule;
+		if(null != configuration.logFile)
+		{
+			var comp = new TraceCompositeModule();
+			comp.add(new TraceToBrowserModule());
+			comp.add(new TraceToFileModule(configuration.logFile));
+			tracemod = comp;
+		} else {
+			modules.add(tracemod = new TraceToBrowserModule());
+		}
+		haxe.Log.trace = tracemod.trace;
 	}
 }
