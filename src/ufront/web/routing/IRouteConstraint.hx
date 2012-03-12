@@ -4,7 +4,7 @@
  */
 
 package ufront.web.routing;
-import ufront.web.HttpContext;    
+import ufront.web.HttpContext;
 import ufront.web.UrlDirection;
 
 interface IRouteConstraint

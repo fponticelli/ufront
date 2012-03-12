@@ -18,12 +18,12 @@ using StringTools;
 class Route extends RouteBase
 {
 	public static var parser = new RouteUriParser();
-	
+
 	public var url(getUrl, null) : String;
 	public var handler(default, null) : IRouteHandler;
 	public var defaults(default, null) : Hash<String>;
 	public var constraints(default, null) : Array<IRouteConstraint>;
-	
+
 	var extractor : RouteParamExtractor;
 	var builder : RouteUriBuilder;
 	/**
@@ -51,7 +51,7 @@ class Route extends RouteBase
 		else
 			this.constraints = constraints;
 	}
-	
+
 	var _ast : UriSegments;
 	function getAst()
 	{
@@ -59,18 +59,18 @@ class Route extends RouteBase
 			_ast = parser.parse(url, defaults.setOfKeys());
 		return _ast;
 	}
-	
+
 	override function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
 		if(!requesturi.startsWith("/"))
 			throw new Error("invalid requestUri '{0}'", requesturi);
-		
+
 		if(null == extractor)
 		{
 			extractor = new RouteParamExtractor(getAst());
 		}
-		
+
 		var params = extractor.extract(requesturi);
 		if(null == params)
 			return null;
@@ -84,7 +84,7 @@ class Route extends RouteBase
 				return new RouteData(this, handler, params);
 		}
 	}
-	
+
 	override function getPath(httpContext : HttpContext, data : Hash<String>)
 	{
 	    var params = null == data ? new Hash() : data;
@@ -106,7 +106,7 @@ class Route extends RouteBase
 			// if controller/action param is not consumed than this is the wrong route
 			if(null == url || params.exists("controller") || params.exists("action"))
 			    return null;
-			
+
 			var qs = [];
 			for(key in params.keys())
 			{
@@ -119,7 +119,7 @@ class Route extends RouteBase
 			return httpContext.generateUri(url);
 		}
 	}
-	
+
 	function getUrl()
 	{
 		return url;
@@ -132,8 +132,8 @@ class Route extends RouteBase
 				return false;
 		return true;
 	}
-	
-	
+
+
 	public function toString()
 	{
 		return "{ url : " + url + ", handler : " + handler + ", defaults: " + defaults + ", constraints : " + constraints + " }";

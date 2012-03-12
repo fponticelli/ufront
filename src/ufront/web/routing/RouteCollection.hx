@@ -29,8 +29,10 @@ class RouteCollection
 		return this;
 	}
 
-	public function addRoute(uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
+	public function addRoute(uri : String, ?defaults : Dynamic<String>, ?constraint : IRouteConstraint, ?constraints : Array<IRouteConstraint>)
 	{
+		if(null != constraint)
+			constraints = [constraint];
 		return add(
 	   		new Route(
 		    	uri,

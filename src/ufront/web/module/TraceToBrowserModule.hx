@@ -24,6 +24,11 @@ class TraceToBrowserModule implements ITraceModule
 	}
 	function _sendContent(application : HttpApplication)
 	{
+		if(application.response.contentType != "text/html")
+		{
+			messages = [];
+			return;
+		}
 		var results = [];
 		for(msg in messages)
 		{

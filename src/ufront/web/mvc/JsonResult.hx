@@ -7,6 +7,7 @@ import thx.error.NullArgument;
 class JsonResult<T> extends ActionResult
 {
 	public var content : T;
+	public var allowOrigin : String;
 
 	public function new(content : T)
 	{

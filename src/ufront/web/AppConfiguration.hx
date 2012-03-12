@@ -6,13 +6,14 @@ import thx.util.Imports;
  */
 class AppConfiguration
 {
-	public var modRewrite : Bool;
+	public var modRewrite(default, null) : Bool;
 	public var controllerPackages : Array<String>;
 	public var attributePackages : Array<String>;
-	public var basePath : String;
-	public var logFile : Null<String>;
+	public var basePath(default, null) : String;
+	public var logFile(default, null) : Null<String>;
+	public var disableBrowserTrace(default, null) : Bool;
 
-	public function new(?controllerPackage : String, ?modRewrite : Bool, ?basePath = "/", ?logFile : String)
+	public function new(?controllerPackage : String, ?modRewrite : Bool, ?basePath = "/", ?logFile : String, ?disableBrowserTrace = false)
 	{
 		this.modRewrite = modRewrite == null ? false : modRewrite;
 		this.basePath = basePath;
@@ -21,5 +22,6 @@ class AppConfiguration
 		Imports.pack("ufront.web.mvc.attributes", true);
 		this.attributePackages = ["ufront.web.mvc.attributes"];
 		this.logFile = logFile;
+		this.disableBrowserTrace = disableBrowserTrace;
 	}
 }

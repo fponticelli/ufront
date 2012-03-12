@@ -23,7 +23,7 @@ class LocalizedRoute extends Route
 		currentLanguage = null;
 		paramName = "lang";
 	}
-	
+
 	override function getUrl()
 	{
 		if(null == currentLanguage)
@@ -31,7 +31,7 @@ class LocalizedRoute extends Route
 		else
 			return translator._(super.getUrl(), currentLanguage);
 	}
-	
+
 	var _asts : Hash<UriSegments>;
 	override function getAst()
 	{
@@ -46,7 +46,7 @@ class LocalizedRoute extends Route
 		}
 		return ast;
 	}
-	
+
 	override function getRouteData(httpContext : HttpContext) : RouteData
 	{
   //  	trace("rule url: " + url + ", request: " + httpContext.request.uri + ", context: " + httpContext.getRequestUri() + ", query params: " + httpContext.request.query);
@@ -57,12 +57,12 @@ class LocalizedRoute extends Route
 		var requesturi = httpContext.getRequestUri();
 		if(!requesturi.startsWith("/"))
 			throw new Error("invalid requestUri '{0}'", requesturi);
-		
+
 		if(null == extractor)
 		{
 			extractor = new RouteParamExtractor(getAst());
 		}
-		
+
 		var params = extractor.extract(requesturi);
 		if(null == params)
 			return null;
@@ -76,7 +76,7 @@ class LocalizedRoute extends Route
 		}
 		*/
 	}
-	
+
 	override function getPath(httpContext : HttpContext, data : Hash<String>)
 	{
 		if(!data.exists(paramName))
@@ -90,7 +90,7 @@ class LocalizedRoute extends Route
 		else
 			currentLanguage = null;
 //		trace(data);
-			
+
 //		currentLanguage = data.get(paramName);
  //   	if(null == currentLanguage)
   //  		currentLanguage = httpContext.request.query.get(paramName);
@@ -115,7 +115,7 @@ class LocalizedRoute extends Route
 			// if controller param is not consumed than this is the wrong route
 			if(null == url || params.exists("controller"))
 			    return null;
-			
+
 			var qs = [];
 			for(key in params.keys())
 			{
@@ -129,8 +129,8 @@ class LocalizedRoute extends Route
 		}
 		*/
 	}
-	
-	
+
+
 	public static function addLocalizedRoute(collection : RouteCollection, translator : ITranslation, uri : String, ?defaults : Dynamic<String>, ?constraints : Array<IRouteConstraint>)
 	{
 		collection.add(
