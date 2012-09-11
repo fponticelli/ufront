@@ -13,12 +13,19 @@ import neko.ufront.web.NekoSession;
 
 class FileSession implements IHttpSessionState
 {
-	public function new(savePath : String)
+    // added remember parameter to allow
+    // for non-persistent sessions to be created.
+    // default to false to keep compatibility with
+    // existing source code
+	public function new(savePath : String,?remember:Bool=false)
 	{
 		savePath = savePath.replace("\\", "/");
 		if (!savePath.endsWith("/"))
 			savePath += "/";
 		NekoSession.setSavePath(savePath);
+
+        if (remember)
+            NekoSession.setCookieParams(60 * 24 * 10);
 	}
 
 	public function dispose() : Void

@@ -11,10 +11,16 @@ import php.Session;
 
 class FileSession implements IHttpSessionState
 {
-	public function new(savePath : String)
+
+    // added remember parameter to allow
+    // for non-persistent sessions to be created.
+    // default to true to keep compatibility with
+    // existing source code
+	public function new(savePath : String,?remember:Bool=true)
 	{
 //		Session.setCacheLimiter(PrivateNoExpire);
-		Session.setCacheExpire(60 * 24 * 10);
+		if (remember)
+            Session.setCacheExpire(60 * 24 * 10);
 		
 		Session.setSavePath(savePath);
 	}
