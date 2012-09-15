@@ -8,7 +8,11 @@ package ufront.web;
 class UserAgent 
 {
 	// info from: http://www.quirksmode.org/js/detect.html
-	static var dataBrowser = [ 
+	static var dataBrowser:Array<{
+			subString:String,
+			?versionSearch:String,
+			identity:String
+		}> = [ 
 		{
 			subString: "Chrome",
 			identity: "Chrome"
