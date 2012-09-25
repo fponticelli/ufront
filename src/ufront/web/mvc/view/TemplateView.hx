@@ -43,6 +43,9 @@ class TemplateView<Template> implements ITemplateView<Template>
 			case "text/html":
 				helpers.push(new HtmlHelper(urlHelper.inst));
 		}
+		
+		//TODO:integration with Autoform
+		//helpers.push(new FormHelper());
 
 		for (helper in helpers)
 			helper.register(viewContext.viewData);

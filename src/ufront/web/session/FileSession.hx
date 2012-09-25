@@ -1,21 +1,18 @@
+
 package ufront.web.session;
 import ufront.web.IHttpSessionState;
 
 class FileSession
 {
-    // added remember parameter to allow
-    // for non-peristent sessions to be created.
-    // default to true for PHP and to false for
-    // neko, to keep compatibility with
-    // existing source code.
-    // This could be inconsistent between the two platforms?
-    public static function create(savePath : String,?remember:Bool) : IHttpSessionState {
+
+    public static function create(savePath : String) : IHttpSessionState {
+
 #if php
-        return new php.ufront.web.FileSession(savePath,remember);
+        return new php.ufront.web.FileSession(savePath);
 #elseif neko
-        return new neko.ufront.web.FileSession(savePath,remember);
+        return new neko.ufront.web.FileSession(savePath);
 #elseif nodejs
-		return new nodejs.ufront.web.FileSession(savePath,remember);
+		return new nodejs.ufront.web.FileSession(savePath);
 #else
     	NOT IMPLEMENTED PLATFORM;
 #end
