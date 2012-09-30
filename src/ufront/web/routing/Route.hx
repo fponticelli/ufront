@@ -60,7 +60,7 @@ class Route extends RouteBase
 		return _ast;
 	}
 
-	//added public to match visibility of RouteBase, the compiler complains on that!
+	//added public to match visibility of ROuteBase, the compiler complains on that!
 	public override function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
@@ -85,6 +85,7 @@ class Route extends RouteBase
 				return new RouteData(this, handler, params);
 		}
 	}
+
 	//added public to match visibility of ROuteBase, the compiler complains on that!
 	public override function getPath(httpContext : HttpContext, data : Hash<String>)
 	{
