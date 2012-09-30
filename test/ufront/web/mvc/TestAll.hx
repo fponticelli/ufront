@@ -9,6 +9,7 @@ import thx.error.Error;
 import ufront.web.routing.RequestContext;
 import utest.Runner;
 import utest.ui.Report;
+import ufront.web.mvc.view.TestHtmlHelper;
 
 class TestAll
 {
@@ -27,6 +28,7 @@ class TestAll
 		TestControllerFilters.addTests(runner);
 		ufront.web.mvc.attributes.TestAuthorizeAttribute.addTests(runner);
 		TestControllerFiltersMetaData.addTests(runner);
+		TestHtmlHelper.addTests(runner);
 	}
 	
 	public static function main()
