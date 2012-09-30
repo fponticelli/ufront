@@ -28,7 +28,7 @@ class FileSession implements IHttpSessionState
 			$result=( 1==setcookie ( $name , $value,$expire ) );
 		");
 		if (!result)
-			throw "Cooky could not be set. Output already started.";
+			throw "Cookie could not be set. Output already started.";
 	}
 
 
@@ -54,11 +54,13 @@ class FileSession implements IHttpSessionState
 
 	private var sessionStoragePath: String;
 
-
-	public function new(savePath : String)
+	//added sessionId as parameter to allow authentication not
+	//base on session (not sure it's the best way to do this)
+	public function new(savePath : String,?sessionId:String=null)
 	{
 		this.savePath=savePath;
 		this.content=new Hash<Dynamic>();
+		this.sessionId=sessionId;
 		
 		
 		setupSessionId();
@@ -76,29 +78,35 @@ class FileSession implements IHttpSessionState
 
 
 	private function setupSessionId(){
-		var cookie=getCookie();
-		if (cookie==null){
-			this.sessionId=getId();
-			add("ufront",this.sessionId,0);	
-		} else {
+		if (this.sessionId==null){
+			var cookie=getCookie();
+			if (cookie==null){
+				this.sessionId=getId();
+				add("ufront",this.sessionId,0);
+				
+			} else {
 
-			//TODO:sanitize coockie id to avoid directory escapes
-			//TODO:rebuild a new coockie id on every request and rename storage folder?
-			var id=cookie;	
-			if (!FileSystem.exists(this.savePath+"/"+id)){
-				//this code is to prevent session fixation. create a new cookie
-				//because session storage does not exists
-				id=getId();
-				add("ufront",id,0);	
+				//TODO:sanitize coockie id to avoid directory escapes
+				//TODO:rebuild a new coockie id on every request and rename storage folder?
+				var id=cookie;	
+				if (!FileSystem.exists(this.savePath+"/"+id)){
+					//this code is to prevent session fixation. create a new cookie
+					//because session storage does not exists
+					id=getId();
+					add("ufront",id,0);	
+				}
+
+
+
+				this.sessionId=id;
 			}
-
-
-
-			this.sessionId=id;
-		}
-			
+		} //TODO:check for existence of directory for provided session ids	
 		//TODO:MD5 the sessionId to avoid knowledge of the cookie looking at filesystem 
 		this.sessionStoragePath=this.savePath+"/"+this.sessionId;
+
+		// var writer=File.append("c:\\log.txt",false);
+		// writer.writeString("Login "+this.sessionStoragePath+"\n");
+		// writer.close();	
 	}
 	
 	public function setLifeTime(lifetime:Int)

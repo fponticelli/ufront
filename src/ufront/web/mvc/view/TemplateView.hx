@@ -44,8 +44,10 @@ class TemplateView<Template> implements ITemplateView<Template>
 				helpers.push(new HtmlHelper(urlHelper.inst));
 		}
 		
-		//TODO:integration with Autoform
-		//helpers.push(new FormHelper());
+		//integration with Autoform.
+		//will be uncommented after autoform 2
+		//release (or inclusion on ufront)
+		// helpers.push(new FormHelper());
 
 		for (helper in helpers)
 			helper.register(viewContext.viewData);
