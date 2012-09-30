@@ -10,6 +10,7 @@ import neko.FileSystem;
 import neko.Lib;
 import neko.Web;
 import neko.Sys;
+import haxe.io.Bytes;
 
 class NekoSession
 {
@@ -218,7 +219,8 @@ class NekoSession
 		try
 		{
 			var w = neko.io.File.write(savePath + id + ".sess", true);
-			w.writeString( Lib.serialize( sessionData ) );
+			//didn't compile with writestring, changed to write which accepts bytes
+			w.write( Lib.serialize( sessionData ) );
 			w.close();
 		}
 		catch(e : Dynamic)
