@@ -1,6 +1,7 @@
 /**
  * ...
  * @author Andreas Söderlund
+ * @author Andrea Parodi
  */
 
 package php.ufront.web;
@@ -14,7 +15,7 @@ import haxe.BaseCode;
 import haxe.Unserializer;
 import haxe.Serializer;
 
-//TODO:compare with neko implementation
+/** @todo compare with neko implementation */
 class FileSession implements IHttpSessionState
 {
 
@@ -86,8 +87,8 @@ class FileSession implements IHttpSessionState
 				
 			} else {
 
-				//TODO:sanitize coockie id to avoid directory escapes
-				//TODO:rebuild a new coockie id on every request and rename storage folder?
+				/** @todo sanitize coockie id to avoid directory escapes */
+				/** @todo rebuild a new coockie id on every request and rename storage folder? */ 
 				var id=cookie;	
 				if (!FileSystem.exists(this.savePath+"/"+id)){
 					//this code is to prevent session fixation. create a new cookie
@@ -100,8 +101,10 @@ class FileSession implements IHttpSessionState
 
 				this.sessionId=id;
 			}
-		} //TODO:check for existence of directory for provided session ids	
-		//TODO:MD5 the sessionId to avoid knowledge of the cookie looking at filesystem 
+		} 
+
+		/** @todo check for existence of directory for provided session ids	*/ 
+		/** @todo MD5 the sessionId to avoid knowledge of the cookie looking at filesystem */ 
 		this.sessionStoragePath=this.savePath+"/"+this.sessionId;
 
 		// var writer=File.append("c:\\log.txt",false);
@@ -128,7 +131,7 @@ class FileSession implements IHttpSessionState
 			FileSystem.deleteFile(sessionStoragePath+"/"+file);	
 		
 		FileSystem.deleteDirectory(sessionStoragePath);	
-		//FileSystem.createDirectory(sessionStoragePath);	
+		
 	}
 
 
@@ -138,7 +141,7 @@ class FileSession implements IHttpSessionState
 		return Unserializer.run(File.getContent(getVarPath(name)));
 	}
 
-	//TODO:sanitize name to avoid directory escapes
+	/** @todo sanitize name to avoid directory escapes*/ 
 	private function getVarPath(name : String){
 		return sessionStoragePath+"/"+name;
 	}

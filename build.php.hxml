@@ -1,17 +1,16 @@
 # @tm-preview
 # @tm-html <iframe src="http://ufront/index.php" style="width: 100%; height:500px"></iframe>
--cp ../core/src
-#-cp ../uform/src
--cp ../hxculture/src
--lib hxevents
--cp ../utest/src   
--cp ../htemplate/src    
 -cp src
 -cp test
+-cp ../htemplate/src
 -lib hscript
 -lib umock
+-lib utest
+-lib thx
+-lib hxevents
+-lib erazor
 -php bin
 -main TestAll  
 -D htemplate                                     
 -D hxculture            
--debug
+-xml ufront.xml
