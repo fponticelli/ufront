@@ -114,7 +114,7 @@ class ValueProviderResult
 				{
 					if(!valueFields.remove(field.name))
 						return false;
-					if(!_ctypeCheck(Reflect.field(value, field.name), field.t))
+					if(!_ctypeCheck(Reflect.field(value, field.name), field.type))
 						return false;
 				}
 				if(valueFields.length > 0)

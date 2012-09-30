@@ -10,11 +10,12 @@ import neko.FileSystem;
 import neko.Lib;
 import neko.Web;
 import neko.Sys;
+import haxe.io.Bytes;
 
 class NekoSession
 {
 	private static var SID : String = 'NEKOSESSIONID';
-	
+
 	public static var started(default, null) : Bool;
 	public static var id(default, setId) : String;
 	public static var savePath(default, setSavePath) : String;
@@ -41,7 +42,7 @@ class NekoSession
 		if( started ) throw "Can't set id after Session.start.";
 
 		testValidId(_id);
-		
+
 		id = _id;
 		return id;
 	}
@@ -124,18 +125,18 @@ class NekoSession
 		if (started) return;
 		needCommit = false;
 		if( sessionName == null ) sessionName = SID;
-		
+
 		if( savePath == null )
 			savePath = neko.Sys.getCwd();
 		else
 		{
 			// Test if savepath exists. Need to remove last slash in path, otherwise FileSystem.exists() throws an exception.
 			var testPath = (StringTools.endsWith(savePath, '/') || StringTools.endsWith(savePath, '\\')) ? savePath.substr(0, savePath.length - 1) : savePath;
-			
+
 			if(!FileSystem.exists(testPath))
 				throw 'Neko session savepath not found: ' + testPath;
 		}
-		
+
 		if( id==null )
 		{
 			var params = Web.getParams();
@@ -165,7 +166,7 @@ class NekoSession
 
 		var file : String;
 		var fileData : Bytes;
-		
+
 		if( id!=null )
 		{
 			testValidId(id);
@@ -191,16 +192,16 @@ class NekoSession
 		{
 			//trace("no id found, creating a new session.");
 			sessionData = new Hash<Dynamic>();
-			
+
 			do
 			{
 				id = haxe.Md5.encode(Std.string(Math.random() + Math.random()));
 				file = savePath + id + ".sess";
 			} while( neko.FileSystem.exists(file) );
-			
+
 			// TODO: Set cookie path to application path, right now it's global.
 			Web.setCookie(SID, id, null, null, '/');
-			
+
 			started = true;
 			commit();
 		}
@@ -211,14 +212,15 @@ class NekoSession
 	{
 		sessionData = new Hash<Dynamic>();
 	}
-	
+
 	private static function commit()
 	{
 		if( !started ) return;
 		try
 		{
-			var w = neko.io.File.write(savePath + id + ".sess", true);
-			w.writeString( Lib.serialize( sessionData ) );
+			var w = neko.io.File.write(savePath + id + ".sess", true),
+				b = Lib.serialize(sessionData);
+			w.writeBytes(b, 0, b.length);
 			w.close();
 		}
 		catch(e : Dynamic)
@@ -226,15 +228,15 @@ class NekoSession
 			// Session is gone, ignore it.
 		}
 	}
-	
+
 	public static function close(?forceCommit = false)
 	{
 		if( needCommit || forceCommit ) commit();
 		started = false;
 	}
-	
+
 	/////////////////////////////////////////////////////////////////
-	
+
 	private static inline function testValidId(id : String) : Void
 	{
 		if(id != null)
@@ -244,7 +246,7 @@ class NekoSession
 				throw "Invalid session ID.";
 		}
 	}
-	
+
 	static function __init__()
 	{
 		started = false;

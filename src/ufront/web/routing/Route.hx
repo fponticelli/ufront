@@ -60,7 +60,7 @@ class Route extends RouteBase
 		return _ast;
 	}
 
-	override function getRouteData(httpContext : HttpContext) : RouteData
+	override public function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
 		if(!requesturi.startsWith("/"))
@@ -85,7 +85,7 @@ class Route extends RouteBase
 		}
 	}
 
-	override function getPath(httpContext : HttpContext, data : Hash<String>)
+	override public function getPath(httpContext : HttpContext, data : Hash<String>)
 	{
 	    var params = null == data ? new Hash() : data;
 		if(!processConstraints(httpContext, params, UrlDirection.UrlGeneration))
