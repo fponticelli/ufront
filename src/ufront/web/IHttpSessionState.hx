@@ -14,4 +14,5 @@ interface IHttpSessionState
 	public function exists(name : String) : Bool;
 	public function remove(name : String) : Void;
 	public function id() : String;
+	public function setLifeTime(lifetime:Int):Void;
 }

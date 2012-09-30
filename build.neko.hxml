@@ -1,17 +1,16 @@
-# @tm-preview   
-# @tm-html <iframe src="http://ufront/index.n" style="width: 100%; height:500px"></iframe>  
--cp ../core/src
-#-cp ../uform/src
--cp ../hxculture/src
--cp ../htemplate/src    
+# @tm-preview
+# @tm-html <iframe src="http://ufront/index.php" style="width: 100%; height:500px"></iframe>
 -cp src
 -cp test
+-cp ../htemplate/src
 -lib hscript
--lib hxevents
--lib utest     
 -lib umock
--neko bin/index.n
+-lib utest
+-lib thx
+-lib hxevents
+-lib erazor
+-neko bin\index.n
 -main TestAll  
--D htemplate        
--D hxculture 
--cmd neko bin/index.n              
+-D htemplate                                     
+-D hxculture            
+-xml ufront.xml

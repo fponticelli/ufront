@@ -6,7 +6,8 @@ import thx.error.NullArgument;
 class RouteUriParser
 {
 	static var constPattern = ~/^([^{]+)/;
-	static var paramPattern = ~/^\{([?$])?([*])?([a-z0-9_]+)(\?)?\}/;
+	//add uppercase letters to allow routes with any case 
+	static var paramPattern = ~/^\{([?$])?([*])?([a-zA-Z0-9_]+)(\?)?\}/;
 	public function new(){}
 
 	var restUsed : Bool;
