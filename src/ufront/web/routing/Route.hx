@@ -60,7 +60,8 @@ class Route extends RouteBase
 		return _ast;
 	}
 
-	override function getRouteData(httpContext : HttpContext) : RouteData
+	//added public to match visibility of ROuteBase, the compiler complains on that!
+	public override function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
 		if(!requesturi.startsWith("/"))
@@ -85,7 +86,8 @@ class Route extends RouteBase
 		}
 	}
 
-	override function getPath(httpContext : HttpContext, data : Hash<String>)
+	//added public to match visibility of ROuteBase, the compiler complains on that!
+	public override function getPath(httpContext : HttpContext, data : Hash<String>)
 	{
 	    var params = null == data ? new Hash() : data;
 		if(!processConstraints(httpContext, params, UrlDirection.UrlGeneration))

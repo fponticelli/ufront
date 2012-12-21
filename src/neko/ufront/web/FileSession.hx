@@ -13,12 +13,21 @@ import neko.ufront.web.NekoSession;
 
 class FileSession implements IHttpSessionState
 {
+    public function setLifeTime(lifetime:Int){
+    	if(lifetime!=0)
+    		NekoSession.setCookieParams(lifetime);
+    }
+
+    
 	public function new(savePath : String)
 	{
 		savePath = savePath.replace("\\", "/");
 		if (!savePath.endsWith("/"))
 			savePath += "/";
 		NekoSession.setSavePath(savePath);
+
+        
+            
 	}
 
 	public function dispose() : Void

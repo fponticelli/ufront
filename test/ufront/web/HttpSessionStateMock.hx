@@ -43,4 +43,10 @@ class HttpSessionStateMock implements IHttpSessionState
 	{
 		return "mock";
 	}
+
+	public function setLifeTime(lifetime:Int)
+	{
+	
+	 	
+	}
 }

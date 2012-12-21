@@ -53,9 +53,13 @@ class HtmlHelperInst
 	*/
 
 	// TODO: review
+	// Andrea.Parodi@ebansoftware.net - added apos escape to avoid HTML injection in attribute
 	public function attributeEncode(s : String)
 	{
-		return s.replace('"', '&quot;').replace('&', '&amp;').replace('<', '&lt;');
+		//allow to encode null attributes without check for null on client code
+		if (s==null)
+			return "";
+		return s.replace('&', '&amp;').replace('<', '&lt;').replace("'", '&apos;').replace('"', '&quote;');
 	}
 
 	public function link(text : String, url : String, ?attrs : Dynamic)

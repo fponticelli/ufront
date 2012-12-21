@@ -12,7 +12,8 @@ class TranslationHelper implements IViewHelper
 
 	public function register(data : Hash<Dynamic>)
 	{
-		data.set("_",  translator._);
-		data.set("__", translator.__);
+		//doesnt' compile!
+		//data.set("_",  translator._);
+		//data.set("__", translator.__);
 	}
 }
