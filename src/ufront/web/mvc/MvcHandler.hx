@@ -9,7 +9,7 @@ import ufront.web.IHttpHandler;
 
 class MvcHandler implements IHttpHandler {
 	public var requestContext(default, null) : RequestContext;
-	public var controllerBuilder(getControllerBuilder, setControllerBuilder) : ControllerBuilder;
+	@:isVar public var controllerBuilder(getControllerBuilder, setControllerBuilder) : ControllerBuilder;
 	public function new(requestContext : RequestContext)
 	{
 		NullArgument.throwIfNull(requestContext);

@@ -130,6 +130,8 @@ class ValueProviderResult
 							return false;
 					}
 				}
+			default:
+				return false;
 		}
 		return true;
 	}

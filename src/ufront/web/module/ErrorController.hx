@@ -4,7 +4,7 @@ import ufront.web.mvc.ViewResult;
 import ufront.web.routing.RequestContext; 
 import ufront.web.mvc.Controller;
 import thx.error.Error;  
-import haxe.Stack; 
+import haxe.CallStack;
 
 class ErrorController extends Controller
 {
@@ -54,12 +54,12 @@ span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
 		*/
 	}
 	   
-	private static function _stackItemToString(s) {
+	private static function _stackItemToString(s:StackItem) {
 		switch( s ) {
-		case CFunction:
-			return "a C function";
 		case Module(m):
 			return "module " + m;
+		case CFunction:
+			return "a C function";
 		case FilePos(s,file,line):
 			var r = "";
 			if( s != null ) {
