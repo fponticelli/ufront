@@ -11,7 +11,7 @@ import thx.sys.Lib;
 import sys.FileSystem;
 
 import sys.io.File;
-import haxe.BaseCode;
+import haxe.crypto.BaseCode;
 import haxe.Unserializer;
 import haxe.Serializer;
 
