@@ -9,7 +9,7 @@ import thx.error.NotImplemented;
 
 class FileSession implements IHttpSessionState
 {
-	public function new(savePath : String)
+	public function new(savePath : String, ?expire : Int = 0)
 	{                              
 
 	}

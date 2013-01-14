@@ -19,15 +19,13 @@ class FileSession implements IHttpSessionState
     }
 
     
-	public function new(savePath : String)
+	public function new(savePath : String, ?expire : Int = 0)
 	{
 		savePath = savePath.replace("\\", "/");
 		if (!savePath.endsWith("/"))
 			savePath += "/";
+		setLifeTime(expire);
 		NekoSession.setSavePath(savePath);
-
-        
-            
 	}
 
 	public function dispose() : Void

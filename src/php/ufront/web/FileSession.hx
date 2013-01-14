@@ -55,13 +55,16 @@ class FileSession implements IHttpSessionState
 
 	private var sessionStoragePath: String;
 
+	private var expire: Int;
+
 	//added sessionId as parameter to allow authentication not
 	//base on session (not sure it's the best way to do this)
-	public function new(savePath : String,?sessionId:String=null)
+	public function new(savePath : String, ?sessionId:String=null, ?expire:Int = 0)
 	{
 		this.savePath=savePath;
 		this.content=new Hash<Dynamic>();
 		this.sessionId=sessionId;
+		this.expire=expire;
 		
 		
 		setupSessionId();
@@ -83,7 +86,7 @@ class FileSession implements IHttpSessionState
 			var cookie=getCookie();
 			if (cookie==null){
 				this.sessionId=getId();
-				add("ufront",this.sessionId,0);
+				add("ufront",this.sessionId,this.expire);
 				
 			} else {
 

@@ -88,10 +88,21 @@ class NekoSession
 		sessionData.set(name, value);
 	}
 
-	public static function setCookieParams(?lifetime : Int, ?path : String, ?domain : String, ?secure : Bool, ?httponly : Bool)
+	static var lifetime = 0;
+	static var path = '/'; // TODO: Set cookie path to application path, right now it's global.
+	static var domain = null; 
+	static var secure = false;
+	static var httponly = false;
+
+	public static function setCookieParams(?lifetimeIn : Int, ?pathIn : String, ?domainIn : String, ?secureIn : Bool, ?httponlyIn : Bool)
 	{
 		if(started) throw "You can't set the cookie params while the session is already in use.";
-		throw "Not implemented.";
+
+		lifetime = lifetimeIn;
+		path = pathIn;
+		domain = domainIn;
+		secure = secureIn; 
+		httponly = httponlyIn;
 	}
 
 	public static function getCookieParams() :
@@ -199,8 +210,8 @@ class NekoSession
 				file = savePath + id + ".sess";
 			} while( neko.FileSystem.exists(file) );
 
-			// TODO: Set cookie path to application path, right now it's global.
-			Web.setCookie(SID, id, null, null, '/');
+			var expire = (lifetime == 0) ? null : DateTools.delta(Date.now(), 1000.0 * lifetime);
+			Web.setCookie(SID, id, expire, domain, path, secure);
 
 			started = true;
 			commit();
