@@ -16,7 +16,7 @@ class FileResult extends ActionResult
 	
 	override function executeResult(controllerContext : ControllerContext)
 	{
-		NullArgument.throwIfNull(controllerContext, "controllerContext");
+		NullArgument.throwIfNull(controllerContext);
 
 		if(null != contentType)
 			controllerContext.response.contentType = contentType;
