@@ -42,45 +42,45 @@ class HttpRequest
  	}
 
  	public var queryString(getQueryString, null) : String;
- 	function getQueryString() return throw new AbstractMethod()
+ 	function getQueryString() return throw new AbstractMethod();
 
  	public var postString(getPostString, null) : String;
- 	function getPostString() return throw new AbstractMethod()
+ 	function getPostString() return throw new AbstractMethod();
 
  	public var query(getQuery, null) : Hash<String>;
- 	function getQuery() return throw new AbstractMethod()
+ 	function getQuery() return throw new AbstractMethod();
 
  	public var post(getPost, null) : Hash<String>;
- 	function getPost() return throw new AbstractMethod()
+ 	function getPost() return throw new AbstractMethod();
 
  	public var cookies(getCookies, null) : Hash<String>;
- 	function getCookies() return throw new AbstractMethod()
+ 	function getCookies() return throw new AbstractMethod();
 
  	public var hostName(getHostName, null) : String;
- 	function getHostName() return throw new AbstractMethod()
+ 	function getHostName() return throw new AbstractMethod();
 
  	public var clientIP(getClientIP, null) : String;
- 	function getClientIP() return throw new AbstractMethod()
+ 	function getClientIP() return throw new AbstractMethod();
 
  	public var uri(getUri, null) : String;
- 	function getUri() return throw new AbstractMethod()
+ 	function getUri() return throw new AbstractMethod();
 
  	public var clientHeaders(getClientHeaders, null) : Hash<String>;
- 	function getClientHeaders() return throw new AbstractMethod()
+ 	function getClientHeaders() return throw new AbstractMethod();
 
 	public var userAgent(getUserAgent, null) : UserAgent;
- 	function getUserAgent() return throw new AbstractMethod()
+ 	function getUserAgent() return throw new AbstractMethod();
 
  	public var httpMethod(getHttpMethod, null) : String;
- 	function getHttpMethod() return throw new AbstractMethod()
+ 	function getHttpMethod() return throw new AbstractMethod();
 
  	public var scriptDirectory(getScriptDirectory, null) : String;
- 	function getScriptDirectory() return throw new AbstractMethod()
+ 	function getScriptDirectory() return throw new AbstractMethod();
 
  	public var authorization(getAuthorization, null) : { user : String, pass : String };
- 	function getAuthorization() return throw new AbstractMethod()
+ 	function getAuthorization() return throw new AbstractMethod();
 
- 	public function setUploadHandler(handler : IHttpUploadHandler) throw new AbstractMethod()
+ 	public function setUploadHandler(handler : IHttpUploadHandler) throw new AbstractMethod();
 
 	// urlReferrrer
 	//public var acceptTypes(getAcceptTypes, null) : Array<String>;

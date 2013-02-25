@@ -68,9 +68,9 @@ class HttpContext
 
 	public function dispose() : Void{}
 
-	function getRequest() return throw new AbstractMethod()
-	function getResponse() return throw new AbstractMethod()
-	function getSession() return throw new AbstractMethod()
+	function getRequest() return throw new AbstractMethod();
+	function getResponse() return throw new AbstractMethod();
+	function getSession() return throw new AbstractMethod();
 
 	function new()
 	{

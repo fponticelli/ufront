@@ -321,7 +321,7 @@ class HttpApplication
 		_completed = true;
 	}
 
-	function getRequest() return httpContext.request
-	function getResponse() return httpContext.response
-	function getSession() return httpContext.session
+	function getRequest() return httpContext.request;
+	function getResponse() return httpContext.response;
+	function getSession() return httpContext.session;
 }
