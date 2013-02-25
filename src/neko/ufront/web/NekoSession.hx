@@ -98,11 +98,11 @@ class NekoSession
 	{
 		if(started) throw "You can't set the cookie params while the session is already in use.";
 
-		lifetime = lifetimeIn;
-		path = pathIn;
-		domain = domainIn;
-		secure = secureIn; 
-		httponly = httponlyIn;
+		if (lifetimeIn != null) lifetime = lifetimeIn;
+		if (pathIn != null) path = pathIn;
+		if (domainIn != null) domain = domainIn;
+		if (secureIn != null) secure = secureIn; 
+		if (httponlyIn != null) httponly = httponlyIn;
 	}
 
 	public static function getCookieParams() :
