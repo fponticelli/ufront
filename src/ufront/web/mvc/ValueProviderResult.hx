@@ -32,12 +32,12 @@ class ValueProviderResult
 		});
 
 		// Arrays
-		registerTypeJuggler("Array", callback(arraySplitter, "String"));
-		registerTypeJuggler("Array<String>", callback(arraySplitter, "String"));
-		registerTypeJuggler("Array<Int>", callback(arraySplitter, "Int"));
-		registerTypeJuggler("Array<Float>", callback(arraySplitter, "Float"));
-		registerTypeJuggler("Array<Bool>", callback(arraySplitter, "Bool"));
-		registerTypeJuggler("Array<Date>", callback(arraySplitter, "Date"));
+		registerTypeJuggler("Array", arraySplitter.bind("String"));
+		registerTypeJuggler("Array<String>", arraySplitter.bind("String"));
+		registerTypeJuggler("Array<Int>", arraySplitter.bind("Int"));
+		registerTypeJuggler("Array<Float>", arraySplitter.bind("Float"));
+		registerTypeJuggler("Array<Bool>", arraySplitter.bind("Bool"));
+		registerTypeJuggler("Array<Date>", arraySplitter.bind("Date"));
 	}
 
 	public static var jugglers : Hash<String -> Dynamic>;

@@ -290,7 +290,7 @@ class HttpApplication
 	{
 		if(!_logDispatched)
 		{
-			_dispatchChain([onLogRequest, onPostLogRequest], callback(_dispatchError, e));
+			_dispatchChain([onLogRequest, onPostLogRequest], _dispatchError.bind(e));
 			return;
 		}
 		var event = {
