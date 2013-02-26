@@ -2,6 +2,7 @@ package ufront.web.mvc;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
+import haxe.ds.StringMap;
 using Types;
 
 class ViewResult extends ActionResult
@@ -13,7 +14,7 @@ class ViewResult extends ActionResult
 	public function new(?data : Hash<Dynamic>, ?dataObj : {})
 	{
 		if (null == data)
-			viewData = new Hash();
+			viewData = new StringMap();
 		else
 			viewData = data;
 		if (null != dataObj)
@@ -40,7 +41,7 @@ class ViewResult extends ActionResult
             this.view = result.view;
 		}
 		var viewContext = createContext(result, context);
-		var data = new Hash();
+		var data = new StringMap();
 		var r = null;
 		try {
 			r = view.render(viewContext, data);
