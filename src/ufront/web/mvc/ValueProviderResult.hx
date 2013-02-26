@@ -97,7 +97,7 @@ class ValueProviderResult
 				for(param in params)
 					if(_ctypeCheck(values[i++], param))
 						return false;
-			case CClass(name, params):
+			case CClass(name, _):
 				var c = Type.resolveClass(name);
 				if(null == c)
 					return false;
