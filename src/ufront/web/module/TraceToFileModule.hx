@@ -31,7 +31,7 @@ class TraceToFileModule implements ITraceModule
 	var customParams : Array<Dynamic>;
 */
 		msg = REMOVENL.replace(msg, '\\n');
-		return Std.format("${Date.now()}: ${pos.className}.${pos.methodName}(${pos.lineNumber}) ${Dynamics.string(msg)}");
+		return '${Date.now()}: ${pos.className}.${pos.methodName}(${pos.lineNumber}) ${Dynamics.string(msg)}';
 	}
 
 	public function dispose()
