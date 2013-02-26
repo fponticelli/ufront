@@ -12,7 +12,8 @@ import ufront.events.ReverseDispatcher;
  * @author Andreas Soderlund
  */
 
-class ControllerBase implements IController, implements haxe.rtti.Infos
+@:rtti
+class ControllerBase implements IController
 {
 	/**
 	 * If null, this value is automatically created in execute().

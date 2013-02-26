@@ -1,10 +1,9 @@
 package ufront.web.mvc.attributes;
-import haxe.rtti.Infos;
 import ufront.web.error.UnauthorizedError;
 import ufront.acl.Acl;
 using Types;
 
-class AuthorizeAttribute extends FilterAttribute, implements IAuthorizationFilter
+class AuthorizeAttribute extends FilterAttribute implements IAuthorizationFilter
 {
 	public var acl : Acl;
 	public var roles : Array<String>;

@@ -7,7 +7,7 @@ import thx.collection.HashList;
  * @author Franco Ponticelli
  */
 
-interface ITemplateView<Template> implements IView
+interface ITemplateView<Template> extends IView
 {
 	public var template(default, null) : Template; 
 	public var wrappers(default, null) : HashList<Template>;

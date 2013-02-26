@@ -6,7 +6,7 @@ import ufront.web.mvc.ValueProviderResult;
  * @author Andreas Soderlund
  */
 
-class ValueProviderCollection extends List<IValueProvider>, implements IValueProvider
+class ValueProviderCollection extends List<IValueProvider> implements IValueProvider
 {
 	public function new(?list : Array<IValueProvider>)
 	{

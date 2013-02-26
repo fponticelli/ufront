@@ -6,7 +6,7 @@ import ufront.web.mvc.IViewEngine;
  * @author Franco Ponticelli
  */
 
-interface ITemplateViewEngine<Template> implements IViewEngine
+interface ITemplateViewEngine<Template> extends IViewEngine
 {
 	public function getTemplate(controllerContext : ControllerContext, path : String) : Template;
 }
