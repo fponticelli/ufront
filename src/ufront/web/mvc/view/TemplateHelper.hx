@@ -137,7 +137,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 	public function merge<T>(dst : Dynamic<T>, ?src : Dynamic<T>) : Dynamic<T>
 	{
 		if (null == src)
-			src = routeData();
+			src = cast routeData();
 		for (key in Reflect.fields(src))
 			if (!Reflect.hasField(dst, key))
 				Reflect.setField(dst, key, Reflect.field(src, key));
