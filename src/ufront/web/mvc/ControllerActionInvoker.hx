@@ -278,7 +278,7 @@ class ControllerActionInvoker implements IActionInvoker
 
 		// Map all valid attributes (exists in ControllerBuilder and ends with 'Attribute' to an object.
 		var self = this;
-		var objects = Lambda.map({iterator: hash.keys}, function(key) {
+		var objects = Lambda.map({ iterator: function() return hash.keys() }, function(key) {
 			var c = self.getAttributeClass(key);
 			if (c == null) return null;
 
