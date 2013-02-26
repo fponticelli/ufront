@@ -9,6 +9,7 @@ import haxe.io.BytesOutput;
 import haxe.io.Output;
 import thx.collection.HashList;
 import thx.error.NullArgument;
+import haxe.ds.StringMap;
 
 /**
 * @todo remove the singleton
@@ -49,7 +50,7 @@ class HttpResponse
 
 	var _buff : StringBuf;
 	var _headers : HashList<String>;
-	var _cookies : Hash<HttpCookie>;
+	var _cookies : StringMap<HttpCookie>;
 
 	public function new()
 	{
@@ -69,7 +70,7 @@ class HttpResponse
 
 	public function clearCookies()
 	{
-		_cookies = new Hash();
+		_cookies = new StringMap();
 	}
 
 	public function clearContent()

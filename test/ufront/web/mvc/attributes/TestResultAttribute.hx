@@ -10,7 +10,7 @@ import ufront.web.mvc.TestControllerFiltersMetaData;
  * @author Andreas Soderlund
  */
 
-class TestResultAttribute extends FilterAttribute, implements IResultFilter
+class TestResultAttribute extends FilterAttribute implements IResultFilter
 {
 	public var id : String;
 	

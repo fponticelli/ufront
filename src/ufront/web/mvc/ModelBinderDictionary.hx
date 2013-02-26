@@ -1,5 +1,7 @@
 package ufront.web.mvc;
 
+import haxe.ds.StringMap;
+
 /**
  * ...
  * @author Andreas Soderlund
@@ -83,10 +85,10 @@ class ModelBinderDictionary
 		return _innerDictionary.iterator();
 	}
 
-	var _innerDictionary : Hash<IModelBinder>;
+	var _innerDictionary : StringMap<IModelBinder>;
 
 	public function new()
 	{
-		_innerDictionary = new Hash<IModelBinder>();
+		_innerDictionary = new StringMap<IModelBinder>();
 	}
 }

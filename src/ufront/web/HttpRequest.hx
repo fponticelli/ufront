@@ -7,6 +7,7 @@ package ufront.web;
 import thx.collection.CascadeHash;
 import thx.error.AbstractMethod;
 import haxe.io.Bytes;
+import haxe.ds.StringMap;
 
 /**
 * @todo remove the singleton
@@ -37,7 +38,7 @@ class HttpRequest
  	function get_params()
  	{
  		if (null == params)
- 			params = new CascadeHash([new Hash(), query, post, cookies]);
+ 			params = new CascadeHash([new StringMap(), query, post, cookies]);
  		return params;
  	}
 
@@ -47,13 +48,13 @@ class HttpRequest
  	public var postString(get, null) : String;
  	function get_postString() return throw new AbstractMethod();
 
- 	public var query(get, null) : Hash<String>;
+ 	public var query(get, null) : StringMap<String>;
  	function get_query() return throw new AbstractMethod();
 
- 	public var post(get, null) : Hash<String>;
+ 	public var post(get, null) : StringMap<String>;
  	function get_post() return throw new AbstractMethod();
 
- 	public var cookies(get, null) : Hash<String>;
+ 	public var cookies(get, null) : StringMap<String>;
  	function get_cookies() return throw new AbstractMethod();
 
  	public var hostName(get, null) : String;
@@ -65,7 +66,7 @@ class HttpRequest
  	public var uri(get, null) : String;
  	function get_uri() return throw new AbstractMethod();
 
- 	public var clientHeaders(get, null) : Hash<String>;
+ 	public var clientHeaders(get, null) : StringMap<String>;
  	function get_clientHeaders() return throw new AbstractMethod();
 
 	public var userAgent(get, null) : UserAgent;

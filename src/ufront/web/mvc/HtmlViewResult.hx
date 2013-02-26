@@ -6,6 +6,7 @@ import thx.html.HtmlVersion;
 import thx.html.HtmlDocumentFormat;
 import ufront.web.mvc.view.UrlHelper;
 import ufront.web.UserAgent;
+import haxe.ds.StringMap;
 using StringTools;
 using Arrays;
 
@@ -41,7 +42,7 @@ class HtmlViewResult extends ViewResult
 	var _styleSheets : Array<StyleSheet>;
 	var _agent : UserAgent;
 
-	public function new(?data : Hash<Dynamic>, ?version : HtmlVersion, language = "en", charset = "UTF-8")
+	public function new(?data : StringMap<Dynamic>, ?version : HtmlVersion, language = "en", charset = "UTF-8")
 	{
 		super(data);
 		this.version = null == version ? Html5 : version;
@@ -61,7 +62,7 @@ class HtmlViewResult extends ViewResult
 		super.executeResult(context);
 	}
 
-	override function writeResponse(context : ControllerContext, content : String, data : Hash<Dynamic>)
+	override function writeResponse(context : ControllerContext, content : String, data : StringMap<Dynamic>)
 	{
 		var template = Html.getTemplate(version);
 		var result : String = null;
@@ -81,7 +82,7 @@ class HtmlViewResult extends ViewResult
 		context.response.write(result);
 	}
 
-	function handleDom(dom : Xml, context : ControllerContext, data : Hash<Dynamic>)
+	function handleDom(dom : Xml, context : ControllerContext, data : StringMap<Dynamic>)
 	{
 		var html  = dom.firstElement();
 		var head  = html.firstElement();
@@ -186,7 +187,7 @@ class HtmlViewResult extends ViewResult
 		}
 	}
 
-	function getScripts(data : Hash<Dynamic>) : Array<Script>
+	function getScripts(data : StringMap<Dynamic>) : Array<Script>
 	{
 		var scripts = _scripts.copy();
 		var tscripts : Array<Dynamic> = data.get("scripts");
@@ -308,7 +309,7 @@ class HtmlViewResult extends ViewResult
 		_scripts.push(script);
 	}
 
-	function getStyleSheets(data : Hash<Dynamic>) : Array<StyleSheet>
+	function getStyleSheets(data : StringMap<Dynamic>) : Array<StyleSheet>
 	{
 		var styleSheets = _styleSheets.copy();
 		var tstyleSheets : Array<Dynamic> = data.get("styleSheets");
@@ -354,8 +355,8 @@ class HtmlViewResult extends ViewResult
 	}
 
 	var title : String;
-	function setTitle(v) return title = v
-	function getTitle(data : Hash<Dynamic>)
+	function setTitle(v) return title = v;
+	function getTitle(data : StringMap<Dynamic>)
 	{
 		if(null != title)
 			return title;
@@ -364,8 +365,8 @@ class HtmlViewResult extends ViewResult
 	}
 
 	var language : String;
-	function setLanguage(v) return language = v
-	function getLanguage(data : Hash<Dynamic>)
+	function setLanguage(v) return language = v;
+	function getLanguage(data : StringMap<Dynamic>)
 	{
 		if(null != language)
 			return language;
@@ -376,8 +377,8 @@ class HtmlViewResult extends ViewResult
 	}
 
 	var charset : String;
-	function setCharset(v) return charset = v
-	function getCharset(data : Hash<Dynamic>)
+	function setCharset(v) return charset = v;
+	function getCharset(data : StringMap<Dynamic>)
 	{
 		if(null != charset)
 			return charset;

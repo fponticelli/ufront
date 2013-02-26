@@ -1,7 +1,6 @@
 package ufront.web.mvc;
 
 import ufront.web.HttpResponseMock;
-import haxe.rtti.Infos;
 import thx.error.Error;
 import ufront.web.mvc.TestDefaultControllerFactory;
 import ufront.web.routing.RequestContext;

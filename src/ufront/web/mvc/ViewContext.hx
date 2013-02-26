@@ -9,6 +9,7 @@ import ufront.web.routing.RouteData;
 import ufront.web.routing.RequestContext;
 import ufront.web.HttpContext;
 import ufront.web.mvc.Controller;
+import haxe.ds.StringMap;
 
 class ViewContext
 {
@@ -18,14 +19,14 @@ class ViewContext
 	public var requestContext(default, null) : RequestContext;
 	public var routeData(default, null) : RouteData;
 	public var view(default, null) : IView;
-	public var viewData(default, null) : Hash<Dynamic>;
+	public var viewData(default, null) : StringMap<Dynamic>;
 	public var request(default, null) : HttpRequest;
 	public var response(default, null) : HttpResponse;
 	public var session(default, null) : IHttpSessionState;
 	public var viewEngine(default, null) : IViewEngine;
 	public var viewHelpers(default, null) : Array<IViewHelper>;
 
-	public function new(controllerContext:ControllerContext, view:IView, viewEngine : IViewEngine, viewData:Hash<Dynamic>, viewHelpers : Array<IViewHelper>)
+	public function new(controllerContext:ControllerContext, view:IView, viewEngine : IViewEngine, viewData:StringMap<Dynamic>, viewHelpers : Array<IViewHelper>)
 	{
 		this.controllerContext = controllerContext;
 		this.controller = controllerContext.controller;

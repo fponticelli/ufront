@@ -12,6 +12,7 @@ import ufront.web.IHttpHandler;
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;   
 import js.Node;
+import haxe.ds.StringMap;
 using StringTools;
 
 class HttpRequest extends ufront.web.HttpRequest
@@ -114,17 +115,17 @@ class HttpRequest extends ufront.web.HttpRequest
 */
 	}
 	
-	override function getQuery() : Hash<String>
+	override function getQuery() : StringMap<String>
 	{
 		if(null == query) 
 			query = getHashFromString(queryString);
 		return query;
 	}
 	
-	override function getPost() : Hash<String>
+	override function getPost() : StringMap<String>
 	{   
 		if (httpMethod == "GET")
-			return new Hash();
+			return new StringMap();
 		if (null == post)
 		{
 			post = getHashFromString(postString);
@@ -134,7 +135,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return post;
 	}
 	
-	override function getCookies() : Hash<String>
+	override function getCookies() : StringMap<String>
 	{
 		return throw new NotImplemented();
 	}
@@ -154,7 +155,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return _u.pathname;
 	}
 	
-	override function getClientHeaders() : Hash<String>
+	override function getClientHeaders() : StringMap<String>
 	{                                                 
 		return throw new NotImplemented();
 	}
@@ -177,7 +178,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	static var paramPattern = ~/^([^=]+)=(.*?)$/;
 	static function getHashFromString(s : String)
 	{
-		var hash = new Hash();   
+		var hash = new StringMap();   
 		if(null == s)
 			return hash;
 		for (part in s.split("&"))

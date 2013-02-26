@@ -2,6 +2,7 @@ package ufront.web.routing;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.routing.RouteUriParser;
+import haxe.ds.StringMap;
 
 using StringTools;
 import thx.text.ERegs;
@@ -11,14 +12,14 @@ class RouteParamExtractor
 	static inline var PARAM_PATTERN = "(.+?)";
 	static inline var REST_PATTERN = "(.+?)";
 	var ast : UriSegments;
-	var data : Hash<String>;
+	var data : StringMap<String>;
 	public function new(ast : UriSegments)
 	{
 		NullArgument.throwIfNull(ast);
 		this.ast = ast;
 	}
 	
-	public function extract(uri : String) : Hash<String>
+	public function extract(uri : String) : StringMap<String>
 	{
 		NullArgument.throwIfNull(uri);
 		var segments = uri.split("/");
@@ -26,7 +27,7 @@ class RouteParamExtractor
 		if(segments.length <= 1)
 			throw new Error("the uri must begin with a '/' character");
 		
-		data = new Hash();
+		data = new StringMap();
 		
 		// discard first segment
 		segments.shift();

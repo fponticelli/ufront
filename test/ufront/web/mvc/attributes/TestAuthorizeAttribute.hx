@@ -3,7 +3,6 @@ import thx.collection.HashList;
 import ufront.acl.Acl;
 import ufront.web.error.UnauthorizedError;
 import ufront.web.HttpResponseMock;
-import haxe.rtti.Infos;
 import thx.error.Error;
 import ufront.web.mvc.TestDefaultControllerFactory;
 import ufront.web.routing.RequestContext;

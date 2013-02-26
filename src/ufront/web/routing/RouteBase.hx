@@ -7,6 +7,7 @@ package ufront.web.routing;
 import thx.error.AbstractMethod;
 import ufront.web.HttpContext;
 import ufront.web.routing.RequestContext;
+import haxe.ds.StringMap;
 
 class RouteBase
 {
@@ -16,7 +17,7 @@ class RouteBase
 		return null;
 	}
 
-	public function getPath(context : HttpContext, data : Hash<String>) : String
+	public function getPath(context : HttpContext, data : StringMap<String>) : String
 	{
 		return null;
 	}

@@ -3,6 +3,7 @@ import thx.collection.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
 import ufront.web.mvc.ViewContext;
+import haxe.ds.StringMap;
 using Hashes;
 
 class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
@@ -105,7 +106,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		var variables = template.data();
 		var restore = if (null != data)
 		{
-			var old = new Hash<Dynamic>();
+			var old = new StringMap<Dynamic>();
 			var toremove = new Set();
 
 			var fields = Reflect.fields(data);
@@ -144,7 +145,7 @@ class TemplateHelper<Template> implements ufront.web.mvc.IViewHelper
 		return dst;
 	}
 
-	public function register(data : Hash<Dynamic>)
+	public function register(data : StringMap<Dynamic>)
 	{
 		data.set("get",			get);
 		data.set("set",			set);

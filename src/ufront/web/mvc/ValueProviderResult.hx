@@ -3,6 +3,7 @@ package ufront.web.mvc;
 import haxe.rtti.CType;
 import thx.collection.Set;
 import thx.type.Rttis;
+import haxe.ds.StringMap;
 
 /**
  * ...
@@ -13,7 +14,7 @@ class ValueProviderResult
 {
 	static function __init__()
 	{
-		jugglers = new Hash();
+		jugglers = new StringMap();
 
 		registerTypeJuggler("String", function(s : String) return s);
 		registerTypeJuggler("Int",   Std.parseInt);
@@ -40,7 +41,7 @@ class ValueProviderResult
 		registerTypeJuggler("Array<Date>", arraySplitter.bind("Date"));
 	}
 
-	public static var jugglers : Hash<String -> Dynamic>;
+	public static var jugglers : StringMap<String -> Dynamic>;
 
 	public var rawValue(default, null) : Dynamic;
 	public var attemptedValue(default, null) : String;

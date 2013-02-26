@@ -7,6 +7,7 @@ import thx.collection.HashList;
 
 import ufront.web.mvc.ViewContext;
 import ufront.web.mvc.IView;
+import haxe.ds.StringMap;
 
 /**
  * ...
@@ -24,7 +25,7 @@ class TemplateView<Template> implements ITemplateView<Template>
 	}
 
 	// TODO: the helpers here should be moved to a filter
-	public function render(viewContext : ViewContext, outputData : Hash<Dynamic>)
+	public function render(viewContext : ViewContext, outputData : StringMap<Dynamic>)
 	{
 		var helpers = viewContext.viewHelpers.copy();
 
@@ -65,12 +66,12 @@ class TemplateView<Template> implements ITemplateView<Template>
 		return result;
 	}
 
-	public function data() : Hash<Dynamic>
+	public function data() : StringMap<Dynamic>
 	{
 		return throw new Error("abstract method");
 	}
 
-	public function executeTemplate(template : Template, data : Hash<Dynamic>) : String
+	public function executeTemplate(template : Template, data : StringMap<Dynamic>) : String
 	{
 		return throw new Error("abstract method");
 	}

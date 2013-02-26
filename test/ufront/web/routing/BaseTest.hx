@@ -20,7 +20,7 @@ class BaseTest
 	public function createContext(url : String) : HttpContext
 	{
 		var request = new HttpRequestMock();
-		request.setUri(url);
+		request.set_uri(url);
 		var context = new HttpContextMock(request);
 		return context;
 	}

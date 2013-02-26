@@ -13,6 +13,7 @@ import thx.error.Error;
 import ufront.web.HttpContext;
 import thx.error.NullArgument;
 import ufront.web.routing.RouteUriParser;
+import haxe.ds.StringMap;
 using StringTools;
 
 class Route extends RouteBase
@@ -21,7 +22,7 @@ class Route extends RouteBase
 
 	public var url(get, null) : String;
 	public var handler(default, null) : IRouteHandler;
-	public var defaults(default, null) : Hash<String>;
+	public var defaults(default, null) : StringMap<String>;
 	public var constraints(default, null) : Array<IRouteConstraint>;
 
 	var extractor : RouteParamExtractor;
@@ -34,7 +35,7 @@ class Route extends RouteBase
 	 * @param	?defaults
 	 * @param	?constraints
 	 */
-	public function new(url : String, handler : IRouteHandler, ?defaults : Hash<String>, ?constraints : Array<IRouteConstraint>)
+	public function new(url : String, handler : IRouteHandler, ?defaults : StringMap<String>, ?constraints : Array<IRouteConstraint>)
 	{
 		NullArgument.throwIfNull(url);
 		if (!url.startsWith("/"))
@@ -43,7 +44,7 @@ class Route extends RouteBase
 		NullArgument.throwIfNull(handler);
 		this.handler = handler;
 		if (null == defaults)
-			this.defaults = new Hash();
+			this.defaults = new StringMap();
 		else
 			this.defaults = defaults;
 		if (null == constraints)
@@ -87,9 +88,9 @@ class Route extends RouteBase
 	}
 
 	//added public to match visibility of ROuteBase, the compiler complains on that!
-	public override function getPath(httpContext : HttpContext, data : Hash<String>)
+	public override function getPath(httpContext : HttpContext, data : StringMap<String>)
 	{
-	    var params = null == data ? new Hash() : data;
+	    var params = null == data ? new StringMap() : data;
 		if(!processConstraints(httpContext, params, UrlDirection.UrlGeneration))
 			return null;
 		else {
@@ -127,7 +128,7 @@ class Route extends RouteBase
 		return url;
 	}
 
-	function processConstraints(httpContext : HttpContext, params : Hash<String>, direction : UrlDirection)
+	function processConstraints(httpContext : HttpContext, params : StringMap<String>, direction : UrlDirection)
 	{
 		for(constraint in constraints)
 			if(!constraint.match(httpContext, this, params, direction))

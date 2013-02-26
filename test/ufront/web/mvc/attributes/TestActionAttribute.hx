@@ -9,7 +9,7 @@ import ufront.web.mvc.TestControllerFiltersMetaData;
  * @author Andreas Soderlund
  */
 
-class TestActionAttribute extends FilterAttribute, implements IActionFilter
+class TestActionAttribute extends FilterAttribute implements IActionFilter
 {
 	public var id : String;
 	

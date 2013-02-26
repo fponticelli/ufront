@@ -108,7 +108,7 @@ class TestRouteUriParser
 		var invalids = ["/{a b}", "/{#}", "/{}", "/{a*}", "/{*?a}", "/{??a}", "/{**a}", "/{*a}/{*b}", "/{a}/{a}"];
 		for(invalid in invalids)
 		{
-			Assert.raises(function() p.parse(invalid, s), Dynamic, "the sequence '" + invalid + "' should be invalid");
+			Assert.raises(function() p.parse(invalid, s), null, "the sequence '" + invalid + "' should be invalid");
 		}
 	}
 

@@ -20,9 +20,8 @@
 -xml doc/doc.php.xml
 --no-output
 --macro include('ufront', true, null, ['src'])
-#--macro include('php', true, null, ['src'])
+--macro include('php', true, null, ['src'])
 --next
 # HAXEDOC.XML
--cmd del _
--cmd copy doc\doc.neko.xml haxedoc.xml
--cmd PAUSE
+-cmd rm -Rf _
+-cmd cp doc/doc.neko.xml haxedoc.xml

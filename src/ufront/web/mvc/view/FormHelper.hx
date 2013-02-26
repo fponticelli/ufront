@@ -2,7 +2,7 @@
 		//will be uncommented after autoform 2
 		//release (or inclusion on ufront)
 
-// package ufront.web.mvc.view;
+package ufront.web.mvc.view;
 // import ufront.web.mvc.ViewContext;
 // using StringTools;
 // import autoform.AutoForm;
@@ -31,7 +31,7 @@
 		
 // 	}
 
-// 	public function register(data : Hash<Dynamic>)
+// 	public function register(data : StringMap<Dynamic>)
 // 	{
 // 		data.set(name, new FormHelperInst());
 // 	}

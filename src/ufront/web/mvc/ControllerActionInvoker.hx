@@ -10,6 +10,7 @@ import thx.type.Rttis;
 import ufront.web.mvc.ControllerContext;
 import haxe.rtti.CType;
 import thx.collection.Set;
+import haxe.ds.StringMap;
 using Strings;
 using Iterables;
 
@@ -48,7 +49,7 @@ class ControllerActionInvoker implements IActionInvoker
 		return binders.getBinder(parameter.type);
 	}
 
-	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>, typeParameters : Hash<CType>) : HashList<Dynamic>
+	function getParameters(controllerContext : ControllerContext, argsinfo : Array<{t: CType, opt: Bool, name: String}>, typeParameters : StringMap<CType>) : HashList<Dynamic>
 	{
 		// TODO: ActionDescriptor, ControllerDescriptor
 		var arguments = new HashList<Dynamic>();
@@ -255,7 +256,7 @@ class ControllerActionInvoker implements IActionInvoker
 		metadata.add(getFieldAttributes(controller, actionField));
 
 		// Create a hash that will store all attributes and their arguments
-		var hash = Lambda.fold(metadata, function(meta : Dynamic, output : Hash<Dynamic>) {
+		var hash = Lambda.fold(metadata, function(meta : Dynamic, output : StringMap<Dynamic>) {
 			if (meta == null) return output;
 			//trace(meta);
 			for (className in Reflect.fields(meta))
@@ -272,7 +273,7 @@ class ControllerActionInvoker implements IActionInvoker
 			}
 
 			return output;
-		}, new Hash<Dynamic>());
+		}, new StringMap<Dynamic>());
 
 		//trace(hash);
 

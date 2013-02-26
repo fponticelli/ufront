@@ -9,7 +9,7 @@ import ufront.web.mvc.TestControllerFiltersMetaData;
  * @author Andreas Soderlund
  */
 
-class AuthFailAttribute extends FilterAttribute, implements IAuthorizationFilter
+class AuthFailAttribute extends FilterAttribute implements IAuthorizationFilter
 {
 	public function new() {	super(); }
 	

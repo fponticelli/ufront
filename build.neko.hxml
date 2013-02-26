@@ -9,8 +9,8 @@
 -lib thx
 -lib hxevents
 -lib erazor
--neko bin\index.n
+-neko bin/index.n
 -main TestAll  
--D htemplate                                     
+#-D htemplate                                     
 -D hxculture            
 -xml ufront.xml

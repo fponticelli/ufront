@@ -6,6 +6,7 @@ import uform.ui.comp.Form;
 import uform.ui.build.html5.Html5Builder;
 import uform.ui.comp.Trigger;
 import ufront.web.mvc.IViewHelper;
+import haxe.ds.StringMap;
 
 using Strings;
 using Types;
@@ -25,14 +26,14 @@ class UFormHelper implements IViewHelper
 		cssPath = csspath;
 	}
 
-	public function injectCss(data : Hash<Dynamic>)
+	public function injectCss(data : StringMap<Dynamic>)
 	{
 		if (null == cssPath)
 			return;
 		data.get("push")(CSS_VAR, { href : cssPath } );
 	}
 
-	public function register(data : Hash<Dynamic>)
+	public function register(data : StringMap<Dynamic>)
 	{
 		var me = this;
 		data.set("uform", function(form : Form, ?t : String -> String -> String, ?lang : String) {

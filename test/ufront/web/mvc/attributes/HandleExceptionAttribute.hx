@@ -11,7 +11,7 @@ import ufront.web.mvc.TestControllerFiltersMetaData;
  * @author Andreas Soderlund
  */
 
-class HandleExceptionAttribute extends FilterAttribute, implements IExceptionFilter
+class HandleExceptionAttribute extends FilterAttribute implements IExceptionFilter
 {
 	// If the exception should tell that it's handling the situation
 	public var handleIt : Bool;

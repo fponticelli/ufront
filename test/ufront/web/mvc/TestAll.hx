@@ -10,6 +10,7 @@ import ufront.web.routing.RequestContext;
 import utest.Runner;
 import utest.ui.Report;
 import ufront.web.mvc.view.TestHtmlHelper;
+import haxe.ds.StringMap;
 
 class TestAll
 {
@@ -51,7 +52,7 @@ class TestAll
 	
 	public static function getRequestContext(?action = "index")
 	{
-		var data = new Hash<String>();
+		var data = new StringMap<String>();
 		data.set("action", action);
 		
 		var routeHandler = new MvcRouteHandler();

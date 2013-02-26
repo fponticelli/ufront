@@ -5,6 +5,7 @@
 
 package ufront.web.routing;
 
+import haxe.ds.StringMap;
 using Arrays;
 
 class HttpMethodConstraint implements IRouteConstraint
@@ -19,10 +20,10 @@ class HttpMethodConstraint implements IRouteConstraint
 		if (0 == methods.length)
 			throw "invalid argument, you have to pass at least one method";
 
-		this.methods = methods.map(function(d, _) return d.toUpperCase());
+		this.methods = methods.map(function(d) return d.toUpperCase());
 	}
 
-	public function match(context : HttpContext, route : Route, params : Hash<String>, direction : UrlDirection) : Bool
+	public function match(context : HttpContext, route : Route, params : StringMap<String>, direction : UrlDirection) : Bool
 	{
 		switch (direction) {
 			case IncomingUrlRequest:

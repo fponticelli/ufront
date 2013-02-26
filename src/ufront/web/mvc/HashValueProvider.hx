@@ -2,6 +2,7 @@ package ufront.web.mvc;
 
 import thx.collection.Set;
 import ufront.web.mvc.ValueProviderResult;
+import haxe.ds.StringMap;
 
 /**
  * ...
@@ -11,17 +12,17 @@ import ufront.web.mvc.ValueProviderResult;
 class HashValueProvider<T> implements IValueProvider
 {
 	var prefixes : Set<String>;
-	var values : Hash<ValueProviderResult>;
+	var values : StringMap<ValueProviderResult>;
 
-	public function new(collection : Hash<T>)
+	public function new(collection : StringMap<T>)
 	{
 		prefixes = new Set<String>();
-		values = new Hash<ValueProviderResult>();
+		values = new StringMap<ValueProviderResult>();
 
 		addValues(collection);
 	}
 
-	function addValues(collection : Hash<T>)
+	function addValues(collection : StringMap<T>)
 	{
 		if (collection.iterator().hasNext())
 			prefixes.add("");

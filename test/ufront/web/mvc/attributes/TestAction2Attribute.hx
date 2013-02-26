@@ -10,7 +10,7 @@ import ufront.web.mvc.attributes.FilterAttribute;
  * @author Andreas Soderlund
  */
 
-class TestAction2Attribute extends FilterAttribute, implements IActionFilter
+class TestAction2Attribute extends FilterAttribute implements IActionFilter
 {
 	public function new()
 	{

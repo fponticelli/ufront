@@ -1,6 +1,7 @@
 package ufront.web.mvc.view;
 import thx.translation.ITranslation;
 import ufront.web.mvc.IViewHelper;
+import haxe.ds.StringMap;
 
 class TranslationHelper implements IViewHelper
 {
@@ -10,7 +11,7 @@ class TranslationHelper implements IViewHelper
 		this.translator = translator;
 	}
 
-	public function register(data : Hash<Dynamic>)
+	public function register(data : StringMap<Dynamic>)
 	{
 		//doesnt' compile!
 		//data.set("_",  translator._);

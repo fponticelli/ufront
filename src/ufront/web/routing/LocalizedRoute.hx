@@ -6,6 +6,7 @@ import thx.translation.ITranslation;
 import thx.error.NullArgument;
 import ufront.web.routing.IRouteHandler;
 import ufront.web.routing.RouteUriParser;
+import haxe.ds.StringMap;
 using Hashes;
 using DynamicsT;
 
@@ -14,25 +15,27 @@ class LocalizedRoute extends Route
 	public var translator(default, null) : ITranslation;
 	public var currentLanguage : String;
 	public var paramName : String;
-	public function new(translator : ITranslation, url : String, handler : IRouteHandler, ?defaults : Hash<String>, ?constraints : Array<IRouteConstraint>)
+	public function new(translator : ITranslation, url : String, handler : IRouteHandler, ?defaults : StringMap<String>, ?constraints : Array<IRouteConstraint>)
 	{
 		super(url, handler, defaults, constraints);
-		_asts = new Hash();
+		_asts = new StringMap();
 		NullArgument.throwIfNull(translator);
 		this.translator = translator;
 		currentLanguage = null;
 		paramName = "lang";
 	}
 
-	override function getUrl()
+	override function get_url()
 	{
 		if(null == currentLanguage)
-			return super.getUrl();
+			return super.get_url();
 		else
-			return translator._(super.getUrl(), currentLanguage);
+			return translator._(super.get_url(), currentLanguage);
+			// NEED TO CHECK WHAT THIS IS SUPPOSED TO BE...
+			// return super.get_url();
 	}
 
-	var _asts : Hash<UriSegments>;
+	var _asts : StringMap<UriSegments>;
 	override function getAst()
 	{
 		var key = currentLanguage;
@@ -77,7 +80,7 @@ class LocalizedRoute extends Route
 		*/
 	}
 
-	override function getPath(httpContext : HttpContext, data : Hash<String>)
+	override function getPath(httpContext : HttpContext, data : StringMap<String>)
 	{
 		if(!data.exists(paramName))
 		{
@@ -96,7 +99,7 @@ class LocalizedRoute extends Route
   //  		currentLanguage = httpContext.request.query.get(paramName);
 		return super.getPath(httpContext, data);
 		/*
-	    var params = null == data ? new Hash() : data;
+	    var params = null == data ? new StringMap() : data;
 		if(!processConstraints(httpContext, data, UrlDirection.UrlGeneration))
 			return null;
 		else {

@@ -11,6 +11,7 @@ import neko.Lib;
 import neko.Web;
 import Sys;
 import haxe.io.Bytes;
+import haxe.ds.StringMap;
 
 class NekoSession
 {
@@ -19,7 +20,7 @@ class NekoSession
 	public static var started(default, null) : Bool;
 	public static var id(default, set) : String;
 	public static var savePath(default, set) : String;
-	private static var sessionData : Hash<Dynamic>;
+	private static var sessionData : StringMap<Dynamic>;
 	public static var sessionName(default, set) : String;
 	private static var needCommit : Bool;
 
@@ -197,7 +198,7 @@ class NekoSession
 		if( id==null )
 		{
 			//trace("no id found, creating a new session.");
-			sessionData = new Hash<Dynamic>();
+			sessionData = new StringMap<Dynamic>();
 
 			do
 			{
@@ -216,7 +217,7 @@ class NekoSession
 
 	public static function clear()
 	{
-		sessionData = new Hash<Dynamic>();
+		sessionData = new StringMap<Dynamic>();
 	}
 
 	private static function commit()

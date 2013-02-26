@@ -12,6 +12,7 @@ import ufront.web.IHttpHandler;
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;
 import ufront.web.UserAgent;
+import haxe.ds.StringMap;
 using Strings;
 using StringTools;
 
@@ -141,7 +142,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	override function get_post()
 	{
 		if (httpMethod == "GET")
-			return new Hash();
+			return new StringMap();
 		if (null == post)
 		{
 			post = getHashFromString(postString);
@@ -156,7 +157,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		if (null == cookies)
 		{
 			var p = _get_cookies();
-			cookies = new Hash<String>();
+			cookies = new StringMap<String>();
 			var k = "";
 			while( p != null ) {
 				untyped k.__s = p[0];
@@ -201,7 +202,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	{
 		if (null == clientHeaders)
 		{
-			clientHeaders = new Hash();
+			clientHeaders = new StringMap();
 			var v = _get_client_headers();
 			while( v != null ) {
 				clientHeaders.set(new String(v[0]), new String(v[1]));
@@ -254,7 +255,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	static var paramPattern = ~/^([^=]+)=(.*?)$/;
 	static function getHashFromString(s : String)
 	{
-		var hash = new Hash();
+		var hash = new StringMap();
 		for (part in s.split("&"))
 		{
 			if (!paramPattern.match(part))

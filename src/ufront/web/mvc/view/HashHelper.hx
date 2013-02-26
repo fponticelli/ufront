@@ -5,12 +5,14 @@ package ufront.web.mvc.view;
  * @author Franco Ponticelli
  */
 
+import haxe.ds.StringMap;
+
 class HashHelper implements IViewHelper
 {
-	public var hash(default, null) : Hash<Dynamic>;
-	public function new(?dataHash : Hash<Dynamic>, ?dataObject : Dynamic)
+	public var hash(default, null) : StringMap<Dynamic>;
+	public function new(?dataHash : StringMap<Dynamic>, ?dataObject : Dynamic)
 	{
-		hash = new Hash();
+		hash = new StringMap();
 		if (null != dataHash)
 		{
 			for (key in dataHash.keys())
@@ -24,7 +26,7 @@ class HashHelper implements IViewHelper
 		}
 	}
 
-	public function register(data : Hash<Dynamic>)
+	public function register(data : StringMap<Dynamic>)
 	{
 		for (key in hash.keys())
 			data.set(key, hash.get(key));

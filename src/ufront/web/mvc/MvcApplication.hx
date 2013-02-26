@@ -13,6 +13,7 @@ import ufront.web.module.ErrorModule;
 import ufront.web.module.ITraceModule;
 import ufront.web.module.TraceToBrowserModule;
 import ufront.web.module.TraceToFileModule;
+import haxe.ds.StringMap;
 using DynamicsT;
 
 /**

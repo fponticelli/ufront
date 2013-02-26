@@ -7,6 +7,7 @@ import ufront.web.mvc.MockController;
 import ufront.web.mvc.ControllerContext;
 import ufront.web.mvc.ViewContext;
 //import ufront.web.mvc.view.TemplateHelper;
+import haxe.ds.StringMap;
 
 import utest.Assert;
 import utest.Runner;
@@ -32,65 +33,65 @@ class TestHTemplate
 	public function testRegisterSetGetVariable()
 	{           
 	 	var t = getTemplateData("{?set('a','A');}{:get('a')}");
-		Assert.equals("A", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("A", t.view.render(t.viewContext, new StringMap()));
 	}
 	
 	public function testRegisterSetGetVariable2 ()
 	{           
 	 	var t = getTemplateData("{?set('a','A');}{:a}");
-		Assert.equals("A", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("A", t.view.render(t.viewContext, new StringMap()));
 	}
 	
 	public function testRegisterSetGetVariable3()
 	{           
 	 	var t = getTemplateData("{?a = 'A';}{:get('a')}");
-		Assert.equals("A", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("A", t.view.render(t.viewContext, new StringMap()));
 	}
 	
 	public function testRegisterSetGetVariable4()
 	{           
 	 	var t = getTemplateData("{?var a = 'A';}{:a}");
-		Assert.equals("A", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("A", t.view.render(t.viewContext, new StringMap()));
 	}
 	
 	public function testRegisterSetGetVariable5()
 	{           
 	 	var t = getTemplateData("{?a = 'A';}{:a}");
-		Assert.equals("A", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("A", t.view.render(t.viewContext, new StringMap()));
 	}
 
 	public function testRegisterSetGetFunction()
 	{           
 	 	var t = getTemplateData("{?set('a',function(){ return 'A';});}{:get('a')()}");
-    	Assert.equals("A", t.view.render(t.viewContext, new Hash()));
+    	Assert.equals("A", t.view.render(t.viewContext, new StringMap()));
 	}
 
 	public function testRegisterHelperVariable()
 	{        
 	 	var t = getTemplateData("{:h.v}");  
 		t.viewContext.viewData.set("h", new Helper());
-		Assert.equals("V", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("V", t.view.render(t.viewContext, new StringMap()));
 	}
 	
 	public function testRegisterHelperInRoot()
 	{        
 	 	var t = getTemplateData("{:v}");
 		t.viewContext.viewData.set("", new Helper());
-		Assert.raises(function() t.view.render(t.viewContext, new Hash()), Dynamic);
+		Assert.raises(function() t.view.render(t.viewContext, new StringMap()), Dynamic);
 	}
 	
 	public function testRegisterHelperFunction1()
 	{        
 	 	var t = getTemplateData("{:h.f()}");  
 		t.viewContext.viewData.set("h", new Helper());
-		Assert.equals("FV", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("FV", t.view.render(t.viewContext, new StringMap()));
 	} 
 	
 	public function testRegisterHelperFunction2()
 	{        
 	 	var t = getTemplateData("{:h._('x')}");  
 		t.viewContext.viewData.set("h", new Helper());
-		Assert.equals("X", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("X", t.view.render(t.viewContext, new StringMap()));
 	}
    
     public function testRegisterTranslationHelper()
@@ -101,7 +102,7 @@ class TestHTemplate
 		
 		var t = getTemplateData("{:_('o')}");
 		helper.register(t.viewContext.viewData);
-		Assert.equals("o", t.view.render(t.viewContext, new Hash()));
+		Assert.equals("o", t.view.render(t.viewContext, new StringMap()));
     }
 
 	public static function getTemplateData(templateString : String = "")
@@ -112,7 +113,7 @@ class TestHTemplate
 		var template = new Template(templateString);
 		var view = new HTemplateView(template);  
 		var viewEngine = new HTemplateViewEngine(); 
-		var viewData = new Hash();   
+		var viewData = new StringMap();   
 		var viewHelpers = [];
 		var viewContext = new ViewContext(controllerContext, view, viewEngine, viewData, viewHelpers);     
      	return {

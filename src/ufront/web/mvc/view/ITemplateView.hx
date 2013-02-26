@@ -1,6 +1,7 @@
 package ufront.web.mvc.view;
 
 import thx.collection.HashList;
+import haxe.ds.StringMap;
 
 /**
  * ...
@@ -16,6 +17,6 @@ interface ITemplateView<Template> extends IView
 //	public function set(key : String, value : Dynamic) : Void{}
 //	public function exists(key : String) : Bool;
 //	public function keys() : Iterator<String>;
-	public function data() : Hash<Dynamic>;
-	public function executeTemplate(template : Template, data : Hash<Dynamic>) : String;
+	public function data() : StringMap<Dynamic>;
+	public function executeTemplate(template : Template, data : StringMap<Dynamic>) : String;
 }

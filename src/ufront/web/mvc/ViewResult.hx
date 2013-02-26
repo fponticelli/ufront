@@ -8,10 +8,10 @@ using Types;
 class ViewResult extends ActionResult
 {
 	public var view : IView;
-	public var viewData : Hash<Dynamic>;
+	public var viewData : StringMap<Dynamic>;
 	public var viewName : String;
 
-	public function new(?data : Hash<Dynamic>, ?dataObj : {})
+	public function new(?data : StringMap<Dynamic>, ?dataObj : {})
 	{
 		if (null == data)
 			viewData = new StringMap();
@@ -53,7 +53,7 @@ class ViewResult extends ActionResult
 			result.viewEngine.releaseView(context, view);
 	}
 
-	function writeResponse(context : ControllerContext, content : String, data : Hash<Dynamic>)
+	function writeResponse(context : ControllerContext, content : String, data : StringMap<Dynamic>)
 	{
 		context.response.write(content);
 	}

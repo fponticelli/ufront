@@ -5,6 +5,7 @@ using DynamicsT;
 import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;
+import haxe.ds.StringMap;
 
 class TestRouteUriGeneration extends BaseTest
 {
@@ -21,7 +22,7 @@ class TestRouteUriGeneration extends BaseTest
 		runner.run();
 	}
 	
-	public static inline function here(?pos : haxe.PosInfos) return pos
+	public static inline function here(?pos : haxe.PosInfos) return pos;
 
 	public function testGeneration() 
 	{   

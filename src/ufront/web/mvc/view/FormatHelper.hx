@@ -1,6 +1,7 @@
 package ufront.web.mvc.view;
 import thx.culture.FormatDate;
 import thx.culture.FormatNumber;
+import haxe.ds.StringMap;
 
 /**
  * ...
@@ -11,7 +12,7 @@ class FormatHelper implements IViewHelper
 {
 	public function new(){}
 	
-	public function register(data : Hash<Dynamic>)
+	public function register(data : StringMap<Dynamic>)
 	{
 		data.set("format", Dynamics.format);
 		data.set("pattern", Strings.format);

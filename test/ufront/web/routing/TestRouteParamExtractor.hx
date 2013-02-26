@@ -5,6 +5,7 @@ import thx.collection.Set;
 import utest.Runner;
 import utest.ui.Report;
 import utest.Assert;
+import haxe.ds.StringMap;
 
 class TestRouteParamExtractor
 {
@@ -23,7 +24,7 @@ class TestRouteParamExtractor
 
 	public function new(){}
 
-	function assert(expected : Dynamic<String>, result : Hash<String>, ?pos : PosInfos)
+	function assert(expected : Dynamic<String>, result : StringMap<String>, ?pos : PosInfos)
 	{
 		Assert.same(expected.toHash(), result, pos);
 	}

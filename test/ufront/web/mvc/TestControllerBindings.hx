@@ -1,5 +1,4 @@
 package ufront.web.mvc;
-import haxe.rtti.Infos;
 import thx.error.Error;
 import ufront.web.mvc.TestDefaultControllerFactory;
 import ufront.web.routing.RequestContext;
@@ -27,7 +26,8 @@ class SpecialDateBinder implements IModelBinder
 	}
 }
 
-class DataModel implements Infos
+@:rtti
+class DataModel
 {
 	public function new(){}
 	

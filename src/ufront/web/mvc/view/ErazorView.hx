@@ -1,10 +1,11 @@
 package ufront.web.mvc.view;
 
 import erazor.Template;
+import haxe.ds.StringMap;
 
 class ErazorView extends TemplateView<erazor.Template>
 {
-	override public function executeTemplate(template : Template, data : Hash<Dynamic>) : String
+	override public function executeTemplate(template : Template, data : StringMap<Dynamic>) : String
 	{
 		return template.execute(data);
 	}

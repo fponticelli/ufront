@@ -51,7 +51,7 @@ class Digest implements IAuthAdapter<Identity>
 				var line = file.readLine().trim();
 				if(line.startsWith(id))
 				{
-					if(line.substr(-32) == haxe.Md5.encode(username + ":" + realm + ":" + password))
+					if(line.substr(-32) == haxe.crypto.Md5.encode(username + ":" + realm + ":" + password))
 						return close(Success);
 					else
 						return close(InvalidCredential(new Message('password incorrect')));

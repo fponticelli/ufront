@@ -2,10 +2,11 @@ package ufront.web.mvc.view;
 
 #if htemplate
 import htemplate.Template;
+import haxe.ds.StringMap;
 
 class HTemplateView extends TemplateView<htemplate.Template>
 {	
-	override public function executeTemplate(template : Template, data : Hash<Dynamic>) : String
+	override public function executeTemplate(template : Template, data : StringMap<Dynamic>) : String
 	{
 		return template.execute(data);
 	}

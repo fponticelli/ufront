@@ -1,12 +1,13 @@
 package ufront.web;
 import ufront.web.IHttpSessionState;
+import haxe.ds.StringMap;
 
 class HttpSessionStateMock implements IHttpSessionState
 {
-	var _h : Hash<Dynamic>;
+	var _h : StringMap<Dynamic>;
 	public function new()
 	{
-		_h = new Hash();
+		_h = new StringMap();
 	}
 
 	public function dispose() : Void
@@ -16,7 +17,7 @@ class HttpSessionStateMock implements IHttpSessionState
 
 	public function clear() : Void
 	{
-		_h = new Hash();
+		_h = new StringMap();
 	}
 
 	public function get(name : String) : Dynamic

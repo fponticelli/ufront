@@ -3,14 +3,15 @@ package ufront.acl;
 import thx.collection.Set;
 import thx.error.NullArgument;
 import thx.error.Error;
+import haxe.ds.StringMap;
 using Iterators;
 
 class Registry
 {
-	var _roles : Hash<{ role : String, parents : Set<String>, children : Set<String> }>;
+	var _roles : StringMap<{ role : String, parents : Set<String>, children : Set<String> }>;
 	public function new()
 	{
-		_roles = new Hash();
+		_roles = new StringMap();
 	}
 
 	public function add(role : String, ?parent : String, ?parents : Array<String>)
@@ -92,7 +93,7 @@ class Registry
 
 	public function removeAll()
 	{
-		_roles = new Hash();
+		_roles = new StringMap();
 	}
 
 	public function iterator()

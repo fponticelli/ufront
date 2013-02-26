@@ -1,10 +1,11 @@
 package ufront.web.mvc.view;
 
 import ufront.web.mvc.view.HtmlHelper;
+import haxe.ds.StringMap;
 
 class XHtmlHelper extends HtmlHelper
 {
-	override public function register(data : Hash<Dynamic>)
+	override public function register(data : StringMap<Dynamic>)
 	{
 		data.set(name, new XHtmlHelperInst(urlHelper));
 	}

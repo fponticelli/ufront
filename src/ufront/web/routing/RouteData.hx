@@ -1,11 +1,12 @@
 package ufront.web.routing;
 import thx.error.Error;
+import haxe.ds.StringMap;
 
 class RouteData {
 	public var route(default, null) : RouteBase;
 	public var routeHandler(default, null) : IRouteHandler;
-	public var data(default, null) : Hash<String>;
-	public function new(route : RouteBase, routeHandler : IRouteHandler, data : Hash<String>)
+	public var data(default, null) : StringMap<String>;
+	public function new(route : RouteBase, routeHandler : IRouteHandler, data : StringMap<String>)
 	{
 		this.route = route;
 		this.routeHandler = routeHandler;

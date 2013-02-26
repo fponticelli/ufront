@@ -1,6 +1,7 @@
 package	ufront.web.routing;   
 
 import ufront.web.routing.RouteUriParser;
+import haxe.ds.StringMap;
 
 using ufront.web.routing.RouteUriBuilder;
 
@@ -12,7 +13,7 @@ class RouteUriBuilder
 		this.ast = ast;
 	}                  
 	
-	public function build(params : Hash<String>)
+	public function build(params : StringMap<String>)
 	{                          
 		var buf = new StringBuf();
 
@@ -32,7 +33,7 @@ class RouteUriBuilder
 			return result;
 	}    
 	
-	function buildSegment(segment : UriSegment, params : Hash<String>) 
+	function buildSegment(segment : UriSegment, params : StringMap<String>) 
 	{       
 		var result = "";
 		for(part in segment.parts)
@@ -78,14 +79,14 @@ class RouteUriBuilder
 		return result;
 	}
 	
-	static inline function getEncoded(p : Hash<String>, k : String)
+	static inline function getEncoded(p : StringMap<String>, k : String)
 	{
 		var r = StringTools.urlEncode(p.get(k));   
 		p.remove(k);
 		return r;
 	}  
 	
-	static function getRestEncoded(p : Hash<String>, k : String)
+	static function getRestEncoded(p : StringMap<String>, k : String)
 	{         
 		var parts = p.get(k).split("/");
 		for(i in 0...parts.length)

@@ -1,5 +1,7 @@
 package ufront.web.mvc;
 
+import haxe.ds.StringMap;
+
 /**
  * ...
  * @author Franco Ponticelli
@@ -7,5 +9,5 @@ package ufront.web.mvc;
 
 interface IViewHelper 
 {
-	public function register(data : Hash<Dynamic>) : Void;
+	public function register(data : StringMap<Dynamic>) : Void;
 }

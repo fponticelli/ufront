@@ -12,6 +12,7 @@ import ufront.web.IHttpHandler;
 import ufront.web.IHttpUploadHandler;
 import ufront.web.EmptyUploadHandler;
 import ufront.web.UserAgent;
+import haxe.ds.StringMap;
 using Strings;
 using StringTools;
 
@@ -122,7 +123,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	override function get_post()
 	{
 		if (httpMethod == "GET")
-			return new Hash();
+			return new StringMap();
 		if (null == post)
 		{
 			post = getHashFromString(postString);
@@ -192,7 +193,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	{
 		if (null == clientHeaders)
 		{
-			clientHeaders = new Hash();
+			clientHeaders = new StringMap();
 			var h = Lib.hashOfAssociativeArray(untyped __php__("$_SERVER"));
 			for(k in h.keys()) {
 				if(k.substr(0,5) == "HTTP_") {
@@ -242,7 +243,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	static var paramPattern = ~/^([^=]+)=(.*?)$/;
 	static function getHashFromString(s : String)
 	{
-		var hash = new Hash();
+		var hash = new StringMap();
 		for (part in s.split("&"))
 		{
 			if (!paramPattern.match(part))

@@ -1,5 +1,6 @@
 package ufront.web.mvc.view;
 import ufront.web.mvc.IViewEngine;
+import haxe.ds.StringMap;
 
 /**
  * ...
@@ -12,6 +13,6 @@ interface ITemplateViewEngine<Template> extends IViewEngine
 }
 /*
 typedef TemplateDef = {
-	public function execute(vars : Hash<Dynamic>) : String;
+	public function execute(vars : StringMap<Dynamic>) : String;
 }
 */

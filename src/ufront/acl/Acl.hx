@@ -1,5 +1,7 @@
 package ufront.acl;
 
+import haxe.ds.StringMap;
+
 /**
 *  @todo remove loops over keys for removal
 */
@@ -17,7 +19,7 @@ typedef Combo = {
 class Acl
 {
 	var _registry : Registry;
-	var _resources : Hash<{
+	var _resources : StringMap<{
 		resource : String,
 		parent : String,
 		children : Set<String>
@@ -26,16 +28,16 @@ class Acl
 		allResources : {
 			allRoles : {
 				allPrivileges : Combo,
-				byPrivilegeId : Hash<Combo>
+				byPrivilegeId : StringMap<Combo>
 			},
-			byRoleId : Hash<{ byPrivilegeId : Hash<Combo>, allPrivileges : Combo }>
+			byRoleId : StringMap<{ byPrivilegeId : StringMap<Combo>, allPrivileges : Combo }>
 		},
-		byResourceId : Hash<{
+		byResourceId : StringMap<{
 			allRoles : {
 				allPrivileges : Combo,
-				byPrivilegeId : Hash<Combo>
+				byPrivilegeId : StringMap<Combo>
 			},
-			byRoleId : Hash<{ byPrivilegeId : Hash<Combo>, allPrivileges : Combo }>
+			byRoleId : StringMap<{ byPrivilegeId : StringMap<Combo>, allPrivileges : Combo }>
 		}>
 	};
 	var _isAllowedRole : String;
@@ -45,7 +47,7 @@ class Acl
 	public function new()
 	{
 		_registry = new Registry();
-		_resources = new Hash();
+		_resources = new StringMap();
 		_rules = {
 			allResources : {
 				allRoles : {
@@ -53,11 +55,11 @@ class Acl
 						type   : Deny,
 						assert : null
 					},
-					byPrivilegeId : new Hash()
+					byPrivilegeId : new StringMap()
 				},
-				byRoleId : new Hash()
+				byRoleId : new StringMap()
 			},
-			byResourceId : new Hash()
+			byResourceId : new StringMap()
 		};
 		_isAllowedPrivilege = null;
 	}
@@ -118,11 +120,11 @@ class Acl
 						type   : Deny,
 						assert : null
 					},
-					byPrivilegeId : new Hash()
+					byPrivilegeId : new StringMap()
 				},
-				byRoleId : new Hash()
+				byRoleId : new StringMap()
 			},
-			byResourceId : new Hash()
+			byResourceId : new StringMap()
 		};
 		return this;
 	}
@@ -217,7 +219,7 @@ class Acl
 				if(res == resource)
 					_rules.byResourceId.remove(res);
 		}
-		_resources = new Hash();
+		_resources = new StringMap();
 	   	return this;
 	}
 
@@ -292,7 +294,7 @@ class Acl
 								{
 									rules.allPrivileges.type = Deny;
 									rules.allPrivileges.assert = null;
-									rules.byPrivilegeId = new Hash();
+									rules.byPrivilegeId = new StringMap();
 								}
 								continue;
 							}
@@ -516,10 +518,10 @@ class Acl
 					return null;
 				_rules.byResourceId.set(resource,
 					{
-						byRoleId : new Hash<{ byPrivilegeId : Hash<Combo>, allPrivileges : Combo }>(),
+						byRoleId : new StringMap<{ byPrivilegeId : StringMap<Combo>, allPrivileges : Combo }>(),
 						allRoles : {
 							allPrivileges : null,
-							byPrivilegeId : new Hash()
+							byPrivilegeId : new StringMap()
 						}
 					});
 			}
@@ -536,7 +538,7 @@ class Acl
 			if(!create)
 				return null;
 			visitor.byRoleId.set(role, {
-				byPrivilegeId : new Hash<Combo>(),
+				byPrivilegeId : new StringMap<Combo>(),
 				allPrivileges : null
 			});
 		}

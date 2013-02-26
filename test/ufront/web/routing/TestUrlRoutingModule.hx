@@ -62,8 +62,8 @@ class TestUrlRoutingModule extends HttpApplication
 		// Create mock objects for http and routeHandler
 		var routeHandler = new Mock<IRouteHandler>(IRouteHandler);
 		
-		routeHandler.setupMethod("getHttpHandler").returns(httpHandler.object);
-		httpHandler.setupMethod("processRequest").returns(Void);
+		routeHandler.setupMethod("get_httpHandler").returns(httpHandler.object);
+		httpHandler.setupMethod("processRequest");
 
 		var routes = Lambda.fold(routeStrings, 
 			function(route : String, collection : RouteCollection)
@@ -76,7 +76,7 @@ class TestUrlRoutingModule extends HttpApplication
 
 		// Make a mock request for the root url
 		var mockRequest = new HttpRequestMock();
-		mockRequest.setQueryString(url);
+		mockRequest.set_queryString(url);
 				
 		// Setup the application with the mock objects and the UrlRoutingModule.
 		var app = new TestUrlRoutingModule(new HttpContextMock(mockRequest));		

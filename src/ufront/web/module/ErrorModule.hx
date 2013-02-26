@@ -11,6 +11,7 @@ import ufront.web.mvc.MvcRouteHandler;
 import ufront.web.mvc.Controller;
 import ufront.web.HttpApplication;
 import ufront.web.IHttpModule;
+import haxe.ds.StringMap;
 using DynamicsT;
 using Strings;
 using Types;

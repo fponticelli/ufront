@@ -2,6 +2,7 @@ package ufront.web.mvc.view;
 import ufront.web.mvc.ViewContext;
 using StringTools;
 import ufront.web.mvc.view.UrlHelper;
+import haxe.ds.StringMap;
 
 class HtmlHelper implements ufront.web.mvc.IViewHelper
 {
@@ -13,7 +14,7 @@ class HtmlHelper implements ufront.web.mvc.IViewHelper
 		this.urlHelper = urlHelper;
 	}
 
-	public function register(data : Hash<Dynamic>)
+	public function register(data : StringMap<Dynamic>)
 	{
 		data.set(name, new HtmlHelperInst(urlHelper));
 	}

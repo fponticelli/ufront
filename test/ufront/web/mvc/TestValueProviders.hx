@@ -4,6 +4,7 @@ import umock.Mock;
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
+import haxe.ds.StringMap;
 
 class TestValueProviders
 {      
@@ -46,7 +47,7 @@ class TestValueProviders
 	
 	public function testHashValueProvider()
 	{
-		var input = new Hash<Dynamic>();
+		var input = new StringMap<Dynamic>();
 		input.set("a", "AAA");
 		input.set("test.b", "BBB");
 		input.set("c", 123);
