@@ -7,29 +7,29 @@ package ufront.web.mvc;
 
 class ModelBinderDictionary
 {
-	public var count(getCount, null) : Int;
-	private function getCount() { return Lambda.count(_innerDictionary); }
+	public var count(get, null) : Int;
+	private function get_count() { return Lambda.count(_innerDictionary); }
 
 	var _defaultBinder : IModelBinder;
-	public var defaultBinder(getDefaultBinder, setDefaultBinder) : IModelBinder;
-	private function getDefaultBinder()
+	public var defaultBinder(get, set) : IModelBinder;
+	private function get_defaultBinder()
 	{
 		if (_defaultBinder == null)
 			_defaultBinder = new DefaultModelBinder();
 
 		return _defaultBinder;
 	}
-	private function setDefaultBinder(v : IModelBinder)
+	private function set_defaultBinder(v : IModelBinder)
 	{
 		_defaultBinder = v;
 		return _defaultBinder;
 	}
 
-	public var keys(getKeys, null) : Iterator<String>;
-	private function getKeys() { return _innerDictionary.keys(); }
+	public var keys(get, null) : Iterator<String>;
+	private function get_keys() { return _innerDictionary.keys(); }
 
-	public var values(getValues, null) : Iterator<IModelBinder>;
-	private function getValues() { return _innerDictionary.iterator(); }
+	public var values(get, null) : Iterator<IModelBinder>;
+	private function get_values() { return _innerDictionary.iterator(); }
 
 	public function add(key : Dynamic, value : IModelBinder)
 	{

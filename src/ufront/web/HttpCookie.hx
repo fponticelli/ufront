@@ -12,7 +12,7 @@ class HttpCookie
 	public var name : String;
 	public var path : String;
 	public var secure : Bool;
-	public var value(default, setValue) : String;
+	public var value(default, set) : String;
 	
 	public function new(name : String, value : String, ?expires : Date, ?domain : String, ?path : String, secure = false)
 	{
@@ -31,7 +31,7 @@ class HttpCookie
 		return name = v;
 	}
 	
-	function setValue(v : String)
+	function set_value(v : String)
 	{
 		if (null == v)
 			throw "invalid null argument value";

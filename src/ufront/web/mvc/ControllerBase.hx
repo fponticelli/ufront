@@ -20,15 +20,15 @@ class ControllerBase implements IController, implements haxe.rtti.Infos
 	public var controllerContext : ControllerContext;
 
 	var _valueProvider : IValueProvider;
-	public var valueProvider(getValueProvider, setValueProvider) : IValueProvider;
-	private function getValueProvider()
+	public var valueProvider(get, set) : IValueProvider;
+	private function get_valueProvider()
 	{
 		if (_valueProvider == null)
 			_valueProvider = ValueProviderFactories.factories.getValueProvider(controllerContext);
 
 		return _valueProvider;
 	}
-	private function setValueProvider(valueProvider : IValueProvider)
+	private function set_valueProvider(valueProvider : IValueProvider)
 	{
 		_valueProvider = valueProvider;
 		return _valueProvider;

@@ -15,8 +15,8 @@ import thx.error.NullArgument;
 */
 class HttpResponse
 {
-	public static var instance(getInstance, null) : HttpResponse;
-	static function getInstance() : HttpResponse
+	public static var instance(get, null) : HttpResponse;
+	static function get_instance() : HttpResponse
 	{
 		if(null == instance)
 #if php
@@ -42,8 +42,8 @@ class HttpResponse
 	static inline var NOT_FOUND = 404;
 	static inline var INTERNAL_SERVER_ERROR = 500;
 
-	public var contentType(getContentType, setContentType) : String;
-	public var redirectLocation(getRedirectLocation, setRedirectLocation) : String;
+	public var contentType(get, set) : String;
+	public var redirectLocation(get, set) : String;
 	public var charset : String;
 	public var status : Int;
 
@@ -167,12 +167,12 @@ class HttpResponse
 		return status == MOVED_PERMANENTLY;
 	}
 
-	function getContentType()
+	function get_contentType()
 	{
 		return _headers.get(CONTENT_TYPE);
 	}
 
-	function setContentType(v : String)
+	function set_contentType(v : String)
 	{
 		if (null == v)
 			_headers.set(CONTENT_TYPE, DEFAULT_CONTENT_TYPE)
@@ -181,12 +181,12 @@ class HttpResponse
 		return v;
 	}
 
-	function getRedirectLocation()
+	function get_redirectLocation()
 	{
 		return _headers.get(LOCATION);
 	}
 
-	function setRedirectLocation(v : String)
+	function set_redirectLocation(v : String)
 	{
 		if (null == v)
 			_headers.remove(LOCATION)

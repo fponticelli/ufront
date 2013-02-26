@@ -13,9 +13,9 @@ import hxevents.Dispatcher;
 class HttpApplication
 {
 	public var httpContext(default, null) : HttpContext;
-	public var request(getRequest, null) : HttpRequest;
-	public var response(getResponse, null) : HttpResponse;
-	public var session(getSession, null) : IHttpSessionState;
+	public var request(get, null) : HttpRequest;
+	public var response(get, null) : HttpResponse;
+	public var session(get, null) : IHttpSessionState;
 	public var modules(default, null) : List<IHttpModule>;
 
 	var _handler : IHttpHandler;
@@ -321,7 +321,7 @@ class HttpApplication
 		_completed = true;
 	}
 
-	function getRequest() return httpContext.request;
-	function getResponse() return httpContext.response;
-	function getSession() return httpContext.session;
+	function get_request() return httpContext.request;
+	function get_response() return httpContext.response;
+	function get_session() return httpContext.session;
 }

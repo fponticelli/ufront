@@ -10,7 +10,7 @@ class ExceptionContext extends ControllerContext
 	public var exception : Dynamic;
 	public var exceptionHandled : Bool;
 	
-	public var result(getResult, setResult) : ActionResult;
+	public var result(get, set) : ActionResult;
 	private var _result : ActionResult;
 		
 	public function new(controllerContext : ControllerContext, exception : Dynamic)
@@ -19,12 +19,12 @@ class ExceptionContext extends ControllerContext
 		this.exception = exception;
 	}
 	
-	function getResult()
+	function get_result()
 	{
 		return _result != null ? _result : new EmptyResult();
 	}
 	
-	function setResult(result : ActionResult)
+	function set_result(result : ActionResult)
 	{
 		_result = result;
 		return result;

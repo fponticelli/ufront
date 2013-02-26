@@ -19,7 +19,7 @@ class Route extends RouteBase
 {
 	public static var parser = new RouteUriParser();
 
-	public var url(getUrl, null) : String;
+	public var url(get, null) : String;
 	public var handler(default, null) : IRouteHandler;
 	public var defaults(default, null) : Hash<String>;
 	public var constraints(default, null) : Array<IRouteConstraint>;
@@ -122,7 +122,7 @@ class Route extends RouteBase
 		}
 	}
 
-	function getUrl()
+	function get_url()
 	{
 		return url;
 	}

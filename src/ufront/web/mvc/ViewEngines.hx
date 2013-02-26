@@ -3,7 +3,7 @@ import ufront.web.mvc.IViewEngine;
 
 class ViewEngines
 {
-	public static var engines(getEngines, null) : ViewEngines;
+	public static var engines(get, null) : ViewEngines;
 
 	var _list : List<IViewEngine>;
 
@@ -27,7 +27,7 @@ class ViewEngines
 		return _list.iterator();
 	}
 
-	static function getEngines()
+	static function get_engines()
 	{
 		if(null == engines)
 		{

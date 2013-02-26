@@ -17,27 +17,22 @@ class NekoSession
 	private static var SID : String = 'NEKOSESSIONID';
 
 	public static var started(default, null) : Bool;
-	public static var id(default, setId) : String;
-	public static var savePath(default, setSavePath) : String;
+	public static var id(default, set) : String;
+	public static var savePath(default, set) : String;
 	private static var sessionData : Hash<Dynamic>;
-	public static var sessionName(default, setName) : String;
+	public static var sessionName(default, set) : String;
 	private static var needCommit : Bool;
 
-	public static function setName(name : String)
+	public static function set_sessionName(name : String)
 	{
 		if( started ) throw "Can't set name after Session start.";
 		sessionName=name;
 		return name;
 	}
 
-	public static function getName() : String
-	{
-		return sessionName;
-	}
+	public static function get_id() : String return id;
 
-	public static function getId() : String return id
-
-	public static function setId(_id : String) : String
+	public static function set_id(_id : String) : String
 	{
 		if( started ) throw "Can't set id after Session.start.";
 
@@ -47,22 +42,22 @@ class NekoSession
 		return id;
 	}
 
-	public static function getSavePath() : String return savePath
+	public static function get_savePath() : String return savePath;
 
-	public static function setSavePath(path : String) : String
+	public static function set_savePath(path : String) : String
 	{
 		if(started) throw "You can't set the save path while the session is already in use.";
 		savePath = path;
 		return path;
 	}
 
-	public static function getModule() : String
+	public static function get_module() : String
 	{
 		throw "Not implemented.";
 		return "";
 	}
 
-	public static function setModule(module : String)
+	public static function set_module(module : String)
 	{
 		if(started) throw "You can't set the module while the session is already in use.";
 		throw "Not implemented.";

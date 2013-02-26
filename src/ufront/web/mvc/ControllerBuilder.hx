@@ -9,7 +9,7 @@ class ControllerBuilder
 	public var packages(default, null) : List<String>;
 	public var attributes(default, null) : List<String>;
 
-	public var controllerFactory(getControllerFactory, setControllerFactory) : IControllerFactory;
+	public var controllerFactory(get, set) : IControllerFactory;
 	var _controllerFactory : IControllerFactory;
 
 	public function new()
@@ -18,7 +18,7 @@ class ControllerBuilder
 		attributes = new List();
 	}
 
-	public function getControllerFactory() : IControllerFactory
+	public function get_controllerFactory() : IControllerFactory
 	{
 		if (_controllerFactory == null)
 			_controllerFactory = new DefaultControllerFactory(this, DependencyResolver.current);
@@ -26,7 +26,7 @@ class ControllerBuilder
 		return _controllerFactory;
 	}
 
-	public function setControllerFactory(controllerFactory : IControllerFactory)
+	public function set_controllerFactory(controllerFactory : IControllerFactory)
 	{
 		NullArgument.throwIfNull(controllerFactory);
 		this._controllerFactory = controllerFactory;

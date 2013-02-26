@@ -26,9 +26,9 @@ class HttpContext
 		return new HttpContextImpl(request, response, FileSession.create(sessionpath));
 	}
 
-	public var request(getRequest, null) : HttpRequest;
-	public var response(getResponse, null) : HttpResponse;
-	public var session(getSession, null) : IHttpSessionState;
+	public var request(get, null) : HttpRequest;
+	public var response(get, null) : HttpResponse;
+	public var session(get, null) : IHttpSessionState;
 
 	var _requestUri : String;
 	public function getRequestUri() : String
@@ -68,9 +68,9 @@ class HttpContext
 
 	public function dispose() : Void{}
 
-	function getRequest() return throw new AbstractMethod();
-	function getResponse() return throw new AbstractMethod();
-	function getSession() return throw new AbstractMethod();
+	function get_request() return throw new AbstractMethod();
+	function get_response() return throw new AbstractMethod();
+	function get_session() return throw new AbstractMethod();
 
 	function new()
 	{

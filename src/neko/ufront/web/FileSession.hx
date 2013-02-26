@@ -25,7 +25,7 @@ class FileSession implements IHttpSessionState
 		if (!savePath.endsWith("/"))
 			savePath += "/";
 		setLifeTime(expire);
-		NekoSession.setSavePath(savePath);
+		NekoSession.set_savePath(savePath);
 	}
 
 	public function dispose() : Void

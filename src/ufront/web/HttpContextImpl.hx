@@ -35,9 +35,9 @@ class HttpContextImpl extends HttpContext
 		this.session = session;
 	}
 	
-	override function getRequest() return request
-	override function getResponse() return response
-	override function getSession() return session
+	override function get_request() return request;
+	override function get_response() return response;
+	override function get_session() return session;
 	
 	override public function dispose():Void
 	{

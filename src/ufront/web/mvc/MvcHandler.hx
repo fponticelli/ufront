@@ -9,7 +9,7 @@ import ufront.web.IHttpHandler;
 
 class MvcHandler implements IHttpHandler {
 	public var requestContext(default, null) : RequestContext;
-	@:isVar public var controllerBuilder(getControllerBuilder, setControllerBuilder) : ControllerBuilder;
+	@:isVar public var controllerBuilder(get, set) : ControllerBuilder;
 	public function new(requestContext : RequestContext)
 	{
 		NullArgument.throwIfNull(requestContext);
@@ -19,7 +19,7 @@ class MvcHandler implements IHttpHandler {
 	public function processRequest(httpContext : HttpContext, async : hxevents.Async)
 	{
 		var controllerName = requestContext.routeData.getRequired("controller");
-		var factory = controllerBuilder.getControllerFactory();
+		var factory = controllerBuilder.get_controllerFactory();
 		var controller = factory.createController(requestContext, controllerName);
 		if(null == controller)
 			throw new BadRequestError();
@@ -33,7 +33,7 @@ class MvcHandler implements IHttpHandler {
 		factory.releaseController(controller);
 	}
 
-	function getControllerBuilder() : ControllerBuilder
+	function get_controllerBuilder() : ControllerBuilder
 	{
 		if(null == controllerBuilder)
 			return ControllerBuilder.current;
@@ -41,7 +41,7 @@ class MvcHandler implements IHttpHandler {
 			return controllerBuilder;
 	}
 
-	function setControllerBuilder(v : ControllerBuilder)
+	function set_controllerBuilder(v : ControllerBuilder)
 	{
 		return controllerBuilder = v;
 	}

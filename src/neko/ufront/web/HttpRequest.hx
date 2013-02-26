@@ -28,14 +28,14 @@ class HttpRequest extends ufront.web.HttpRequest
 		_init();
 	}
 	
-	override function getQueryString()
+	override function get_queryString()
 	{
 		if (null == queryString)
 			queryString = new String(_get_params_string());
 		return queryString;
 	}
 	
-	override function getPostString()
+	override function get_postString()
 	{
 		if (httpMethod == "GET")
 			return "";
@@ -59,7 +59,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		if (_parsed)
 			return;
 		_parsed = true;
-		var post = getPost();
+		var post = get_post();
 		var handler = _uploadHandler;
 		var isFile = false, partName = null, firstData = false, lastWasFile = false;
 		var onPart = function(pn : String, pf : String)
@@ -124,21 +124,21 @@ class HttpRequest extends ufront.web.HttpRequest
 		_parseMultipart();
 	}
 	
-	override function getQuery()
+	override function get_query()
 	{
 		if (null == query)
 			query = getHashFromString(queryString);
 		return query;
 	}
 	
-	override function getUserAgent()
+	override function get_userAgent()
 	{
 		if (null == userAgent)
 			userAgent = UserAgent.fromString(clientHeaders.get("User-Agent"));
 		return userAgent;
 	}
 	
-	override function getPost()
+	override function get_post()
 	{
 		if (httpMethod == "GET")
 			return new Hash();
@@ -151,7 +151,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return post;
 	}
 	
-	override function getCookies()
+	override function get_cookies()
 	{
 		if (null == cookies)
 		{
@@ -167,14 +167,14 @@ class HttpRequest extends ufront.web.HttpRequest
 		return cookies;
 	}
 	
-	override function getHostName()
+	override function get_hostName()
 	{
 		if (null == hostName)
 			hostName = new String(_get_host_name());
 		return hostName;
 	}
 	
-	override function getClientIP()
+	override function get_clientIP()
 	{
 		if (null == clientIP)
 			clientIP = new String(_get_client_ip());
@@ -184,7 +184,7 @@ class HttpRequest extends ufront.web.HttpRequest
 	/**
 	 *  @todo the page processor removal is quite hackish
 	 */
-	override function getUri()
+	override function get_uri()
 	{
 		if (null == uri) {
 			uri = new String(_get_uri()); 
@@ -197,7 +197,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return uri;
 	}
 	
-	override function getClientHeaders()
+	override function get_clientHeaders()
 	{
 		if (null == clientHeaders)
 		{
@@ -211,7 +211,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return clientHeaders;
 	}
 	
-	override function getHttpMethod()
+	override function get_httpMethod()
 	{
 		if (null == httpMethod)
 		{
@@ -221,7 +221,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return httpMethod;
 	}
 	
-	override function getScriptDirectory()
+	override function get_scriptDirectory()
 	{
 		if (null == scriptDirectory)
 		{
@@ -230,7 +230,7 @@ class HttpRequest extends ufront.web.HttpRequest
 		return scriptDirectory;
 	}
 	
-	override function getAuthorization()
+	override function get_authorization()
 	{
 		if (null == authorization)
 		{
