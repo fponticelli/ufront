@@ -6,10 +6,10 @@
 #if neko
 package neko.ufront.web;
 
-import neko.FileSystem;
+import sys.FileSystem;
 import neko.Lib;
 import neko.Web;
-import neko.Sys;
+import Sys;
 import haxe.io.Bytes;
 
 class NekoSession
@@ -133,7 +133,7 @@ class NekoSession
 		if( sessionName == null ) sessionName = SID;
 
 		if( savePath == null )
-			savePath = neko.Sys.getCwd();
+			savePath = Sys.getCwd();
 		else
 		{
 			// Test if savepath exists. Need to remove last slash in path, otherwise FileSystem.exists() throws an exception.
@@ -178,15 +178,15 @@ class NekoSession
 			testValidId(id);
 
 			file = savePath + id + ".sess";
-			if( !neko.FileSystem.exists(file) )
+			if( !sys.FileSystem.exists(file) )
 				id = null;
 			else
 			{
-				fileData = try neko.io.File.getBytes(file) catch ( e:Dynamic ) null;
+				fileData = try sys.io.File.getBytes(file) catch ( e:Dynamic ) null;
 				if( fileData == null )
 				{
 					id = null;
-					try neko.FileSystem.deleteFile(file) catch( e:Dynamic ) null;
+					try sys.FileSystem.deleteFile(file) catch( e:Dynamic ) null;
 				}
 				else
 				{
@@ -201,9 +201,9 @@ class NekoSession
 
 			do
 			{
-				id = haxe.Md5.encode(Std.string(Math.random() + Math.random()));
+				id = haxe.crypto.Md5.encode(Std.string(Math.random() + Math.random()));
 				file = savePath + id + ".sess";
-			} while( neko.FileSystem.exists(file) );
+			} while( sys.FileSystem.exists(file) );
 
 			var expire = (lifetime == 0) ? null : DateTools.delta(Date.now(), 1000.0 * lifetime);
 			Web.setCookie(SID, id, expire, domain, path, secure);
@@ -224,7 +224,7 @@ class NekoSession
 		if( !started ) return;
 		try
 		{
-			var w = neko.io.File.write(savePath + id + ".sess", true),
+			var w = sys.io.File.write(savePath + id + ".sess", true),
 				b = Lib.serialize(sessionData);
 			w.writeBytes(b, 0, b.length);
 			w.close();
