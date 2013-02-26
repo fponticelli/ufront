@@ -79,7 +79,7 @@ span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
 	function _errorStack() : Array<String>
 	{
 		var arr = [];
-		var stack = haxe.Stack.exceptionStack();
+		var stack = haxe.CallStack.exceptionStack();
 #if php
 		stack.pop();
 		stack = stack.slice(2);
