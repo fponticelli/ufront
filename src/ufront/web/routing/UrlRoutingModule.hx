@@ -7,11 +7,14 @@ import ufront.web.IHttpModule;
 
 /**
  * Gets an IHttpHandler from the routing and executes it in the HttpApplication context.
+ * Matches a URL request to a defined route. 
  * @author Andreas Soderlund
  */
 class UrlRoutingModule implements IHttpModule
 {
+	/** Gets the collection of defined routes for the Ufront application. */
 	public var routeCollection(default, null) : RouteCollection;
+
 	var httpHandler : IHttpHandler;
 
 	public function new(?routeCollection : RouteCollection)
@@ -19,6 +22,7 @@ class UrlRoutingModule implements IHttpModule
 		this.routeCollection = (routeCollection != null) ? routeCollection : new RouteCollection();
 	}
 
+	/** Initializes a module and prepares it to handle requests. */
 	public function init(application : HttpApplication) : Void
 	{
 		application.onPostResolveRequestCache.add(setHttpHandler);
@@ -48,6 +52,7 @@ class UrlRoutingModule implements IHttpModule
 		httpHandler.processRequest(application.httpContext, async);
 	}
 
+	/** Disposes of the resources (other than memory) that are used by the module. */
 	public function dispose() : Void
 	{
 		routeCollection = null;

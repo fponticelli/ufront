@@ -5,9 +5,14 @@ import ufront.web.IHttpSessionState;
 import ufront.web.HttpResponse;
 import ufront.web.HttpRequest;
 
+/** Encapsulates information about an HTTP request that matches a defined route. */
 class RequestContext {
+	/** Gets information about the HTTP request. */
 	public var httpContext(default, null) : HttpContext;
+
+	/** Gets information about the requested route. */
 	public var routeData(default, null) : RouteData;   
+	
  	public var request(default, null) : HttpRequest;
 	public var response(default, null) : HttpResponse;
 	public var session(default, null) : IHttpSessionState;

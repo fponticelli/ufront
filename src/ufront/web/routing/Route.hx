@@ -16,13 +16,21 @@ import ufront.web.routing.RouteUriParser;
 import haxe.ds.StringMap;
 using StringTools;
 
+/** Provides properties and methods for defining a route and for obtaining information about the route. */
 class Route extends RouteBase
 {
 	public static var parser = new RouteUriParser();
 
+	/** Gets or sets the URL pattern for the route. */
 	public var url(get, null) : String;
+
+	/** Gets or sets the object that processes requests for the route. */
 	public var handler(default, null) : IRouteHandler;
+
+	/** Gets or sets the values to use if the URL does not contain all the parameters. */
 	public var defaults(default, null) : StringMap<String>;
+
+	/** Gets or sets a dictionary of expressions that specify valid values for a URL parameter. */
 	public var constraints(default, null) : Array<IRouteConstraint>;
 
 	var extractor : RouteParamExtractor;
@@ -61,7 +69,7 @@ class Route extends RouteBase
 		return _ast;
 	}
 
-	//added public to match visibility of ROuteBase, the compiler complains on that!
+	/** Gets the Type of the current instance.  */
 	public override function getRouteData(httpContext : HttpContext) : RouteData
 	{
 		var requesturi = httpContext.getRequestUri();
@@ -87,7 +95,7 @@ class Route extends RouteBase
 		}
 	}
 
-	//added public to match visibility of ROuteBase, the compiler complains on that!
+	/** Returns information about the URL that is associated with the route. */
 	public override function getPath(httpContext : HttpContext, data : StringMap<String>)
 	{
 	    var params = null == data ? new StringMap() : data;
@@ -128,6 +136,7 @@ class Route extends RouteBase
 		return url;
 	}
 
+	/** Determines whether a parameter value matches the constraint for that parameter. */
 	function processConstraints(httpContext : HttpContext, params : StringMap<String>, direction : UrlDirection)
 	{
 		for(constraint in constraints)
