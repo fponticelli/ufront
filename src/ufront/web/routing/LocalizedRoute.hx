@@ -30,9 +30,9 @@ class LocalizedRoute extends Route
 		if(null == currentLanguage)
 			return super.get_url();
 		else
-			return translator._(super.get_url(), currentLanguage);
-			// NEED TO CHECK WHAT THIS IS SUPPOSED TO BE...
-			// return super.get_url();
+			// NEED TO CHECK THAT THE UNCOMMENTED LINE IS EQUIVALENT TO THE COMMENTED LINE
+			// return translator._(super.get_url(), currentLanguage);
+			return translator.singular(super.get_url(), currentLanguage);
 	}
 
 	var _asts : StringMap<UriSegments>;
