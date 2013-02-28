@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 
 /**
- * ...
+ * Represents a value provider for query strings that are contained in a HashValueProvider object.
  * @author Andreas Soderlund
  */
 

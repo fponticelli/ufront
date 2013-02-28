@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 
 /**
- * ...
+ * Represents the collection of value-provider factories for the application. 
  * @author Andreas Soderlund
  */
 

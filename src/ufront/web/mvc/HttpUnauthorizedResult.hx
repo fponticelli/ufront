@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 
 /**
- * ...
+ * Represents the result of an unauthorized HTTP request. 
  * @author Andreas Soderlund
  */
 

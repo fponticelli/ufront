@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 
 /**
- * ...
+ * Represents a class that is responsible for creating a new instance of a form-value provider object.
  * @author Andreas Soderlund
  */
 

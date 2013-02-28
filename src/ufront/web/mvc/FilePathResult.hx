@@ -4,10 +4,14 @@ import haxe.io.Bytes;
 import haxe.io.Eof;
 import thx.sys.io.File;
 
+/**  Sends the contents of a file to the response.  */
 class FilePathResult extends FileResult
 {
 	static var BUF_SIZE = 4096;
+
+	/** Gets or sets the path of the file that is sent to the response. */
 	public var fileName : String;
+	
 	public function new(?fileName : String, ?contentType : String, ?fileDownloadName)
 	{
 		super(contentType, fileDownloadName);

@@ -12,6 +12,7 @@ import ufront.web.mvc.ControllerContext;
 import ufront.web.mvc.IViewEngine;
 import thx.sys.FileSystem;
 
+/** Represents a view engine that is used to render a web page that uses the erazor syntax. */
 class ErazorViewEngine implements ITemplateViewEngine<Template>
 {
 	public static var DEFAULT_EXTENSION = ".html";
@@ -22,6 +23,7 @@ class ErazorViewEngine implements ITemplateViewEngine<Template>
 		return controllerContext.request.scriptDirectory + "view/";
 	}
 
+	/** Finds the specified view by using the specified controller context and master view name. */
 	public function findView(controllerContext : ControllerContext, viewName : String) : ViewEngineResult
 	{
 		var template = getTemplate(controllerContext, viewName);
@@ -73,6 +75,6 @@ class ErazorViewEngine implements ITemplateViewEngine<Template>
 #end
 	}
 
-
+	/** Releases the specified view by using the specified controller context. */
 	public function releaseView(controllerContext : ControllerContext, view : IView) : Void{}
 }

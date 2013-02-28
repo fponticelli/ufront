@@ -8,7 +8,7 @@ import hxevents.Dispatcher;
 import ufront.events.ReverseDispatcher;
 
 /**
- * ...
+ * Represents the base class for all MVC controllers. 
  * @author Andreas Soderlund
  */
 
@@ -16,12 +16,14 @@ import ufront.events.ReverseDispatcher;
 class ControllerBase implements IController
 {
 	/**
+	 * Gets or sets the controller context.
 	 * If null, this value is automatically created in execute().
 	 */
 	public var controllerContext : ControllerContext;
 
-	var _valueProvider : IValueProvider;
+	/** Gets or sets the value provider for the controller. */
 	public var valueProvider(get, set) : IValueProvider;
+	var _valueProvider : IValueProvider;
 	private function get_valueProvider()
 	{
 		if (_valueProvider == null)
@@ -37,8 +39,10 @@ class ControllerBase implements IController
 
 	public function new(){}
 
+	/** Executes the request. */
 	private function executeCore(async : hxevents.Async) { throw "executeCore() must be overridden in subclass."; }
 
+	/** Executes the specified request context. */
 	public function execute(requestContext : RequestContext, async : hxevents.Async) : Void
 	{
 		NullArgument.throwIfNull(requestContext);

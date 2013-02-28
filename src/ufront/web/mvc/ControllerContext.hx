@@ -7,12 +7,21 @@ import ufront.web.HttpContext;
 import ufront.web.mvc.Controller;
 import ufront.web.routing.RequestContext;
 
+/** Encapsulates information about an HTTP request that matches specified RouteBase and ControllerBase instances. */
 class ControllerContext
 {
+	/** Gets or sets the controller. */
 	public var controller : ControllerBase;
+
+	/** Gets or sets the request context. */
 	public var requestContext : RequestContext;
+
+	/** Gets or sets the HTTP context. */
 	public var httpContext : HttpContext;
+
+	/** Gets or sets the URL route data. */
 	public var routeData : RouteData;
+	
 	public var request : HttpRequest;
 	public var response : HttpResponse;
 	public var session : IHttpSessionState;

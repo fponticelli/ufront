@@ -1,6 +1,7 @@
 package ufront.web.mvc;
 import thx.collection.HashList;
 
+/** Provides the context for the ActionExecuting method of the ActionFilterAttribute class. */
 class ActionExecutingContext
 {
 	public var actionName(default, null) : String;

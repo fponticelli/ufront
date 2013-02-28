@@ -5,10 +5,16 @@ import ufront.web.mvc.ViewContext;
 import haxe.ds.StringMap;
 using Types;
 
+/** Represents a class that is used to render a view by using an IView instance that is returned by an IViewEngine object. */
 class ViewResult extends ActionResult
 {
+	/** Gets or sets the view that is rendered to the response */
 	public var view : IView;
+
+	/** Gets or sets the view data StringMap object for this result. */
 	public var viewData : StringMap<Dynamic>;
+
+	/** Gets or sets the name of the view to render */
 	public var viewName : String;
 
 	public function new(?data : StringMap<Dynamic>, ?dataObj : {})
@@ -26,6 +32,7 @@ class ViewResult extends ActionResult
 		return new ViewContext(controllerContext, view, result.viewEngine, viewData, controllerContext.controller.getViewHelpers());
 	}
 
+	/** When called by the action invoker, renders the view to the response. */
 	override function executeResult(context : ControllerContext)
 	{
 		NullArgument.throwIfNull(context);

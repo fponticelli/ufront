@@ -4,6 +4,7 @@ package ufront.web.mvc;
 import thx.json.Json;
 import thx.error.NullArgument;
 
+/** Represents a class that is used to send JSON-formatted content to the response. */
 class JsonResult<T> extends ActionResult
 {
 	public var content : T;

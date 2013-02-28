@@ -4,7 +4,7 @@ import ufront.web.mvc.ControllerContext;
 import ufront.web.mvc.IValueProvider;
 
 /**
- * ...
+ * Represents a class that is responsible for creating a new instance of a query-string value-provider object.
  * @author Andreas Soderlund
  */
 

@@ -7,6 +7,7 @@ import haxe.ds.StringMap;
 using Types;
 using Hashes;
 
+/** Contains methods to build URLs for Ufront within an application. */
 class UrlHelper implements IViewHelper
 {
     public var name(default, null) : String;

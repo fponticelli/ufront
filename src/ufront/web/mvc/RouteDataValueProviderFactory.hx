@@ -4,7 +4,7 @@ import ufront.web.mvc.ControllerContext;
 import ufront.web.mvc.IValueProvider;
 
 /**
- * ...
+ * Represents a factory for creating route-data value provider objects. 
  * @author Andreas Soderlund
  */
 

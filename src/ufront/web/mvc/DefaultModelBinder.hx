@@ -3,7 +3,8 @@ import thx.error.Error;
 import thx.type.Rttis;
 
 /**
- * ...
+ * Maps a browser request to a data object. This class provides a concrete implementation of a model binder.
+ * 
  * @author Andreas Soderlund
  */
 
@@ -11,6 +12,7 @@ class DefaultModelBinder implements IModelBinder
 {
 	public function new(){}
 	
+	/** Binds the model by using the specified controller context and binding context. */
 	public function bindModel(controllerContext : ControllerContext, bindingContext : ModelBindingContext) : Dynamic
 	{
 		var value = bindingContext.valueProvider.getValue(bindingContext.modelName);

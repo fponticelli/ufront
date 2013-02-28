@@ -1,7 +1,7 @@
 package ufront.web.mvc;
 
 /**
- * ...
+ * Represents a container for value-provider factory objects. 
  * @author Andreas Soderlund
  */
 
@@ -15,6 +15,7 @@ class ValueProviderFactories
 			cast(new QueryStringValueProviderFactory(), ValueProviderFactory)
 		]);
 	}
-		
+	
+	/** Gets the collection of value-provider factories for the application. */
 	public static var factories : ValueProviderFactoryCollection;
 }

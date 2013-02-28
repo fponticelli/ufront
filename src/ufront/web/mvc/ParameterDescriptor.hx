@@ -2,14 +2,19 @@ package ufront.web.mvc;
 import haxe.rtti.CType;
 
 /**
- * ...
+ * Contains information that describes a parameter. 
  * @author Andreas Soderlund
  */
 
 class ParameterDescriptor 
 {
+	/** Gets the name of the parameter. */
 	public var name : String;
+
+	/** Gets the type of the parameter. */
 	public var type : String;
+
+	/** Gets the RTTI type info of the parameter. */
 	public var ctype : CType;
 	
 	public var defaultValue : Dynamic;

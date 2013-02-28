@@ -3,11 +3,17 @@ import ufront.web.error.UnauthorizedError;
 import ufront.acl.Acl;
 using Types;
 
+/** Represents an attribute that is used to restrict access by callers to an action method. */
 class AuthorizeAttribute extends FilterAttribute implements IAuthorizationFilter
 {
 	public var acl : Acl;
+
+	/** Gets or sets the user roles. */
 	public var roles : Array<String>;
+
+	/** Gets or sets the authorized users. */
 	public var users : Array<String>;
+	
 	public var currentRoles : Array<String>;
 	public var currentUser : String;
 

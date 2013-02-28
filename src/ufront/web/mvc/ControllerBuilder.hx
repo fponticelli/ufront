@@ -2,6 +2,7 @@ package ufront.web.mvc;
 
 import thx.error.NullArgument;
 
+/**  Represents a class that is responsible for dynamically building a controller. */
 class ControllerBuilder
 {
 	public static var current = new ControllerBuilder();
@@ -9,6 +10,7 @@ class ControllerBuilder
 	public var packages(default, null) : List<String>;
 	public var attributes(default, null) : List<String>;
 
+	/** Gets or sets the associated controller factory. */
 	public var controllerFactory(get, set) : IControllerFactory;
 	var _controllerFactory : IControllerFactory;
 

@@ -1,5 +1,6 @@
 package ufront.web.mvc;
 
+/** Provides the context for the ActionExecuted method of the ActionFilterAttribute class. */
 class ActionExecutedContext
 {
 	public var actionName(default, null) : String;

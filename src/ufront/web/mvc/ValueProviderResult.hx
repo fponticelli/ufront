@@ -6,7 +6,7 @@ import thx.type.Rttis;
 import haxe.ds.StringMap;
 
 /**
- * ...
+ * Represents the result of binding a value (such as from a form post or query string) to an action-method argument property, or to the argument itself. 
  * @author Franco Ponticelli
  */
 
@@ -43,7 +43,10 @@ class ValueProviderResult
 
 	public static var jugglers : StringMap<String -> Dynamic>;
 
+	/** Gets or set the raw value that is supplied by the value provider. */
 	public var rawValue(default, null) : Dynamic;
+
+	/** Gets or sets the raw value that is converted to a string for display. */
 	public var attemptedValue(default, null) : String;
 
 	public function new(rawValue : Dynamic, attemptedValue : String) // TODO: Culture

@@ -1,6 +1,7 @@
 package ufront.web.mvc;
 import thx.error.NullArgument;
 
+/** Represents a user-defined content type that is the result of an action method. */
 class ContentResult extends ActionResult
 {
 	public var content : String;
