@@ -13,4 +13,5 @@
 -main TestAll  
 #-D htemplate                                     
 -D hxculture            
+-D withmacro
 -xml ufront.xml
