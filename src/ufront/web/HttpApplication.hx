@@ -98,7 +98,7 @@ class HttpApplication
 	public var onPostRequestHandlerExecute(default, null) : AsyncDispatcher<HttpApplication>;
 
 	/**
-	 * Occurs after ASP.NET finishes executing all request event handlers. This event causes state
+	 * Occurs after Ufront finishes executing all request event handlers. This event causes state
 	 * modules to save the current state data.
 	 */
 	public var onReleaseRequestState(default, null) : AsyncDispatcher<HttpApplication>;
