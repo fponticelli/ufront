@@ -1,6 +1,7 @@
 
 package ufront.web.session;
 import ufront.web.IHttpSessionState;
+import thx.error.NotImplemented;
 
 class FileSession
 {
@@ -14,7 +15,8 @@ class FileSession
 #elseif nodejs
 		return new nodejs.ufront.web.FileSession(savePath, expire);
 #else
-    	NOT IMPLEMENTED PLATFORM;
+		throw new NotImplemented();
+		return null;
 #end
 	}
 }

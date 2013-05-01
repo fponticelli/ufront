@@ -8,6 +8,7 @@ import thx.collection.CascadeHash;
 import thx.error.AbstractMethod;
 import haxe.io.Bytes;
 import haxe.ds.StringMap;
+import thx.error.NotImplemented;
 
 /**
 * @todo remove the singleton
@@ -23,7 +24,7 @@ class HttpRequest
 #elseif neko
             instance = new neko.ufront.web.HttpRequest();
 #else
-    	NOT IMPLEMENTED PLATFORM
+    	throw new NotImplemented();
 #end
 		return instance;
 	}

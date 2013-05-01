@@ -9,6 +9,7 @@ import haxe.io.BytesOutput;
 import haxe.io.Output;
 import thx.collection.HashList;
 import thx.error.NullArgument;
+import thx.error.NotImplemented;
 import haxe.ds.StringMap;
 
 /**
@@ -27,7 +28,7 @@ class HttpResponse
 #elseif nodejs
 			instance = null;
 #else
-    	NOT IMPLEMENTED PLATFORM
+    	throw new NotImplemented();
 #end
 		return instance;
 	}
